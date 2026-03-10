@@ -8,6 +8,7 @@ from datasets import load_from_disk
 
 TEXT_COL = "text"
 LABEL_COL = "label"
+ALT_TEXT_COLS = ["review", "review_body"]
 
 
 def preprocess_amazon(raw_dir: str = "data/raw", out_dir: str = "data/processed"):
@@ -23,13 +24,33 @@ def preprocess_amazon(raw_dir: str = "data/raw", out_dir: str = "data/processed"
         ds = load_from_disk(path)
         records = []
 
-        for split in ds.keys():
+        # Handle both Dataset and DatasetDict
+        if hasattr(ds, 'keys'):
+            splits = ds.keys()
+        else:
+            splits = ['train']
+            ds = {'train': ds}
+
+        for split in splits:
             for item in ds[split]:
-                text = item.get(TEXT_COL) or item.get("review_body", "")
+                text = item.get(TEXT_COL)
+                if not text:
+                    for alt_col in ALT_TEXT_COLS:
+                        text = item.get(alt_col)
+                        if text:
+                            break
+                if not text:
+                    text = item.get("review_body", "")
+                
                 raw_label = item.get(LABEL_COL)
                 if raw_label is None:
                     raw_label = item.get("stars", 1) - 1
                 label = int(raw_label)
+                # Normalize labels to 0 and 1
+                if label < 0:
+                    label = 0
+                elif label > 1:
+                    label = 1
                 if not text:
                     continue
                 records.append({
