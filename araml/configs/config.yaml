@@ -1,0 +1,40 @@
+# ARAML Configuration
+
+model:
+  encoder: "xlm-roberta-base"       # or "bert-base-multilingual-cased"
+  hidden_dim: 768
+  num_classes: 5                    # Adjust per dataset
+
+meta_learning:
+  n_way: 5                          # Number of classes per episode
+  k_shot: 5                         # Support examples per class
+  query_size: 15                    # Query examples per class
+  inner_lr: 0.01
+  outer_lr: 0.0001
+  inner_steps: 5
+  meta_batch_size: 4
+
+retrieval:
+  max_retrieved: 10                 # Max examples to retrieve per task
+  min_retrieved: 1
+  index_dim: 768
+  similarity: "cosine"
+  arc_hidden_dim: 256
+
+training:
+  epochs: 50
+  eval_every: 5
+  save_dir: "results/"
+  seed: 42
+
+data:
+  source_languages: ["en", "de", "fr"]
+  target_languages: ["sw", "ur", "ta"]  # Low-resource targets
+  dataset: "amazon_reviews_multi"
+  max_seq_len: 128
+  cache_dir: "data/cache"
+
+logging:
+  use_wandb: false
+  project: "araml"
+  run_name: "araml-xlmr-5shot"
