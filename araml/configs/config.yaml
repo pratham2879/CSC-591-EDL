@@ -3,10 +3,10 @@
 model:
   encoder: "xlm-roberta-base"       # or "bert-base-multilingual-cased"
   hidden_dim: 768
-  num_classes: 5                    # Adjust per dataset
+  num_classes: 2                    # Binary sentiment classification
 
 meta_learning:
-  n_way: 5                          # Number of classes per episode
+  n_way: 2                          # Number of classes per episode
   k_shot: 5                         # Support examples per class
   query_size: 15                    # Query examples per class
   inner_lr: 0.01
@@ -22,14 +22,14 @@ retrieval:
   arc_hidden_dim: 256
 
 training:
-  epochs: 50
-  eval_every: 5
+  epochs: 3
+  eval_every: 1
   save_dir: "results/"
   seed: 42
 
 data:
-  source_languages: ["en", "de", "fr"]
-  target_languages: ["sw", "ur", "ta"]  # Low-resource targets
+  source_languages: ["en", "fr"]
+  target_languages: ["fr"]  # Low-resource targets
   dataset: "amazon_reviews_multi"
   max_seq_len: 128
   cache_dir: "data/cache"
