@@ -1,25 +1,28 @@
 """
-evaluate.py — Evaluate ARAML on low-resource target languages
+evaluate.py — Evaluate ARAML on low-resource target languages.
 """
 import os
-import json
+import sys
 import yaml
 import torch
 import argparse
 import numpy as np
 from tqdm import tqdm
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from models.araml import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
 from models.meta_learner import maml_inner_loop
 from utils.episode_sampler import EpisodeSampler
 from utils.metrics import aggregate_episode_results
+from utils.config_utils import get_dataset_config, load_language_data
 
 
 def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600):
     with open(config_path) as f:
         config = yaml.safe_load(f)
 
+    ds_cfg = get_dataset_config(config)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = ARAML(config).to(device)
@@ -30,20 +33,20 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600):
     index = CrossLingualRetrievalIndex()
     index.load("results/retrieval_index")
 
-    target_langs = config["data"]["target_languages"]
     meta_cfg = config["meta_learning"]
 
-    for lang in target_langs:
-        path = f"data/processed/amazon_{lang}.json"
-        if not os.path.exists(path):
-            print(f"Skipping {lang} — data not found.")
+    for lang in ds_cfg["target_languages"]:
+        test_records = load_language_data(ds_cfg, lang, split="test")
+        if not test_records:
+            test_records = load_language_data(ds_cfg, lang, split="validation")
+        if not test_records:
+            print(f"Skipping {lang} — no test/validation data.")
             continue
 
-        with open(path) as f:
-            records = json.load(f)
-        test_records = [r for r in records if r["split"] == "test"]
-
-        sampler = EpisodeSampler(test_records, meta_cfg["n_way"], meta_cfg["k_shot"], meta_cfg["query_size"])
+        sampler = EpisodeSampler(
+            test_records, meta_cfg["n_way"],
+            meta_cfg["k_shot"], meta_cfg["query_size"]
+        )
         episode_iter = iter(sampler)
 
         accs = []
@@ -80,7 +83,7 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600):
 
         results = aggregate_episode_results(accs)
         print(f"\n[{lang}] {meta_cfg['k_shot']}-shot | "
-              f"Acc: {results['mean_accuracy']:.4f} ± {results['95ci']:.4f} | "
+              f"Acc: {results['mean_accuracy']:.4f} +/- {results['95ci']:.4f} | "
               f"Std: {results['std']:.4f}")
 
 

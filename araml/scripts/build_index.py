@@ -1,23 +1,28 @@
 """
-build_index.py — Build the cross-lingual FAISS retrieval index from HRL data
+build_index.py — Build the cross-lingual FAISS retrieval index from HRL data.
 """
 import os
-import json
+import sys
 import yaml
 import torch
 import numpy as np
 import argparse
 from tqdm import tqdm
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from models.encoder import TextEncoder
 from models.retrieval_index import CrossLingualRetrievalIndex
+from utils.config_utils import get_dataset_config, load_language_data
 
 
 def build_index(config_path: str):
     with open(config_path) as f:
         config = yaml.safe_load(f)
 
+    ds_cfg = get_dataset_config(config)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
+    print(f"Dataset:       {ds_cfg['dataset_name']}")
 
     encoder = TextEncoder(model_name=config["model"]["encoder"]).to(device)
     encoder.eval()
@@ -27,27 +32,18 @@ def build_index(config_path: str):
         similarity=config["retrieval"]["similarity"]
     )
 
-    source_langs = config["data"]["source_languages"]
-    data_dir = "data/processed"
     batch_size = 32
-
-    for lang in source_langs:
-        data_path = os.path.join(data_dir, f"amazon_{lang}.json")
-        if not os.path.exists(data_path):
-            print(f"Skipping {lang} — data not found.")
+    for lang in ds_cfg["source_languages"]:
+        records = load_language_data(ds_cfg, lang, split="train")
+        if not records:
+            print(f"Skipping {lang} — no training data.")
             continue
 
-        with open(data_path) as f:
-            records = json.load(f)
+        texts = [r["text"] for r in records]
+        labels = [r["label"] for r in records]
 
-        # Only use training split for the index
-        train_records = [r for r in records if r["split"] == "train"]
-        texts = [r["text"] for r in train_records]
-        labels = [r["label"] for r in train_records]
-
-        print(f"Encoding {len(texts)} examples from [{lang}]...")
+        print(f"Encoding {len(texts):,} examples from [{lang}] ...")
         all_embs = []
-
         with torch.no_grad():
             for i in tqdm(range(0, len(texts), batch_size)):
                 batch = texts[i:i + batch_size]
@@ -56,7 +52,7 @@ def build_index(config_path: str):
 
         all_embs = np.vstack(all_embs)
         index.add(all_embs, texts, labels, lang)
-        print(f"  Added {len(texts)} embeddings. Index size: {len(index)}")
+        print(f"  Added {len(texts):,} embeddings. Index size: {len(index):,}")
 
     os.makedirs("results", exist_ok=True)
     index.save("results/retrieval_index")

@@ -1,5 +1,5 @@
 """
-araml.py — Full ARAML model integrating all components
+araml.py — Full ARAML model integrating all components.
 """
 import torch
 import torch.nn as nn
@@ -8,12 +8,18 @@ from models.arc import AdaptiveRetrievalController
 from models.meta_learner import MetaLearner
 
 
+def _resolve_num_classes(config: dict) -> int:
+    """Pull num_classes from the active dataset sub-config."""
+    ds_name = config["dataset"]["name"]
+    return config["dataset"][ds_name]["num_classes"]
+
+
 class ARAML(nn.Module):
     def __init__(self, config: dict):
         super().__init__()
         model_cfg = config["model"]
         arc_cfg = config["retrieval"]
-        meta_cfg = config["meta_learning"]
+        num_classes = _resolve_num_classes(config)
 
         self.encoder = TextEncoder(
             model_name=model_cfg["encoder"],
@@ -26,7 +32,7 @@ class ARAML(nn.Module):
         )
         self.meta_learner = MetaLearner(
             input_dim=model_cfg["hidden_dim"],
-            num_classes=model_cfg["num_classes"]
+            num_classes=num_classes
         )
 
     def get_components(self):

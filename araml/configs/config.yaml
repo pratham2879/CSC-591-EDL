@@ -3,15 +3,34 @@
 model:
   encoder: "xlm-roberta-base"       # or "bert-base-multilingual-cased"
   hidden_dim: 768
-  num_classes: 5                    # Adjust per dataset
+
+# ── Dataset selection ────────────────────────────────────────────────────────
+# Choose "xnli" (3 classes) or "sib200" (7 classes).
+# num_classes is set per-dataset below.
+dataset:
+  name: "xnli"                      # "xnli" | "sib200"
+
+  xnli:
+    num_classes: 3
+    source_languages: ["en", "fr", "de"]
+    target_languages: ["sw", "ur", "hi", "th"]
+    data_dir: "data/processed/xnli"
+    file_pattern: "xnli_{lang}.json"
+
+  sib200:
+    num_classes: 7
+    source_languages: ["eng_Latn", "fra_Latn", "deu_Latn"]
+    target_languages: ["swa_Latn", "urd_Arab", "tam_Taml", "yor_Latn", "amh_Ethi"]
+    data_dir: "data/processed/sib200"
+    file_pattern: "sib200_{lang}.json"
 
 meta_learning:
-  n_way: 5                          # Number of classes per episode
+  n_way: 3                          # Must equal num_classes for XNLI
   k_shot: 5                         # Support examples per class
   query_size: 15                    # Query examples per class
   inner_lr: 0.01
   outer_lr: 0.0001
-  inner_steps: 5
+  inner_steps: 3                    # Reduced from 5 to avoid overfitting
   meta_batch_size: 4
 
 retrieval:
@@ -22,19 +41,14 @@ retrieval:
   arc_hidden_dim: 256
 
 training:
-  epochs: 50
+  epochs: 30
+  episodes_per_epoch: 100
   eval_every: 5
+  eval_episodes: 200
   save_dir: "results/"
   seed: 42
-
-data:
-  source_languages: ["en", "de", "fr"]
-  target_languages: ["sw", "ur", "ta"]  # Low-resource targets
-  dataset: "amazon_reviews_multi"
-  max_seq_len: 128
-  cache_dir: "data/cache"
 
 logging:
   use_wandb: false
   project: "araml"
-  run_name: "araml-xlmr-5shot"
+  run_name: "araml-xnli-5shot"
