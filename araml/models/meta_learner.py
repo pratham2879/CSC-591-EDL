@@ -70,14 +70,16 @@ def meta_train_step(
 
     # Adaptive retrieval
     k = arc.predict_budget(task_emb)
-    query_vec = arc.generate_query(task_emb).detach().cpu().numpy()
+    query_tensor = arc.generate_query(task_emb)               # (1, D) — keep grad for training
+    query_vec = query_tensor.detach().cpu().numpy()           # FAISS needs numpy, no grad needed
     retrieved = retrieval_index.retrieve(query_vec, k=k)
 
     retrieved_texts = retrieved["texts"]
     ret_embs = encoder.encode_text(retrieved_texts, device)    # (k, D)
 
-    # Attention-weighted retrieval embedding
-    _, _, weighted_ret_emb, _ = arc(task_emb, ret_embs)       # (D,)
+    # Attention-weighted retrieval — use query_tensor so gradient flows through query_generator
+    weights = arc.compute_attention_weights(query_tensor, ret_embs)   # (K,)
+    weighted_ret_emb = (weights.unsqueeze(-1) * ret_embs).sum(0)      # (D,)
     weighted_ret_emb = weighted_ret_emb.unsqueeze(0).expand(support_embs.size(0), -1)
 
     # Augmented support: [support_emb || retrieval_emb]

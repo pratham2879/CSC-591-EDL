@@ -1,34 +1,70 @@
 """
 download_data.py — Download multilingual datasets from Hugging Face
-Uses 'mteb/amazon_reviews_multi' which is a script-free Parquet version.
 """
 import os
 from datasets import load_dataset
 
-# Language configs: HF dataset name + language subset + column names
-DATASET_NAME = "mteb/amazon_reviews_multi"
-LANGUAGES = ["en", "de", "fr", "es", "zh", "ja"]
+# Use datasets in native Parquet format
+DATASETS = {
+    "en": ("stanfordnlp/imdb", None, None),  # Load all splits
+    "fr": ("allocine", None, None),
+}
 
 
 def download_amazon_reviews(save_dir: str = "data/raw"):
     os.makedirs(save_dir, exist_ok=True)
 
-    for lang in LANGUAGES:
+    for lang, (dataset_name, config, split) in DATASETS.items():
         out_path = os.path.join(save_dir, f"amazon_{lang}")
         if os.path.exists(out_path):
             print(f"[{lang}] Already downloaded, skipping.")
             continue
 
-        print(f"Downloading Amazon Reviews [{lang}]...")
+        print(f"Downloading Reviews [{lang}]...")
         try:
-            ds = load_dataset(DATASET_NAME, lang)
+            if config:
+                ds = load_dataset(dataset_name, config)
+            else:
+                ds = load_dataset(dataset_name)
+            
+            # Sample from all splits - get balanced labels
+            if hasattr(ds, 'keys'):
+                sampled = {}
+                for split_name in ds.keys():
+                    split_data = ds[split_name]
+                    # For binary classification, sample equally from both labels
+                    if 'label' in split_data.column_names:
+                        indices = []
+                        for label_val in [0, 1]:
+                            label_indices = [i for i, lbl in enumerate(split_data['label']) if lbl == label_val]
+                            sample_size = min(2500, len(label_indices))
+                            indices.extend(label_indices[:sample_size])
+                        if indices:
+                            sampled[split_name] = split_data.select(indices)
+                    else:
+                        sample_size = min(5000, len(split_data))
+                        sampled[split_name] = split_data.select(range(sample_size))
+                from datasets import DatasetDict
+                ds = DatasetDict(sampled)
+            else:
+                # Sample balanced labels for single dataset
+                indices = []
+                for label_val in [0, 1]:
+                    label_indices = [i for i, lbl in enumerate(ds['label']) if lbl == label_val]
+                    sample_size = min(2500, len(label_indices))
+                    indices.extend(label_indices[:sample_size])
+                ds = ds.select(indices)
+            
             ds.save_to_disk(out_path)
-            print(f"  Saved {sum(len(ds[s]) for s in ds)} records → {out_path}")
+            if hasattr(ds, 'keys'):
+                total = sum(len(ds[s]) for s in ds.keys())
+            else:
+                total = len(ds)
+            print(f"  Saved {total} records → {out_path}")
         except Exception as e:
             print(f"  Failed to download [{lang}]: {e}")
-            print(f"  Trying fallback: 'amazon_polarity' for English or skipping...")
 
 
 if __name__ == "__main__":
     download_amazon_reviews()
-    print("\nAll datasets downloaded successfully.")
+    print("\nDatasets downloaded successfully.")
