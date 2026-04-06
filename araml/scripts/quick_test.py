@@ -25,7 +25,7 @@ def quick_test():
     
     # Load small subset of data
     print("\nLoading data...")
-    with open("data/processed/amazon_en.json") as f:
+    with open("data/processed/amazon_en.json", encoding="utf-8") as f:
         all_data = json.load(f)
     
     # Get balanced subset with both labels
@@ -72,7 +72,7 @@ def quick_test():
     model = ARAML(config).to(device)
     print(f"Model parameters: {model.count_parameters():,}")
     
-    print("\n✓ All components working!")
+    print("\nAll components working!")
 
 if __name__ == "__main__":
     quick_test()
