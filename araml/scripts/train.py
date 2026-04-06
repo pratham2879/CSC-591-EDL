@@ -16,6 +16,14 @@ from models.meta_learner import meta_train_step
 from utils.episode_sampler import EpisodeSampler
 
 
+def get_device():
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
+
+
 def set_seed(seed: int):
     random.seed(seed)
     np.random.seed(seed)
@@ -29,7 +37,7 @@ def train(config_path: str):
         config = yaml.safe_load(f)
 
     set_seed(config["training"]["seed"])
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = get_device()
     print(f"Training on: {device}")
 
     # Load model
@@ -55,6 +63,7 @@ def train(config_path: str):
     print(f"Total training records: {len(all_records)}")
 
     meta_cfg = config["meta_learning"]
+    batch_size = meta_cfg.get("meta_batch_size", 4)
     sampler = EpisodeSampler(
         all_records,
         n_way=meta_cfg["n_way"],
@@ -62,23 +71,33 @@ def train(config_path: str):
         query_size=meta_cfg["query_size"]
     )
 
-    # Optimizer covers encoder + arc + meta_learner
     outer_optimizer = torch.optim.Adam(model.parameters(), lr=meta_cfg["outer_lr"])
 
     best_acc = 0.0
     episode_iter = iter(sampler)
+    episodes_per_epoch = 100
 
     for epoch in range(config["training"]["epochs"]):
         epoch_losses, epoch_accs = [], []
+        num_batches = episodes_per_epoch // batch_size
 
-        for _ in tqdm(range(100), desc=f"Epoch {epoch+1}"):
-            episode = next(episode_iter)
-            loss, acc = meta_train_step(
-                encoder, arc, meta_learner, index, episode,
-                config, device, outer_optimizer
-            )
-            epoch_losses.append(loss)
-            epoch_accs.append(acc)
+        for batch_idx in tqdm(range(num_batches), desc=f"Epoch {epoch+1}"):
+            outer_optimizer.zero_grad()
+            batch_losses, batch_accs = [], []
+
+            for ep_idx in range(batch_size):
+                episode = next(episode_iter)
+                is_last = (ep_idx == batch_size - 1)
+                loss, acc = meta_train_step(
+                    encoder, arc, meta_learner, index, episode,
+                    config, device, outer_optimizer,
+                    step=is_last
+                )
+                batch_losses.append(loss)
+                batch_accs.append(acc)
+
+            epoch_losses.append(np.mean(batch_losses))
+            epoch_accs.append(np.mean(batch_accs))
 
         mean_loss = np.mean(epoch_losses)
         mean_acc = np.mean(epoch_accs)

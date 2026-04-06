@@ -16,7 +16,12 @@ def build_index(config_path: str):
     with open(config_path) as f:
         config = yaml.safe_load(f)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
     print(f"Using device: {device}")
 
     encoder = TextEncoder(model_name=config["model"]["encoder"]).to(device)

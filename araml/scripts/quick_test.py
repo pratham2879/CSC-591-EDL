@@ -20,7 +20,12 @@ def quick_test():
     with open("configs/config.yaml") as f:
         config = yaml.safe_load(f)
     
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
     print(f"Device: {device}")
     
     # Load small subset of data
