@@ -41,8 +41,14 @@ LOW_RESOURCE  = ["ja", "zh"]
 LANGUAGES     = HIGH_RESOURCE + LOW_RESOURCE
 
 # Low-resource training pool parameters (FIX 2)
-LOW_RESOURCE_TRAIN_CAP  = 500
-LOW_RESOURCE_SEED       = 42
+LOW_RESOURCE_TRAIN_CAP      = 500   # total pool size target
+LOW_RESOURCE_SEED           = 42
+# Stratified sampling floor: guarantee at least this many examples per
+# (category, label) pair before drawing extras at random.
+# This prevents real Amazon data class-imbalance (1-star >> 4-star) from
+# leaving categories with too few positives to form 5-shot binary episodes.
+MIN_PER_CAT_PER_CLASS       = 20    # configurable
+MIN_VIABLE_PER_CLASS        = 5     # warn if a (cat, class) has fewer than this
 
 # Output paths
 LOWRESOURCE_POOL_DIR = "data"  # saves to data/lowresource_pool_{lang}.json
@@ -209,15 +215,11 @@ def preprocess_amazon(
         print(f"[{lang}] Saved processed data -> {out_path}")
 
         # ----------------------------------------------------------------
-        # STEP 4 (FIX 2): For low-resource languages, cap training pool
+        # STEP 4 (FIX 2): For low-resource languages, build stratified pool
         # ----------------------------------------------------------------
         if lang in LOW_RESOURCE:
             train_records = processed_splits.get("train", [])
-            rng = random.Random(LOW_RESOURCE_SEED)
-            if len(train_records) > LOW_RESOURCE_TRAIN_CAP:
-                pool = rng.sample(train_records, LOW_RESOURCE_TRAIN_CAP)
-            else:
-                pool = list(train_records)
+            pool = _build_stratified_pool(lang, train_records)
 
             pool_path = os.path.join(LOWRESOURCE_POOL_DIR, f"lowresource_pool_{lang}.json")
             with open(pool_path, "w", encoding="utf-8") as f:
@@ -229,11 +231,107 @@ def preprocess_amazon(
             print(f"[{lang}] Low-resource training pool: n={len(pool)}  "
                   f"(neg={pool_neg}, pos={pool_pos})  categories={pool_cats}  "
                   f"seed={LOW_RESOURCE_SEED} -> {pool_path}")
+            _report_category_viability(lang, pool)
 
     # ----------------------------------------------------------------
     # STEP 5: Cross-language leakage assertions
     # ----------------------------------------------------------------
     _assert_no_faiss_leakage(out_dir)
+
+
+# ---------------------------------------------------------------------------
+# Stratified pool construction (Option B)
+# ---------------------------------------------------------------------------
+
+def _build_stratified_pool(lang: str, train_records: list) -> list:
+    """
+    Build a low-resource training pool that guarantees MIN_PER_CAT_PER_CLASS
+    examples per (category, label) pair, then fills remaining slots randomly.
+
+    Motivation: real Amazon Reviews data is heavily skewed toward 1-star and
+    5-star ratings. After dropping 3-star neutrals, a pure random sample of
+    500 examples can leave many categories with <5 positive examples, making
+    it impossible to form balanced 5-shot binary episodes from those categories.
+
+    Algorithm:
+      Phase 1 — Stratified floor:
+        For each (category, label) pair, sample up to MIN_PER_CAT_PER_CLASS
+        examples. This is the guaranteed floor regardless of natural imbalance.
+      Phase 2 — Random fill:
+        If phase-1 total < LOW_RESOURCE_TRAIN_CAP, fill remaining slots by
+        sampling uniformly from examples NOT already selected in phase 1.
+      Phase 3 — Warn:
+        Log any (category, label) pair that had fewer than MIN_VIABLE_PER_CLASS
+        examples available even before the floor cap — those categories will be
+        silently excluded by the episode sampler.
+    """
+    rng = random.Random(LOW_RESOURCE_SEED)
+
+    # Index: cat -> label -> [records]
+    cat_cls: dict[str, dict[int, list]] = defaultdict(lambda: defaultdict(list))
+    for r in train_records:
+        cat_cls[r["product_category"]][r["label"]].append(r)
+
+    selected_ids: set[int] = set()   # track by id() to avoid duplication
+    pool: list = []
+
+    # Phase 1: stratified floor
+    for cat, cls_map in cat_cls.items():
+        for lbl in (0, 1):
+            available = cls_map.get(lbl, [])
+            if len(available) < MIN_VIABLE_PER_CLASS:
+                print(f"  WARNING [{lang}] cat='{cat}' label={lbl}: only "
+                      f"{len(available)} examples available "
+                      f"(< MIN_VIABLE_PER_CLASS={MIN_VIABLE_PER_CLASS}) -- "
+                      f"this category may be excluded from episodes")
+            take = min(len(available), MIN_PER_CAT_PER_CLASS)
+            sampled = rng.sample(available, take) if take > 0 else []
+            for r in sampled:
+                if id(r) not in selected_ids:
+                    selected_ids.add(id(r))
+                    pool.append(r)
+
+    # Phase 2: random fill to reach LOW_RESOURCE_TRAIN_CAP
+    remaining_cap = LOW_RESOURCE_TRAIN_CAP - len(pool)
+    if remaining_cap > 0:
+        leftover = [r for r in train_records if id(r) not in selected_ids]
+        fill = rng.sample(leftover, min(remaining_cap, len(leftover)))
+        pool.extend(fill)
+        for r in fill:
+            selected_ids.add(id(r))
+
+    rng.shuffle(pool)   # randomise order so phase-1 examples aren't first
+
+    print(f"  [{lang}] Stratified pool: phase1={len(pool) - (LOW_RESOURCE_TRAIN_CAP - remaining_cap if remaining_cap > 0 else 0)} "
+          f"phase2_fill={max(0, remaining_cap - max(0, remaining_cap - len([r for r in train_records if id(r) not in selected_ids])))} "
+          f"total={len(pool)}")
+
+    return pool
+
+
+def _report_category_viability(lang: str, pool: list, n_shot: int = 5) -> None:
+    """
+    After pool construction, report which categories have enough examples
+    of both classes to form n_shot-binary episodes.  Prints a compact table.
+    """
+    cat_cls: dict[str, Counter] = defaultdict(Counter)
+    for r in pool:
+        cat_cls[r["product_category"]][r["label"]] += 1
+
+    viable = 0
+    print(f"\n  [{lang}] Per-category class distribution (need >={n_shot} per class for episodes):")
+    for cat in sorted(cat_cls):
+        dist   = cat_cls[cat]
+        neg, pos = dist[0], dist[1]
+        status = "OK  " if neg >= n_shot and pos >= n_shot else "SKIP"
+        if status == "OK  ":
+            viable += 1
+        print(f"    {status}  {cat}: neg={neg} pos={pos}")
+    print(f"  [{lang}] Viable categories: {viable}/{len(cat_cls)}")
+
+    if viable < 5:
+        print(f"  WARNING [{lang}] only {viable} viable categories -- "
+              f"consider increasing MIN_PER_CAT_PER_CLASS or LOW_RESOURCE_TRAIN_CAP")
 
 
 def _assert_no_faiss_leakage(out_dir: str) -> None:

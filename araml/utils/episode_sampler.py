@@ -176,7 +176,23 @@ class CategoryStratifiedEpisodeSampler:
 
             self._episode_count += 1
 
-            # 4. Log every `log_every` episodes
+            # 4. Shuffle BOTH support and query sets independently so labels are
+            #    never in sorted order [0,0,...,1,1,...].
+            #    The MAML inner loop trains on support; the outer loop trains on query.
+            #    A positional shortcut is equally learnable from either — both must be shuffled.
+            combined_support = list(zip(support_texts, support_labels))
+            self.rng.shuffle(combined_support)
+            support_texts, support_labels = zip(*combined_support)
+            support_texts  = list(support_texts)
+            support_labels = list(support_labels)
+
+            combined_query = list(zip(query_texts, query_labels))
+            self.rng.shuffle(combined_query)
+            query_texts, query_labels = zip(*combined_query)
+            query_texts  = list(query_texts)
+            query_labels = list(query_labels)
+
+            # 5. Log every `log_every` episodes
             if self._episode_count % self.log_every == 0:
                 support_dist = dict(Counter(support_labels))
                 logger.info(
