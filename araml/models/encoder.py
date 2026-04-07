@@ -15,7 +15,7 @@ class TextEncoder(nn.Module):
 
     def forward(self, input_ids, attention_mask):
         outputs = self.encoder(input_ids=input_ids, attention_mask=attention_mask)
-        # Use [CLS] token representation
+        # Use [CLS] token representation -- classification token
         cls_output = outputs.last_hidden_state[:, 0, :]
         return cls_output  # (batch, hidden_dim)
 

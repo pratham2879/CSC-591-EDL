@@ -1,35 +1,37 @@
 # ARAML Configuration
 
 model:
-  encoder: "xlm-roberta-base"       # or "bert-base-multilingual-cased"
+  encoder: "xlm-roberta-base"
   hidden_dim: 768
-  num_classes: 5                    # Adjust per dataset
+  num_classes: 2                    # Binary sentiment (negative / positive)
 
 meta_learning:
-  n_way: 5                          # Number of classes per episode
-  k_shot: 5                         # Support examples per class
-  query_size: 15                    # Query examples per class
-  inner_lr: 0.01
-  outer_lr: 0.0001
-  inner_steps: 5
+  n_way: 2
+  k_shot: 5
+  query_size: 15
+  inner_lr: 0.1                     # Tier 1: increased from 0.01
+  outer_lr: 0.0001                  # Fine for frozen encoder
+  inner_steps: 10                   # Tier 1: increased from 5
   meta_batch_size: 4
 
 retrieval:
-  max_retrieved: 10                 # Max examples to retrieve per task
+  max_retrieved: 10
   min_retrieved: 1
   index_dim: 768
   similarity: "cosine"
   arc_hidden_dim: 256
 
 training:
-  epochs: 50
-  eval_every: 5
+  epochs: 10                        # Tier 1: increased from 3
+  episodes_per_epoch: 500           # Tier 1: increased from 100
+  eval_every: 1
   save_dir: "results/"
   seed: 42
+  freeze_encoder: true              # Tier 2: freeze XLM-R, only train ARC + classifier
 
 data:
-  source_languages: ["en", "de", "fr"]
-  target_languages: ["sw", "ur", "ta"]  # Low-resource targets
+  source_languages: ["en", "fr"]               # Verified available; add de/es/ja/zh when downloaded
+  target_languages: ["fr"]                     # Eval on FR (held-out split, not in index)
   dataset: "amazon_reviews_multi"
   max_seq_len: 128
   cache_dir: "data/cache"
@@ -37,4 +39,4 @@ data:
 logging:
   use_wandb: false
   project: "araml"
-  run_name: "araml-xlmr-5shot"
+  run_name: "araml-xlmr-5shot-frozen"

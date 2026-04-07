@@ -23,9 +23,10 @@ class CrossLingualRetrievalIndex:
 
     def add(self, embeddings: np.ndarray, texts: list, labels: list, language: str):
         """Add HRL embeddings to the index."""
+        embeddings = np.ascontiguousarray(embeddings.astype(np.float32))
         if self.similarity == "cosine":
             faiss.normalize_L2(embeddings)
-        self.index.add(embeddings.astype(np.float32))
+        self.index.add(embeddings)
         self.texts.extend(texts)
         self.labels.extend(labels)
         self.languages.extend([language] * len(texts))
@@ -35,9 +36,10 @@ class CrossLingualRetrievalIndex:
         Retrieve top-k similar examples.
         Returns: distances, retrieved texts, retrieved labels
         """
+        query_embedding = np.ascontiguousarray(query_embedding.astype(np.float32))
         if self.similarity == "cosine":
             faiss.normalize_L2(query_embedding)
-        distances, indices = self.index.search(query_embedding.astype(np.float32), k)
+        distances, indices = self.index.search(query_embedding, k)
 
         retrieved = {
             "distances": distances[0],
