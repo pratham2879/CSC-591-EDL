@@ -40,17 +40,14 @@ def train(config_path: str):
     device = get_device()
     print(f"Training on: {device}")
 
-    # Load model
     model = ARAML(config).to(device)
     encoder, arc, meta_learner = model.get_components()
     print(f"Total parameters: {model.count_parameters():,}")
 
-    # Load retrieval index
     index = CrossLingualRetrievalIndex()
     index.load("results/retrieval_index")
     print(f"Loaded retrieval index with {len(index)} entries.")
 
-    # Load source language training data
     source_langs = config["data"]["source_languages"]
     all_records = []
     for lang in source_langs:
@@ -64,6 +61,9 @@ def train(config_path: str):
 
     meta_cfg = config["meta_learning"]
     batch_size = meta_cfg.get("meta_batch_size", 4)
+    episodes_per_epoch = 100
+    num_batches = episodes_per_epoch // batch_size
+
     sampler = EpisodeSampler(
         all_records,
         n_way=meta_cfg["n_way"],
@@ -75,13 +75,14 @@ def train(config_path: str):
 
     best_acc = 0.0
     episode_iter = iter(sampler)
-    episodes_per_epoch = 100
+
+    print(f"\nTraining: {config['training']['epochs']} epochs × {episodes_per_epoch} episodes "
+          f"(batch_size={batch_size}, {num_batches} batches/epoch)\n")
 
     for epoch in range(config["training"]["epochs"]):
         epoch_losses, epoch_accs = [], []
-        num_batches = episodes_per_epoch // batch_size
 
-        for batch_idx in tqdm(range(num_batches), desc=f"Epoch {epoch+1}"):
+        for _ in tqdm(range(num_batches), desc=f"Epoch {epoch+1:2d}/{config['training']['epochs']}"):
             outer_optimizer.zero_grad()
             batch_losses, batch_accs = [], []
 
@@ -101,13 +102,13 @@ def train(config_path: str):
 
         mean_loss = np.mean(epoch_losses)
         mean_acc = np.mean(epoch_accs)
-        print(f"Epoch {epoch+1:3d} | Loss: {mean_loss:.4f} | Acc: {mean_acc:.4f}")
+        print(f"Epoch {epoch+1:2d}/{config['training']['epochs']} | Loss: {mean_loss:.4f} | Acc: {mean_acc:.4f}")
 
         if mean_acc > best_acc:
             best_acc = mean_acc
             os.makedirs(config["training"]["save_dir"], exist_ok=True)
             torch.save(model.state_dict(), config["training"]["save_dir"] + "best_model.pt")
-            print(f"  Saved new best model (acc={best_acc:.4f})")
+            print(f"  → Saved new best model (acc={best_acc:.4f})")
 
     print(f"\nTraining complete. Best accuracy: {best_acc:.4f}")
 

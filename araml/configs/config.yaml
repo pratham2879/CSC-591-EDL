@@ -22,7 +22,7 @@ retrieval:
   arc_hidden_dim: 256
 
 training:
-  epochs: 3
+  epochs: 10
   eval_every: 1
   save_dir: "results/"
   seed: 42
