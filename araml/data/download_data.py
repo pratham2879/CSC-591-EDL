@@ -9,15 +9,13 @@ Dataset: mteb/amazon_reviews_multi
   - Per language: 200k train / 5k val / 5k test rows
 
 Label mapping (applied in preprocess.py):
-  stars 1-2  -> label 0 (negative)
-  stars 3    -> skip (neutral, ambiguous)
-  stars 4-5  -> label 1 (positive)
+  stars 1-2  → label 0 (negative)   [i.e. 0-indexed labels 0,1]
+  stars 3    → DROP (neutral)        [i.e. 0-indexed label 2]
+  stars 4-5  → label 1 (positive)   [i.e. 0-indexed labels 3,4]
 
-Source languages (high-resource, used for retrieval index + meta-training):
-  en, de, fr, es
-
-Target languages (low-resource, evaluation only):
-  ja, zh
+Language tiers:
+  HIGH_RESOURCE (en, de, es, fr): Full train split downloaded → FAISS retrieval index
+  LOW_RESOURCE  (ja, zh):         Full download, but training pool capped at 500 in preprocess.py
 
 Download time estimate (without HF token, unauthenticated):
   ~62 MB/language x 6 = ~373 MB compressed
@@ -34,13 +32,22 @@ import os
 from datasets import load_dataset, DatasetDict
 
 DATASET_NAME = "mteb/amazon_reviews_multi"
-LANGUAGES = ["en", "de", "fr", "es", "ja", "zh"]
 
-# How many examples to keep per split (balanced across train/test)
-MAX_PER_SPLIT = 5000
+# Language tiers — determines retrieval vs. episode roles (see preprocess.py)
+HIGH_RESOURCE = ["en", "de", "es", "fr"]
+LOW_RESOURCE = ["ja", "zh"]
+LANGUAGES = HIGH_RESOURCE + LOW_RESOURCE
 
 
 def download_amazon_reviews(save_dir: str = "data/raw"):
+    """
+    Download the full dataset for all languages.
+
+    High-resource languages are downloaded WITHOUT any cap because the full
+    train split (~200k per language) is required for the FAISS retrieval index.
+    Low-resource languages are also downloaded in full; the 500-example
+    training pool cap is applied later in preprocess.py.
+    """
     os.makedirs(save_dir, exist_ok=True)
 
     for lang in LANGUAGES:
@@ -49,19 +56,14 @@ def download_amazon_reviews(save_dir: str = "data/raw"):
             print(f"[{lang}] Already downloaded, skipping.")
             continue
 
-        print(f"Downloading {DATASET_NAME} [{lang}]...")
+        tier = "HIGH-RESOURCE" if lang in HIGH_RESOURCE else "LOW-RESOURCE"
+        print(f"Downloading {DATASET_NAME} [{lang}] ({tier}) — full dataset, no cap...")
         try:
             ds = load_dataset(DATASET_NAME, lang)
-
-            # Sample up to MAX_PER_SPLIT rows per split to keep disk usage reasonable
-            sampled = {}
-            for split_name in ds.keys():
-                n = min(MAX_PER_SPLIT, len(ds[split_name]))
-                sampled[split_name] = ds[split_name].select(range(n))
-
-            DatasetDict(sampled).save_to_disk(out_path)
-            total = sum(len(sampled[s]) for s in sampled)
-            print(f"  [{lang}] Saved {total} records -> {out_path}")
+            DatasetDict(dict(ds)).save_to_disk(out_path)
+            total = sum(len(ds[s]) for s in ds)
+            split_info = {s: len(ds[s]) for s in ds}
+            print(f"  [{lang}] Saved {total} records {split_info} -> {out_path}")
 
         except RuntimeError as e:
             if "scripts are no longer supported" in str(e):
