@@ -2,16 +2,17 @@
 evaluate.py — Evaluate ARAML on low-resource target languages
 """
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import yaml
 import torch
 import argparse
-import numpy as np
 from tqdm import tqdm
 
 from models.araml import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
-from models.meta_learner import maml_inner_loop
+from models.meta_learner import maml_eval_episode
 from utils.episode_sampler import EpisodeSampler
 from utils.metrics import aggregate_episode_results
 
@@ -21,6 +22,7 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600):
         config = yaml.safe_load(f)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Evaluating on: {device}")
 
     model = ARAML(config).to(device)
     model.load_state_dict(torch.load(checkpoint, map_location=device))
@@ -39,7 +41,7 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600):
             print(f"Skipping {lang} — data not found.")
             continue
 
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             records = json.load(f)
         test_records = [r for r in records if r["split"] == "test"]
 
@@ -49,38 +51,12 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600):
         accs = []
         for _ in tqdm(range(n_episodes), desc=f"Evaluating [{lang}]"):
             ep = next(episode_iter)
-            support_embs = encoder.encode_text(ep["support_texts"], device)
-            query_embs = encoder.encode_text(ep["query_texts"], device)
-            support_labels = torch.tensor(ep["support_labels"]).to(device)
-            query_labels = torch.tensor(ep["query_labels"]).to(device)
-
-            task_emb = support_embs.mean(0, keepdim=True)
-            k = arc.predict_budget(task_emb)
-            query_vec = arc.generate_query(task_emb).detach().cpu().numpy()
-            retrieved = index.retrieve(query_vec, k=k)
-            ret_embs = encoder.encode_text(retrieved["texts"], device)
-
-            _, _, weighted_ret_emb, _ = arc(task_emb, ret_embs)
-            weighted_ret_emb_s = weighted_ret_emb.unsqueeze(0).expand(support_embs.size(0), -1)
-            aug_support = torch.cat([support_embs, weighted_ret_emb_s], dim=-1)
-
-            adapted = maml_inner_loop(
-                meta_learner, aug_support, support_labels,
-                meta_cfg["inner_lr"], meta_cfg["inner_steps"], device
-            )
-
-            weighted_ret_emb_q = weighted_ret_emb.unsqueeze(0).expand(query_embs.size(0), -1)
-            aug_query = torch.cat([query_embs, weighted_ret_emb_q], dim=-1)
-
-            with torch.no_grad():
-                logits = adapted(aug_query)
-                preds = logits.argmax(-1)
-                acc = (preds == query_labels).float().mean().item()
-                accs.append(acc)
+            acc = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
+            accs.append(acc)
 
         results = aggregate_episode_results(accs)
         print(f"\n[{lang}] {meta_cfg['k_shot']}-shot | "
-              f"Acc: {results['mean_accuracy']:.4f} ± {results['95ci']:.4f} | "
+              f"Acc: {results['mean_accuracy']:.4f} +/- {results['95ci']:.4f} | "
               f"Std: {results['std']:.4f}")
 
 

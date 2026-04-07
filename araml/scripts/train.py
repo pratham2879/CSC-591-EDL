@@ -8,7 +8,7 @@ import torch
 import random
 import argparse
 import numpy as np
-from tqdm import tqdm
+import tqdm
 
 from models.araml import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
@@ -42,8 +42,22 @@ def train(config_path: str):
 
     model = ARAML(config).to(device)
     encoder, arc, meta_learner = model.get_components()
-    print(f"Total parameters: {model.count_parameters():,}")
 
+<<<<<<< HEAD
+=======
+    # Tier 2: Freeze XLM-R encoder — only ARC + classifier are meta-learned
+    if config["training"].get("freeze_encoder", True):
+        for param in encoder.parameters():
+            param.requires_grad = False
+        print("Encoder frozen. Trainable: ARC + MetaLearner only.")
+        trainable_params = list(arc.parameters()) + list(meta_learner.parameters())
+    else:
+        trainable_params = list(model.parameters())
+
+    total = sum(p.numel() for p in trainable_params)
+    print(f"Trainable parameters: {total:,}")
+
+>>>>>>> 62a7004391bd75afdca4a3784a3e05f5fe7dde7c
     index = CrossLingualRetrievalIndex()
     index.load("results/retrieval_index")
     print(f"Loaded retrieval index with {len(index)} entries.")
@@ -53,9 +67,11 @@ def train(config_path: str):
     for lang in source_langs:
         path = f"data/processed/amazon_{lang}.json"
         if os.path.exists(path):
-            with open(path) as f:
+            with open(path, encoding="utf-8") as f:
                 records = json.load(f)
-            all_records.extend([r for r in records if r["split"] == "train"])
+            train_records = [r for r in records if r["split"] == "train"]
+            all_records.extend(train_records)
+            print(f"  [{lang}] {len(train_records)} train records")
 
     print(f"Total training records: {len(all_records)}")
 
@@ -71,8 +87,13 @@ def train(config_path: str):
         query_size=meta_cfg["query_size"]
     )
 
+<<<<<<< HEAD
     outer_optimizer = torch.optim.Adam(model.parameters(), lr=meta_cfg["outer_lr"])
+=======
+    outer_optimizer = torch.optim.Adam(trainable_params, lr=meta_cfg["outer_lr"])
+>>>>>>> 62a7004391bd75afdca4a3784a3e05f5fe7dde7c
 
+    episodes_per_epoch = config["training"].get("episodes_per_epoch", 500)
     best_acc = 0.0
     episode_iter = iter(sampler)
 
@@ -81,8 +102,10 @@ def train(config_path: str):
 
     for epoch in range(config["training"]["epochs"]):
         epoch_losses, epoch_accs = [], []
+        meta_learner.train()
 
-        for _ in tqdm(range(num_batches), desc=f"Epoch {epoch+1:2d}/{config['training']['epochs']}"):
+<<<<<<< HEAD
+        for _ in tqdm.tqdm(range(num_batches), desc=f"Epoch {epoch+1:2d}/{config['training']['epochs']}"):
             outer_optimizer.zero_grad()
             batch_losses, batch_accs = [], []
 
@@ -99,6 +122,16 @@ def train(config_path: str):
 
             epoch_losses.append(np.mean(batch_losses))
             epoch_accs.append(np.mean(batch_accs))
+=======
+        for _ in tqdm.tqdm(range(episodes_per_epoch), desc=f"Epoch {epoch+1}"):
+            episode = next(episode_iter)
+            loss, acc = meta_train_step(
+                encoder, arc, meta_learner, index, episode,
+                config, device, outer_optimizer
+            )
+            epoch_losses.append(loss)
+            epoch_accs.append(acc)
+>>>>>>> 62a7004391bd75afdca4a3784a3e05f5fe7dde7c
 
         mean_loss = np.mean(epoch_losses)
         mean_acc = np.mean(epoch_accs)

@@ -2,6 +2,8 @@
 build_index.py — Build the cross-lingual FAISS retrieval index from HRL data
 """
 import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import yaml
 import torch
@@ -42,7 +44,7 @@ def build_index(config_path: str):
             print(f"Skipping {lang} — data not found.")
             continue
 
-        with open(data_path) as f:
+        with open(data_path, encoding="utf-8") as f:
             records = json.load(f)
 
         # Only use training split for the index

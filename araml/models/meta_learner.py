@@ -73,6 +73,7 @@ def meta_train_step(
     if step:
         outer_optimizer.zero_grad()
 
+    meta_cfg = config["meta_learning"]
     support_texts = episode["support_texts"]
     support_labels = torch.tensor(episode["support_labels"]).to(device)
     query_texts = episode["query_texts"]
@@ -91,30 +92,36 @@ def meta_train_step(
     retrieved = retrieval_index.retrieve(query_vec, k=k)
 #retrieval index is formed in the quick_test.py file, where we encode a set of texts and add their embeddings to the index along with their labels and language information. The retrieve method of the retrieval index takes a query vector and retrieves the top-k most similar examples from the index based on the specified similarity metric (e.g., cosine similarity). The retrieved examples are then used to augment the support set embeddings for the inner loop adaptation in the meta-training step.
     retrieved_texts = retrieved["texts"]
-    ret_embs = encoder.encode_text(retrieved_texts, device)    # (k, D)
 
-    # Attention-weighted retrieval embedding
-    _, _, weighted_ret_emb, _ = arc(task_emb, ret_embs)       # (D,)
-    weighted_ret_emb = weighted_ret_emb.unsqueeze(0).expand(support_embs.size(0), -1)
+    with torch.no_grad():
+        ret_embs = encoder.encode_text(retrieved_texts, device)      # (k, D)
 
-    # Augmented support: [support_emb || retrieval_emb]
-    aug_support = torch.cat([support_embs, weighted_ret_emb], dim=-1)
+    # Attention-weighted retrieval — gradient flows through query_tensor -> query_generator
+    weights = arc.compute_attention_weights(query_tensor, ret_embs)  # (K,)
+    weighted_ret_emb = (weights.unsqueeze(-1) * ret_embs).sum(0)     # (D,)
 
-    # MAML inner loop
-    adapted_model = maml_inner_loop(
-        meta_learner, aug_support, support_labels,
-        config["meta_learning"]["inner_lr"],
-        config["meta_learning"]["inner_steps"],
-        device
+    # Augmented support and query: [text_emb || retrieval_emb]
+    aug_support = torch.cat(
+        [support_embs, weighted_ret_emb.unsqueeze(0).expand(support_embs.size(0), -1)], dim=-1
+    )
+    aug_query = torch.cat(
+        [query_embs, weighted_ret_emb.unsqueeze(0).expand(query_embs.size(0), -1)], dim=-1
     )
 
-    # Query set evaluation
-    query_embs = encoder.encode_text(query_texts, device)
-    weighted_ret_emb_q = weighted_ret_emb[:1].expand(query_embs.size(0), -1)
-    aug_query = torch.cat([query_embs, weighted_ret_emb_q], dim=-1)
+    # MAML: inner loop + query eval must both happen inside the higher context
+    inner_opt = torch.optim.SGD(meta_learner.parameters(), lr=meta_cfg["inner_lr"])
 
-    query_logits = adapted_model(aug_query)
-    outer_loss = F.cross_entropy(query_logits, query_labels)
+    with higher.innerloop_ctx(meta_learner, inner_opt, copy_initial_weights=False) as (fmodel, diffopt):
+        # Inner loop adaptation on support set
+        for _ in range(meta_cfg["inner_steps"]):
+            support_logits = fmodel(aug_support)
+            inner_loss = F.cross_entropy(support_logits, support_labels)
+            diffopt.step(inner_loss)
+
+        # Query evaluation with adapted weights — still inside context
+        query_logits = fmodel(aug_query)
+        outer_loss = F.cross_entropy(query_logits, query_labels)
+
     outer_loss.backward()
 
     if step:
@@ -122,3 +129,58 @@ def meta_train_step(
 
     acc = (query_logits.argmax(-1) == query_labels).float().mean().item()
     return outer_loss.item(), acc
+
+
+def maml_eval_episode(
+    encoder,
+    arc,
+    meta_learner: MetaLearner,
+    retrieval_index,
+    episode: dict,
+    config: dict,
+    device: torch.device
+) -> float:
+    """
+    Evaluate a single episode: adapt on support, predict on query.
+    Used by evaluate.py. No outer gradient computation.
+    """
+    meta_cfg = config["meta_learning"]
+
+    with torch.no_grad():
+        support_embs = encoder.encode_text(episode["support_texts"], device)
+        query_embs = encoder.encode_text(episode["query_texts"], device)
+
+    support_labels = torch.tensor(episode["support_labels"]).to(device)
+    query_labels = torch.tensor(episode["query_labels"]).to(device)
+
+    task_emb = support_embs.mean(0, keepdim=True)
+    k = arc.predict_budget(task_emb)
+    query_vec = arc.generate_query(task_emb).detach().cpu().numpy()
+    retrieved = retrieval_index.retrieve(query_vec, k=k)
+
+    with torch.no_grad():
+        ret_embs = encoder.encode_text(retrieved["texts"], device)
+
+    weights = arc.compute_attention_weights(task_emb, ret_embs)
+    weighted_ret_emb = (weights.unsqueeze(-1) * ret_embs).sum(0)
+
+    aug_support = torch.cat(
+        [support_embs, weighted_ret_emb.unsqueeze(0).expand(support_embs.size(0), -1)], dim=-1
+    )
+    aug_query = torch.cat(
+        [query_embs, weighted_ret_emb.unsqueeze(0).expand(query_embs.size(0), -1)], dim=-1
+    )
+
+    inner_opt = torch.optim.SGD(meta_learner.parameters(), lr=meta_cfg["inner_lr"])
+
+    with higher.innerloop_ctx(meta_learner, inner_opt, copy_initial_weights=False) as (fmodel, diffopt):
+        for _ in range(meta_cfg["inner_steps"]):
+            support_logits = fmodel(aug_support)
+            inner_loss = F.cross_entropy(support_logits, support_labels)
+            diffopt.step(inner_loss)
+
+        with torch.no_grad():
+            query_logits = fmodel(aug_query)
+
+    acc = (query_logits.argmax(-1) == query_labels).float().mean().item()
+    return acc
