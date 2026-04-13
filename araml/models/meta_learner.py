@@ -29,6 +29,7 @@ Architecture change:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.cuda.amp import autocast
 
 
 # ---------------------------------------------------------------------------
@@ -131,6 +132,7 @@ def _episode_forward(
     caller decides when to call .backward().
     """
     meta_cfg = config["meta_learning"]
+    use_amp  = device.type == "cuda"
 
     support_texts  = episode["support_texts"]
     support_labels = torch.tensor(
@@ -141,40 +143,47 @@ def _episode_forward(
         episode["query_labels"], dtype=torch.long, device=device
     )
 
-    # 1. Encode — differentiable once encoder layers 9-11 are unfrozen (FIX 2)
-    #    No torch.no_grad() wrapper here; encoder grad flows to inner loop.
-    support_embs = encoder.encode_text(support_texts, device)   # (N*K, D)
-    query_embs   = encoder.encode_text(query_texts,   device)   # (Q,   D)
+    # 1. Encode — differentiable once encoder layers 9-11 are unfrozen (FIX 2).
+    #    Encode support+query in a single forward pass to maximise GPU utilisation.
+    all_texts = support_texts + query_texts
+    n_support = len(support_texts)
+    with autocast(enabled=use_amp):
+        all_embs     = encoder.encode_text(all_texts, device)   # (N*K+Q, D)
+    support_embs = all_embs[:n_support]                         # (N*K, D)
+    query_embs   = all_embs[n_support:]                         # (Q,   D)
 
     # 2. Task embedding: mean of support representations
     task_emb = support_embs.mean(0, keepdim=True)               # (1, D)
 
-    # 3. ARC: generate retrieval query (stays in grad graph via query_generator)
-    arc_query = arc.generate_query(task_emb)                    # (1, D)
-    k         = max(1, arc.predict_budget(task_emb))
+    with autocast(enabled=use_amp):
+        # 3. ARC: generate retrieval query
+        arc_query = arc.generate_query(task_emb)                    # (1, D)
+        k         = max(1, arc.predict_budget(task_emb))
 
-    # FAISS search is non-differentiable → detach before numpy conversion
-    query_vec       = arc_query.detach().cpu().numpy()
-    retrieved       = retrieval_index.retrieve(query_vec, k=k)
-    retrieved_texts = retrieved["texts"]
+        # FAISS search is non-differentiable → detach before numpy conversion
+        query_vec       = arc_query.detach().float().cpu().numpy()
+        retrieved       = retrieval_index.retrieve(query_vec, k=k)
+        retrieved_texts = retrieved["texts"]
 
-    with torch.no_grad():
-        # Retrieved embeddings are constants; gradient flows through
-        # attention *weights* (below) not through ret_embs itself.
-        ret_embs = encoder.encode_text(retrieved_texts, device) # (k, D)
+        with torch.no_grad():
+            ret_embs = encoder.encode_text(retrieved_texts, device) # (k, D)
 
-    # 4. Attention — grad path: arc_query → query_generator params
-    attn_weights = arc.compute_attention_weights(arc_query, ret_embs)  # (k,)
-    weighted_ret = (attn_weights.unsqueeze(-1) * ret_embs).sum(0)      # (D,)
+        # 4. Attention — grad path: arc_query → query_generator params
+        attn_weights = arc.compute_attention_weights(arc_query, ret_embs)  # (k,)
+        weighted_ret = (attn_weights.unsqueeze(-1) * ret_embs).sum(0)      # (D,)
 
-    # 5. Augment: L2-normalize before elementwise add to prevent magnitude blowup.
-    support_embs_n = F.normalize(support_embs, p=2, dim=-1)
-    query_embs_n   = F.normalize(query_embs,   p=2, dim=-1)
-    weighted_ret_n = F.normalize(weighted_ret,  p=2, dim=-1)
-    support_aug = support_embs_n + weighted_ret_n.unsqueeze(0)    # (N*K, D)
-    query_aug   = query_embs_n   + weighted_ret_n.unsqueeze(0)    # (Q,   D)
+        # 5. Augment: L2-normalize before elementwise add
+        support_embs_n = F.normalize(support_embs, p=2, dim=-1)
+        query_embs_n   = F.normalize(query_embs,   p=2, dim=-1)
+        weighted_ret_n = F.normalize(weighted_ret,  p=2, dim=-1)
+        support_aug = support_embs_n + weighted_ret_n.unsqueeze(0)    # (N*K, D)
+        query_aug   = query_embs_n   + weighted_ret_n.unsqueeze(0)    # (Q,   D)
 
-    # 6. Inner loop with create_graph=True (FIX 1)
+    # 6. Inner loop with create_graph=True (FIX 1).
+    #    Run in float32 — autograd.grad(create_graph=True) is more numerically
+    #    stable outside autocast; cast augmented embeddings back to fp32 first.
+    support_aug = support_aug.float()
+    query_aug   = query_aug.float()
     adapted = inner_loop(
         meta_learner.classifier,
         support_aug, support_labels,
@@ -284,16 +293,19 @@ def meta_train_step(
     device: torch.device,
     outer_optimizer: torch.optim.Optimizer,
     max_grad_norm: float = 1.0,
+    scaler=None,
 ) -> tuple:
     """
     One MAML meta-training step: forward → backward → clip → step.
+
+    Pass a torch.cuda.amp.GradScaler as `scaler` to enable mixed-precision
+    training (RTX 4000 / any CUDA device with FP16 support).
 
     Returns
     -------
     loss      : float  — scalar outer cross-entropy loss
     acc       : float  — query-set accuracy with adapted classifier
     grad_norm : float  — total gradient norm BEFORE clipping
-                         (log every 25 batches to monitor learning)
     """
     outer_optimizer.zero_grad()
 
@@ -301,17 +313,22 @@ def meta_train_step(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
 
-    outer_loss.backward()
-
-    # FIX 3: clip — second-order gradients can be large; 1.0 is a safe ceiling
     all_trainable = (
         list(meta_learner.parameters())
         + list(arc.parameters())
         + [p for p in encoder.parameters() if p.requires_grad]
     )
-    grad_norm = torch.nn.utils.clip_grad_norm_(all_trainable, max_norm=max_grad_norm)
 
-    outer_optimizer.step()
+    if scaler is not None:
+        scaler.scale(outer_loss).backward()
+        scaler.unscale_(outer_optimizer)
+        grad_norm = torch.nn.utils.clip_grad_norm_(all_trainable, max_norm=max_grad_norm)
+        scaler.step(outer_optimizer)
+        scaler.update()
+    else:
+        outer_loss.backward()
+        grad_norm = torch.nn.utils.clip_grad_norm_(all_trainable, max_norm=max_grad_norm)
+        outer_optimizer.step()
 
     return outer_loss.item(), acc, float(grad_norm)
 

@@ -23,7 +23,6 @@ import json
 import random
 import argparse
 
-import time
 import numpy as np
 import torch
 from tqdm import tqdm
@@ -95,6 +94,15 @@ def train(args: argparse.Namespace) -> None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
+    if device.type == "cuda":
+        torch.backends.cudnn.benchmark = True
+        torch.set_float32_matmul_precision("high")
+        print(f"GPU: {torch.cuda.get_device_name(0)}  "
+              f"VRAM: {torch.cuda.get_device_properties(0).total_memory // 1024**2} MB")
+        scaler = torch.cuda.amp.GradScaler()
+    else:
+        scaler = None
+
     # -- Load config (for meta-learning hyperparameters) ---------------------
     import yaml
     with open(args.config) as f:
@@ -155,6 +163,7 @@ def train(args: argparse.Namespace) -> None:
                 encoder, arc, meta_learner, index,
                 episode, config, device, outer_optimizer,
                 max_grad_norm=args.max_grad_norm,
+                scaler=scaler,
             )
             epoch_losses.append(loss)
             epoch_accs.append(acc)
@@ -162,8 +171,6 @@ def train(args: argparse.Namespace) -> None:
 
             if (ep_idx + 1) in GRAD_LOG_BATCHES:
                 print(f"  [batch {ep_idx+1:3d}] grad_norm={grad_norm:.4f}  loss={loss:.4f}  acc={acc:.3f}")
-
-            time.sleep(0.05)
 
         mean_loss  = np.mean(epoch_losses)
         mean_acc   = np.mean(epoch_accs)
@@ -188,8 +195,8 @@ if __name__ == "__main__":
                         help="Base path for CrossLingualRetrievalIndex files "
                              "(.faiss + _meta.npy)")
     parser.add_argument("--save_dir",          default="results/")
-    parser.add_argument("--epochs",            type=int,   default=10)
-    parser.add_argument("--episodes_per_epoch",type=int,   default=500)
+    parser.add_argument("--epochs",            type=int,   default=20)
+    parser.add_argument("--episodes_per_epoch",type=int,   default=1000)
     parser.add_argument("--outer_lr",          type=float, default=0.0003)
     parser.add_argument("--max_grad_norm",     type=float, default=1.0)
     parser.add_argument("--seed",              type=int,   default=42)
