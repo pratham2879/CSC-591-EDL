@@ -9,7 +9,7 @@ meta_learning:
   n_way: 2
   k_shot: 5
   query_size: 15
-  inner_lr: 0.1                     # Tier 1: increased from 0.01
+  inner_lr: 0.001                   # FIX 3: lowered to prevent inner-loop overshoot
   outer_lr: 0.0001                  # Fine for frozen encoder
   inner_steps: 10                   # Tier 1: increased from 5
   meta_batch_size: 4

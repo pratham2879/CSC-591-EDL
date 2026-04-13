@@ -1,78 +1,87 @@
 """
-quick_test.py — Quick test with minimal data
+quick_test.py — Quick component smoke test.
+Verifies encoder, retrieval index, episode sampler, and model instantiation.
+
+Run from inside araml/:
+    PYTHONPATH=. python scripts/quick_test.py
 """
 import os
 import json
 import yaml
 import torch
 import numpy as np
-from tqdm import tqdm
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from models.encoder import TextEncoder
 from models.retrieval_index import CrossLingualRetrievalIndex
 from models.araml import ARAML
-from utils.episode_sampler import EpisodeSampler
+from utils.episode_sampler import CategoryStratifiedEpisodeSampler
+
 
 def quick_test():
     print("Loading config...")
     with open("configs/config.yaml") as f:
         config = yaml.safe_load(f)
-    
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
-    
-    # Load small subset of data
-    print("\nLoading data...")
-    with open("data/processed/amazon_en.json", encoding="utf-8") as f:
-        all_data = json.load(f)
-    
-    # Get balanced subset with both labels
-    en_data = []
-    for label in [0, 1]:
-        label_data = [r for r in all_data if r["label"] == label][:50]
-        en_data.extend(label_data)
-    
-    print(f"Loaded {len(en_data)} English samples")
-    
-    # Build small index
-    print("\nBuilding retrieval index...")
+
+    # -- Encoder -------------------------------------------------------------
+    print("\nLoading encoder...")
     encoder = TextEncoder(model_name=config["model"]["encoder"]).to(device)
     encoder.eval()
-    
-    index = CrossLingualRetrievalIndex(
-        embedding_dim=config["model"]["hidden_dim"],
-        similarity=config["retrieval"]["similarity"]
-    )
-    
-    texts = [r["text"] for r in en_data]
-    labels = [r["label"] for r in en_data]
-    
-    with torch.no_grad():
-        embs = encoder.encode_text(texts, device)
-        index.add(embs.cpu().numpy(), texts, labels, "en")
-    
-    print(f"Index size: {len(index)}")
-    
-    # Test retrieval
-    print("\nTesting retrieval...")
-    query_emb = embs[0:1].cpu().numpy()
-    retrieved = index.retrieve(query_emb, k=5)
-    print(f"Retrieved {len(retrieved['texts'])} examples")
-    
-    # Test episode sampling
+    print(f"Encoder loaded: {config['model']['encoder']}")
+
+    # -- Retrieval index -----------------------------------------------------
+    print("\nTesting retrieval index...")
+    index_path = "results/retrieval_index.faiss"
+    if os.path.exists(index_path):
+        index = CrossLingualRetrievalIndex(
+            embedding_dim=config["model"]["hidden_dim"],
+            similarity=config["retrieval"]["similarity"]
+        )
+        index.load("results/retrieval_index")
+        print(f"Index size: {len(index)}")
+
+        dummy_query = np.random.randn(1, config["model"]["hidden_dim"]).astype(np.float32)
+        retrieved = index.retrieve(dummy_query, k=5)
+        print(f"Retrieved {len(retrieved['texts'])} examples")
+    else:
+        print("  Retrieval index not found — skipping. Run scripts/build_index.py first.")
+
+    # -- Episode sampler (requires low-resource pools from preprocess.py) ----
     print("\nTesting episode sampler...")
-    sampler = EpisodeSampler(en_data, n_way=2, k_shot=5, query_size=10)
-    episode = sampler.sample_episode()
-    print(f"Episode: {len(episode['support_texts'])} support, {len(episode['query_texts'])} query")
-    
-    # Test model
+    pool_dir = "data"
+    pools_available = any(
+        os.path.exists(os.path.join(pool_dir, f"lowresource_pool_{lang}.json"))
+        for lang in ("ja", "zh")
+    )
+
+    if pools_available:
+        sampler = CategoryStratifiedEpisodeSampler.from_pool_files(
+            pool_dir=pool_dir,
+            n_shot=config["meta_learning"]["k_shot"],
+            n_query=config["meta_learning"]["query_size"],
+            n_class=config["meta_learning"]["n_way"],
+        )
+        episode = sampler.sample_episode()
+        n_support = len(episode["support_texts"])
+        n_query   = len(episode["query_texts"])
+        print(f"Episode: {n_support} support, {n_query} query  "
+              f"lang={episode['language']}  category='{episode['category']}'")
+        print(f"Support labels: {episode['support_labels']}")
+    else:
+        print("  Low-resource pools not found — skipping episode sampler test.")
+        print("  Run: python data/preprocess.py")
+
+    # -- Full ARAML model ----------------------------------------------------
     print("\nTesting ARAML model...")
     model = ARAML(config).to(device)
     print(f"Model parameters: {model.count_parameters():,}")
-    
+
     print("\nAll components working!")
+
 
 if __name__ == "__main__":
     quick_test()

@@ -1,0 +1,3502 @@
+[
+  {
+    "text": "极好！\n\n解释的很详细！有的扫描二维码还可以看网上视频！不错！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "无奈的网购\n\n11月18号就已经到了最近的配送点，竟然28号了还没送给我。打了几个电话给亚马逊居然连什么快递都查不出来。后来自己联系商家才得知是德邦物流，堪称最无语的一次网购。亚马逊的服务质量感觉一直在下降啊！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "家用可以买\n\n尺寸是常用的，石工金工木工齐全，用了几回还不错",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差\n\n不成体系，关键还不是结合最新的法律。已经跟不上实务了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很好用\n\n技术进步，U盘容量越来越大，价格在下降，好。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买了好几个\n\n宝宝刚出生防胀气奶瓶可以少胀气！亚马逊买的和专柜一样",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "原来只不过是打着无损的噱头而已\n\n真不知道为什么能卖这个价，简直狗屁不是，音质还没有我花不到100块钱买的mp3好，以为国货雄起了，原来只不过是打着无损的噱头而已，亚马逊的物流超级棒，赞一个，这一个星是给亚马逊的！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "挺精神的，修身也暖和，各方面都不错\n\n挺精神的，修身也暖和，各方面都不错，喜欢",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "中间矮两边高\n\n总感觉把头部局限在中间区域，有时想换个姿势，脑袋就得爬坡了有点搁。其他不错。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "浮躁社会找静心\n\n好书，现在的社会，一杯清茶，一本纸质书。是一种怀旧的享受",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很无聊\n\n作者每次抛出一个观点，都会先用80%的篇幅造势营销，造势的手段无非就是自己过去无知，中国人无知，胡适林语堂卢梭无知，只有她看清了真相，越过了“槛”。然而实际上，作者推销的观点也不怎么先进，很多现象其实很多人早就知道的，要么是她不懂自己更不懂中国人，要么是她不懂林语堂胡适卢梭。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好评\n\n买了好多好多书，价格很合适，书品质量棒棒哒，物流也很快，以后还会大量买书",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "总的来讲还是很不错的\n\n首先，推荐。 其次，东西本身还不错，吸力也还可以，灰尘清理方式也很方便，长时间使用会发热，吸尘器的噪音比较大，但用过几个牌子（海尔的，还有一个日本原装的）的都这样，大小差别也不大。感觉价钱主要差在电机功率和吸头上，其实这个电机功率也还是够了。再升级的话还是建议无线的吧，或者机器人。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "无\n\n还没有正式看，等过一段时间再来认真评价。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "另一种视觉看明朝\n\n经典著作，但是并不十分认可里面的观点，有些论证莫名其妙。“数字目管理”这种莫名其妙的概念更像是文科生的臆想和猜测。可以一读，但并不值得多读。论述的深度和广度并不如唐德刚。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "实话实说，这茶很涩口，坦白说，非常不满意！\n\n自从一位台湾朋友带了一次台湾高山茶回来，我几乎很少再喝国内的铁观音这些茶，一直喝高山茶！ 这款产品 我满怀期待，结果令我失望了~ 宝岛台湾商人加油！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "孩子很喜欢！\n\n很满意，质量还可以，再精细点就完美了，孩子很喜欢。轨道安装很简单。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错\n\n价格蛮好，测试几小时也可以。希望能使用长",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "非常好用\n\n一开始抱着试一试的态度，结果发现非常好用，家里老妈解放了。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一分价钱一分货\n\n放浪涌灯两天就不亮了，不同插孔之间开关有影响。需要我上图吗？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好\n\n打开喝了一片 挺好喝的 两瓶这个价格很良心了 以后再多买些",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错\n\n不错，一回家洗净后就使用了，孩子放学回家喝凉开水，冲的冷饮正好",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错\n\n微波炉确实放不下，不过放我们厨房正好，做碗架了。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "无\n\n蝴蝶结有一个钻掉了，尺码的印刷模糊。我描述的都是客观事实，没有恶意褒贬。删评论的理由太牵强了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这个价格是非常不错了，到手87一盒，非常满意，囤货\n\n这个价格是非常不错了，到手87一盒，非常满意，囤货，唯一小遗憾有一盒稍微有点凹痕，不过不算严重，美帝包装太环保了",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "推荐!\n\n第二遍读，依然深受鼓舞。适合作为枕边书!",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "为什么不是记忆棉鞋垫！！\n\n为什么我的不是记忆棉鞋垫？另一个颜色是这个颜色不是，为什么？？？？？？？？超级硬啊鞋底",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不喜欢\n\n长篇大论就是为了一个主旋律，获得的知识不多。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "太大了。\n\n太大了。xxl实测胸围144的。各位看着办吧。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "穿挂钩的孔大部分是缝死了，无法将挂钩穿进去。\n\n没沙眼还可以，就是表面容易产生褶皱，还有就是穿挂钩的孔大部分是缝死了，无法将挂钩穿进去。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "电子书是阉割版, 只有中文没有英文!!!\n\n一口气花将近100块买了两个系列20本电子书, 主要为了看英文部分。纸质书部分都是中英文对照的。结果发现所有的电子书只有中文没有英文。太坑了, 害我白花了100块钱!!必须差评!!",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不是真的双语\n\n我很少发评语，但是对这本书我的说说，在此不是要说输的相关内容的如何，可以书名说是双语的，但看到书后我无语了，也就把书的目录翻译一下，章节里面的内容看不到一个中文字，有这么坑读者的吗？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "包装我呵呵\n\n买之前看过评论，讲包装怎么怎么不好，但之前我还是比较信任亚马逊的，以为只是其他人运气不好，不相信真的会那样。于是，打脸了。用硬纸板卷起来就叫包装？连个封装都没有？就这样就能漂洋过海？ 还有就是自己的问题了。太久没用大杯子，都忘了700ml有那么那么大了。。。 总结下来，应该是在亚马逊最失败的一次购物了，哎",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "表白温言\n\n十年这本书我看了大概有十几遍吧 真的很喜欢这种冰冷又温暖的故事 书皮角那里虽然有褶皱 但依然不阻挡我的喜爱之情 专门用来收藏的 很开心",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "缺乏紧张感\n\n想象力是很丰富的，但缺乏必要的紧张感，也许适合女生看吧，像我这样喜欢紧张情节的人真的读不下去。 个人觉得如果作者对故事主角非常仁慈，一直让他处在一种非常惬意，或者从容不迫的状态下，那故事的情节就真的很难引人入胜，整部书感觉像本外星游记，而不是本好的小说。第一本看了三分之一实在坚持不下去了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "酸酸的，味道不会很差啦，用来减肥极好极好\n\n冷的吃有点酸，加热一下就好吃多了，以后还会买，减肥佳品",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没味道，厚实，回复能力也不错\n\n缺点和其他买家感觉一样，不透气，夏天粘脚。另外也比较容易弄破。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "码数偏小啊\n\n码数偏小。平时穿42-43的，这个买43的有点顶脚",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "材质舒适\n\n175/65 穿S号 肥瘦合适 下摆略长 材料很薄，穿着舒适， 安踏的价格买G STAR 还是比较超值！！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "蓝色诱惑\n\n用了挺长时间 赠品还有本体 都还可以 我这脸用啥没明显差别",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "挺喜欢的，物流也很快，满意。\n\n眼镜不错只是款式不是我想要的，送给哥哥了。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般\n\n炒锅不适合中国厨房，使用后很难清洗，刀具还不错",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量不好\n\n好像买到假的一样，刷头质量有问题。不仅震动声音特别大，还裂开了。对亚马逊很失望",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "代码解释太过简单，看不懂代码是干嘛用的，你至少先介绍一下你用的包跟函数的功能吧\n\n不适合没有深厚python基础的人看，注意 是深厚，要了解python各种的包。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很不错\n\n美国9码相当于中国的40 25.4mm 做工质量确实好。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "做工感觉比较粗\n\n其实样图就可以看到接缝是没有包边的，因此多层材质都露在外面，鞋子很硬，没有气垫或者软垫，有点像工装鞋",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错的一款便携音箱\n\n外观很喜欢，蓝牙连接稳定，携带方便，音质效果不错，推荐",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "怎么才能联系卖家？\n\n怎么才能联系到卖家？整体还可，但有一颗珠子上有残。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "包尽然是破的！！\n\n有点受潮，发霉的样子就不说了 包里面的黑色内衬竟然是破的，拳头大个洞，也就是我懒，都懒得退换货了！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "晃的厉害\n\n材料还是不错的，就是设计的不好，一点都不稳，摇摇晃晃的，还这么贵！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好评\n\n一直用东奥的书 书是正版 物流也很快 价格合理 好评",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "从内到外，从孩子的内心分析育儿\n\n从最内层分析育儿的方法，各种最新的心理学理论，给我们以参考，自己找出适合孩子的养育方法，深受启发，反省自己之前对孩子的养育方法，找到更适合孩子的，而不是家长认为最适合的。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "前5分之1理论价值较高,后面内容当参考资料来看也蛮好。\n\n后面看起来比较乏味,重复性较高,比较损耗时间,不适合时间紧迫者研读。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "东西很好用，但是生产日期比较早了\n\n有两块布，一块好用，一块不怎么好用。建议用拖地机器人先拖一遍后再用这个效果会更好",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "送错地址\n\n送货小哥居然送错了地方。还好收货的大叔大婶联系了我们。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "火锅\n\n一点也不好总，5个档位没有明显区别，最小档都很大火的样子，把锅里汁液都煎出来烫到人",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "emmm\n\n感觉内容平淡,人物也有槽点,我都是跳着看的,反正个人觉得这书除了起了个好名字外毫无看点。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "太差了，完全是胡说八道。\n\n没有一点学养，强词夺理，极度无知而极度自以为是，完全不该买啊。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物超所值\n\n八百多块钱不白花啊，音质真是好的不要不要的，我喜欢听嗨一点的歌，用它听真是要嗨到爆炸。每天不听个四五个小时都舍不得摘下来，爱不释手，真是买对了。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "good\n\n穿插的方式写的小说 一开始看有点迷糊,但故事还不错",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不值\n\n并不是一本好书，跟“胃癌”比，稍好一点点而已，后悔",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "适合追求敏感的人群\n\n首先东西包装很好，从外表看不出里面是什么，礼盒也很高大上。里面的搭配是超薄和情趣，很适合追求敏感、刺激的人群",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "制冷效果好\n\n冰箱还可以，价钱优惠，使用效果待半年后追评",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "先不说内容，书的本身：真不好，搞得像旧的。无语😶\n\n先不说内容，书的本身：真不好，搞得像旧的。无语😶",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "满意\n\n零件对我家孩子来说太小了，我给代劳了，玩的不亦乐乎，嘿嘿。下次再来买其他的",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这套书像盗版\n\n书的质感很不好，像是在地摊儿买的，一起到手的还有其他的书，有很明显的差距",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "那坨黑真是不忍直视，就像被踩过\n\n今天刚拿到书就这般黑，心情无话可说，太黑了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这是正版书吗\n\n这套书制作粗糙，很多印刷模糊，真是在亚马逊买书这么多年中最差劲的一次",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很不错\n\n使用手机未发现任何毛病，就是香槟金不大好看",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有点笨重，但因此显得可靠\n\n即使没有装水也是很沉的一个热水器，但因为拉丝的表面显得大方，厨房因此生辉，吃力什么的就忍了。tefal热水器煮得开水没有异味，即使是城市的自来水也是如此，不知道有什么黑科技",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一次充满能给手机充很多次 电量足\n\n除了有点重（在可接受范围内），在电量和使用方面很满意，推荐，配一根连接线",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "第一次海外购\n\n我记得这个裤子当时号码当时标的是33*30的，现在怎么只有33了？我记得我买的是33*30的，商品本身质量没问题，颜色正，有弹性，就是比预想的要长，如果是33*30的应该是尺码正好的，价格还是比国内便宜不少，是巴基斯坦生产的，然后就是要看看褪色是不是严重了",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这次买的尿不湿有气味\n\n以前在京东、1号店买都不会这样。感觉不像是正品。以前一直都没有这种味道的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内容一般，收获不多\n\n大部头的定义、原则，大篇幅的职场故事，通篇都在宣传学习思维导图的好处，具体绘制、练习的例题方法介绍不多。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "多扣我100元优惠券的钱！！！\n\n我明明用了100元优惠券买的，居然依旧扣了我200元账户余额，什么情况！骗子啊！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "推荐一下\n\n孩子非常喜欢，而且很好玩，质量也很不错，推荐一下",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没法用\n\n不实用! 管子太细，直径不到一厘米，把水龙头水量开的很小都往外漏水。另外接头和水龙头不匹配啊，没法用啊。。。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "评价好\n\n原本无修改，适合收藏，但排版有问题，字太小，看起来难受",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这套书有开本不一样大。\n\n这套书内容很好，但有开本不一样大，参差不齐，放在书架非常别扭。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这个数纸张还可以，就是有很多污迹\n\n纸张和字迹都还行，就是有墨汁污迹，反馈给卖家，得不到回复，还专门跑到亚马逊买正品，商品差",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "垃圾\n\n准确地说，还差几天才四个月，但已报废，两只鞋鞋底断裂，今天下雨进水，脚湿地通透，脚底冰凉，所以才想起来评论，另外鞋面与鞋底结合处已开胶，粗略合计了一些，大约每天的成本是两块钱，事已至此，不想多说，只想对你吼一句：糙尼玛蛋！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "鞋子味道很大(某种香精的味道)\n\n很大的香精味...给人感觉是商家的障眼法？而且不是很透气，穿着在冬天的人行道上感觉不到摩擦力，而且鞋子左右，发现了之后就没穿过了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "货品不符\n\n健腹轮很好，但是俯卧撑支架和网页上面的图片对不上，请核实！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还可以\n\n这款面膜性价比挺高的，精华不多，但我觉得够~",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "特别满意\n\n转换线收到了，特别喜欢。很实用，质量很好，是正品的哦",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不该买组套的\n\n发货速度挺快，不过产品是快要到期的，不愉快",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "娇韵诗\n\n收到的东西没有塑封，只有个包装盒打电话给客服了，客服也说有问题可以退的，可是一看退款流程那么麻烦，又是打退货单，还要寄到海外，就留下自己用了，心想是海外回来的应该不会假了，但是用了以后皮肤一直不好好似过敏，以前在店里买的用皮肤也没出现问题，所以我以为是自己皮肤过敏，我就把所有的化妆品都停了，皮肤好了，我又开始用了，一天的时间皮肤又开始了，彻底的不敢用了，我没有到专业的地方去鉴别，但是我觉得这化妆品是有问题的，我只希望下面的人别买了，对自己的脸负责。真假我是不知道了，但是脸知道。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还不错可以用\n\n发货还是挺快的，老姐用的说还可以。希望以后价格优惠点",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不好用！\n\n太光滑的表面上用吧，会打滑不往前走，太粗糙的表面就更不动了，感觉买了个假玩具！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "大有上当之感\n\n大有上当之感。因有一半是英文，为了出书而拼凑。克氏的东西没有说的，就是想赚钱而不用心的编辑和出版商的问题。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没用\n\n装上硬盘后 插入电脑没反应 就嘀嘀嘀的响",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "正品\n\n大小合适，但是个人认为不能当网球鞋，只是普通的板鞋，不适合穿着运动",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "假货！！！\n\n垃圾 假货 申请退货了快一个月 也没得到回复！！！！！！什么商家！！！！！什么平台！！！！！日了狗",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "收到货\n\n刚收到，除了快递慢一点，其他都还好，试试",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "以后再不能看微博推荐随便买了\n\n内容很一般，装帧不好看，纸质也一般。不推荐",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "成片效果不错\n\n用了一年了，对于仍然是一个摄影小白来说，成片效果还不错。现在觉得原装镜头不够用啊～",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "时间长了印花会掉哦~~~\n\n包的大小正好，布料挺好，肩带还可以。醉LOW的是三叶草印花，竟然是漆皮的，在路上看到了一个类似的，时间长了印花会掉哦~~~",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般\n\n真的很一般，只能作为欣赏。对指导和提高没什么作用",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有点像女表\n\n其他的都还好，不怎么戴，考试的时候用到过。。。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很喜欢 很可爱\n\n就是色差很明显！ 估计图片不一样，而且还有眼珠子",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "手感一般般吧，和这个价格不相符\n\n鼠标感觉很大，其实不大，因为高度不够高，手心中间支撑不足。滑轮有两个档位，但是第二个档位太光滑了，实际使用不适合。指针移动速度很快，我意思是有点过头了。从美国发来的，但是细微划痕都有，感觉搞不好是二手货，建议国内购买，不要走美国海淘。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还不错\n\n但是5岁的宝宝不是很感冒，可能对他来说故事有点太长，黑白的图画吸引力不够吧。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "灵活的小东西\n\n给儿子买的（美国买就贵些了，还是国产用用）。其实在美国就是我自己在用，呵呵，没办法，节约是美德噢，老外也这样滴！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没发票，骗人\n\n书发后说发票也发了，书到后我等了发票也没影啊，我就发邮件给我说给我发电子发票，你把我当傻子啊？？？？？",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "5星\n\n非常不错，比老式的黑白色好看，除了体积比我想象的大了点，其他都没话说，质量很好！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "商品不合适\n\n产品中没有号码对照，容易产生错误尺码，下单后马上撤单，但还是给寄出了，客服不太给力。还得走退货手续，太麻烦了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好吃但不便宜\n\n不是很甜，味道不错但质地偏硬，快下班肚子饿时吃一块儿还是管用的，但价钱有些偏贵",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "最重要的文字段落缺失\n\n宝玉和宝钗kan 玉的地方少了,读着发现不对劲,对照发现果然少了.我都不知道后面还有没有少的.差评!",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "盗版的说\n\n一共买了四本书 英语一看就是盗版 不过无所谓了能用就行吧 就是盗版你凭什么还卖那么贵啊 啊啊啊啊 本以为剩下三本是亚马逊自发的应该没问题呢 结果里面有一片空白的 是怎么回事？？印刷的问题还是盗版啊 啊 啊啊啊啊啊 ？？、！！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "翻译太差了！！2星是看在封面的面子上给的！！！\n\n看了一章多。。。实在是看不懂。。。第一次觉得自己竟然看不懂中文。。“它困惑了许多物理学家很长时间”。。。这种翻译难道不是小学生英文课本里的笔记吗？！？！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "除了晚到 其他都很棒\n\n晚到一天 亚马逊怎么老这样呢 既然不能准时，何必搞个送达时间呢？ 东西还不错 很小巧 宣！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量非常差！！！写了两页就散了！\n\n里面内容没有想象中好~而且书的装订质量非常差！！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "强烈投诉此店家\n\n卖的书明明有问题还不让退，服务态度极差，不良商家，呼吁亚马逊将此店家移除。大家千万别在这家买书了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不是很推荐\n\n里面人物介绍不够详细。忽然有些莫名其妙的人物冒出来。不太了解这段历史的人，不推荐。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这不是历史小说，文字描述多于情节\n\n这部书像是网上作家为了凑字数而在一些对心理对周边事物大肆描写，而情节脉络反而寡淡。不值。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "适合小学生阅读，\n\n我们都会有些不是我 便是你，我们的确是不是要求太多了，我们",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很喜欢哦\n\n品牌的就是不一样，看的是正品，okokok",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "30g好小一支\n\n好小一支，感觉像样品，罐装还不满，25元，不划算呢，还是得买大罐100g的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内容很多但很泛泛，全书基本就是名词解释的集合，一个概念就讲3行，过于浅白没什么价值\n\n本来想给1星，但作为技术基础一穷二白的云用户的话，看看还是能知道很多名词概念，所以再加一星。但如果是IT技术人员，想要通过此书了解云计算的构成和相关技术，那么一定会失望的，还不如上网问度娘。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "包装差\n\n包装太次了，两本书就大辣辣的放在一个袋子里了，去拿的时候，还被撕了一个口子，毫无隐私感，书背也坏掉了，以后买书，会谨慎选择亚马逊",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "奶粉不错\n\n宝宝从出生就喝的这个奶粉，但是之前都是喝的从美国带回的，奶粉不够了临时从网上买了一桶，宝宝喜欢喝",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "可以看看\n\n与其说从书里看看怎样写作，还不如说是从书里看看老舍这个人。关于写作的东西用处不大。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "以后记得一定要和教材配套\n\n以后记得一定要和教材配套 否则习题和书有可能不一样",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "性价比高于商店\n\n海外购价格优势真的很明显，不过感觉CK的裤子现在也就剩牌子了，舒适度和版型，很多国内的网络牌子比他强",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "假货\n\n假货，和我在专柜买的完全不一样，除了包装差不多，洗面奶颜色气味以及膏体的形态，都不一样。专柜买的膏体偏干，气味有淡淡的香味，亚马逊买的这个挤出来是一摊，特别稀，气味也不一样。还是不要在亚马逊买任何化妆品了，失望透了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "经典入门书！\n\n14年年初购买了，陪伴了我一整个寒假，里面都是笔记，之后学习的时候还偶尔会翻翻看，感觉书里讲的非常细啊！ 后来借给朋友了，就拿不回来了…… 很好很好的书，不愧经典！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "歌神的经典老歌，音质不错，值得珍藏\n\n歌神的经典老歌，音质不错，值得珍藏，一次愉快的购物体验。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "空气净化器专业\n\n空气净化器3档声音有点大，净化的很快，卧室15平左右，香烟味很快能净化掉，集尘器用水洗可以继续用，这点很赞，清洗也算麻烦，比老是买过滤网方便一些，挺值了",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错的文案书，启发思路\n\n有很多理论和案例可以借鉴，我经常可以在书里找到思路",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还不错，5⭐\n\n不错，和运动鞋一个号，40的7。5，挺舒服，内衬好像不是皮的，不过450的包邮价，还是比较合适的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "尺寸合适，材质较好，性价比高，值得再买\n\n我从来信亚马逊超过其他购物网站，此次更是加强了这种信念。实际收到裤子，觉得物超所值甚至超过原本预想的。尺寸基本和Gap 一致，针织有弹性，无色差。价钱还比同材质的Gap 便宜，并且专卖店对此尺码经常没货。至于运输时效上，本预计要20天，实际7天收到，原原本本的进口货。虽然运费和通关成本比重有点高，但综合还是值得的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "用得上最好\n\n没用，价格质量都不错，我的标准是别怀孕就行了。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "胶水味重\n\n买来晾了一个多月，味道还是很重，胶味，没法用，太差了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "搜索人物名失败\n\n书的内容无可挑剔，但是这么热销的书没有提供xray也罢了，搜索相关人物只能提供扉页人物表的结果，这也太唬弄了吧？",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量不好\n\n当晚使用，锅体外部松软，轻松陷下去，且烫手。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "彩泥\n\n比较干的彩泥 第一次在网上购买的彩泥 有点味道 包装还可以 但是性价比不高 不推荐 买了没多久都干了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "太气愤了\n\n为什么十几天都不到货 订单为什么写配送成功 送货员电话关机 几天了 请给个说法",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "鞋子\n\n比平时的鞋小半码买就会很合适，款式好看，新鞋子划痕比较多，还有就是国内的物流比较慢。亚马逊客服很好，临近春节也帮忙催促站点的物流公司。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "飞利浦新安怡奶瓶\n\n收到的第一个已经生产一年多了，而且瓶身有气泡，感觉像库存残次品。给换了一次，结果生产日期比之前的还要久远，瓶身没有气泡，就留着了。和实体店买的对比没发现什么区别",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "以前从不去评价，不知道浪费了多少积分，现在知道积分可以换钱，就要好好评价了，后来我就\n\n以前从不去评价，不知道浪费了多少积分，现在知道积分可以换钱，就要好好评价了，后来我就把这段话复制走了，既能赚积分，还省事，走到哪复制到哪，最重要的是，不用认真的评论了，不用想还差多少字，直接发出就可以了，推荐给大家！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不建议买\n\n一家之谈，有几篇文章较好，没有太大用处，不适合初学者",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "价格不算便宜，质量有待观察\n\n拆开外包装，记录仪包装已经是拆封的，严重怀疑是退货，无法保证全新未拆封，想买的人注意了，其他的请看看图片，机器自己可以布暗线，晚上连续使用一个多小时，开了空调，机器发烫，不知道白天高温是否能承受住，拭目以待",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "以为是轻薄型的，被骗了\n\n以为是轻薄型的，被骗了。是市面上最大众的款，难看的一笔，便宜勉强用",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错，非常好\n\n欧式风格，做工精细没有异味，质量很好，款式也很好看，没有色差，非常喜欢，看到的人都说好看。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "孩子喜欢就好\n\n质量是还可以，只是这个价格本来可以做的更多，车子除了铲子和摇臂，几乎不会动，玩偶更是鸡肋。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差评\n\n这是网购以来最糟心的一次，货到付款，明明取邮件的时候已经给过钱了，在取完快递两天以后，快递的人给我打电话就说我没给钱，解释了还不信，之后还打电话发短信威胁我，恐吓我，卖家真的考虑换一家快递公司吧，连最起码的服务态度都没有，让我都不敢用天天快递了。让我一天的心情都很差。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "味道很大\n\n首先,是皮还是皮革我不清楚就不评论了,然后鞋子穿上去不舒服,再然后最重要的:鞋子味道超级超级大!!!!!!放了3天还是很大味道,",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量问题\n\n衣服口袋破了个大口子，都是漏的，卖家也联系不上",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买了快两年了，《喧嚣与骚动》的字体问题，还是没有解决。\n\n买了快两年了，《喧嚣与骚动》的字体问题，还是没有解决。文字没有任何字体区分，完全无法阅读。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "购买者请参考一下哈\n\n衣服收到了，不错了，我174，71公斤，L号的刚刚好，不过衣服挺薄的，冬天穿的话，当打底衫应该可以吧。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不推荐浪费时间看这本书。\n\n没有价值。尽是些抽象的空话。对什么是交易系统断章取义。对他自己的具体方法一再说很简单，却不肯说具体的做法。不值得看。想学交易系统请看《通向财务自由之路》，但这本书的缺点是对何时入市说得太少。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "傻逼网站活动前抬价\n\n买了一个月不到降价五百块。亚马逊坑人网站，还没有保价措施。客服形同虚设，给的答案永远只有不好意思这个我们没办法解决。那要售后有什么用？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "打电话的语气不好, 像个老大. 快递见面的态度不好, 办公楼, 要我坐电梯下去取. 亚马逊的员工都\n\n打电话的语气不好, 像个老大. 快递见面的态度不好, 办公楼, 要我坐电梯下去取. 亚马逊的员工都是些什么素质呀... 购买个东西, 还要受气.",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "挺满意的键盘\n\n这个价位能买到cherry的入门键盘，刚用的时候觉得键小，后来逐渐适应，不过声音和手感还是不错的。跟大家说的一样，我觉得底板材料也是够软的，不过我的键盘基本不离桌面，总体好评！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内容很好，但是仍需改进\n\n书的内容不错，但是书的设计偏旧，而且在CD里朗读英语单词的人貌似很不高兴，反正听着和其他的比起来有气无力的…",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "信誉问题\n\n新的就有磕碰，约定送货时间没有送到，信誉太差了，换来换去太麻烦，后来就办理退货了，着急用的同志们还是去实体店购买比较好。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差评\n\n我2015年12月25日已申请退货，今天是2016年1月8日，十几天没有人和我联系。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "郁闷\n\n书是经典！第一次印刷厂的质量问题，第二次是运输问题。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "精彩\n\n这是一个精彩的故事，有江湖、爱情、异域、种族歧视等题材，可谓精彩",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "盛名不符\n\n抱着很大的期望进来看的，结果感觉很一般。可能是差距一个时代的原因，读起来就像微型小说而不是科幻。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "漆皮的，通勤休闲均可\n\n嘉宝一如既往的高品质，最主要活动购入太合适啦",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "也还行\n\n鞋子里味儿有点大！是不是越南产的都这样啊？",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不太喜欢\n\n衣服是修身款的 本身比较受 还是比较紧，材质很不好 绝对不是所说纯棉的 比较磨皮",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内容一般，没有想象中那么有帮助。包装、物流还是很OK的\n\n书还没看，到手后包装很好，物流也很快，纸张质量不错，大概翻了一下，内容一般。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "直木奖的质量是这样吗？\n\n没有什么吸引人的地方，好像作者很喜欢展示一些名贵的书写工具。同样是对风土人情的描绘，感觉明显不如凑佳苗的《物语终焉》",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "款式偏大\n\n腰围合适，裤腿太宽，款式、做工和国内不一样，做工明显不如国内销售的，产地为墨西哥，是否正品不做评价",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "速度慢的要死后，50G才20M左右，哎，看评论不都是50M吗？\n\n速度慢的要死后，50G才20M左右，哎，看评论不都是50M吗？还有就是外貌不咋样，手感一般！！！！！！！！！！！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书太贵，不值这个价\n\n买过一本繁体版的东京旅行攻略。好看很多，但也就贵一点。这本内容还行，但是价格太高了。不值得！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买完立即降价不补差价.物流不联系直接放门口\n\n1.买完隔天就优惠了40元.客服说不能补差价 2.物流差预定3月7号到,但10号才收到. 3.自营产品发圆通,圆通的人电话不联系,到了我家门不按门铃直接放在门口.不是我出街都不知派件了.如果被人捡了怎么办?",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "试试\n\n和京东不一样，京东外盒都很正规有字，这个也不知道是正品么？？？后面京东照片",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "糟糕的购物体验\n\n无语了，为什么好好的书封面上有虫子尸体，而且还没有塑料皮包装，客服发货前都不检查吗，非常恶心。可是来回退换货既繁琐又耽误时间，只能留着看了，亚马逊上有史以来非常糟糕的购物体验。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "四星\n\n还可以的一个大锅 没有吹的那么好 但是在平均水准之上",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不怎么样\n\n说实话，真的一般，如果是实体店，我绝对不会购买！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "美亚、英亚上面都查不到这个品牌\n\n美亚、英亚上面都查不到这个品牌，要小心。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "非常好！\n\n做工很好，子弹很多，很软，很安全，一下子买了两把，给小姨子孩子带了一把。还能变形成变形金刚，但还没有试过。子弹真不错，十四支，还有护目镜，适合六岁以上孩子互相玩。挺好的。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "外观造型不错，音质真的很差\n\n重低音什么的真心不懂，但确实是受不了这个嗡嗡嗡的声音。我听歌比较喜欢开声音到最大，试了好几次，然后整个人都不好了= =",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "机器反应慢！\n\n每次用的时候都感觉回到了2G时代！反应实在太慢！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书发错了 换货还不回邮件\n\n我要的政治经济学教程第十版 给我发的是政治经济学教程第十版（资本主义部分），那么大的字都看不见，瞎啊，我要考试了，急着用书，浪费我的时间，耽误我复习，要求换货还不回我邮件，差到极致了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "写的逻辑性不强，核心思想难体现出来\n\n写的逻辑性不强，核心思想难体现出来，读起来连贯性不够。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "投诉！\n\n亚马逊服务超烂！！！ 售后服务人员不负责任，不履行正常的退货服务，并且对于多次的沟通甚至投诉不给任何答复！ 要求给出合理解释和退货！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不知道有什么用处\n\n哈哈哈，我都不知道当时买来干嘛，没用几次就丢了吧！我是男的效果不知道",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "浅显易懂，像一本故事书一样吸引人\n\n这本书浅显易懂，像一本故事书一样吸引人读下去，我觉得这是这本书的最大优点，即使不懂金融学的人也会有兴趣看下去。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "正品，只是有点贵\n\n在淘宝上买到是假货。来这边买到正品，只是有点贵。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错的东西 在亚马逊的购物体验要比tb jd好\n\n不错的东西 在亚马逊的购物体验要比tb jd好",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "码偏大\n\n我的脚是瘦长型，平时鞋子穿37码，6.5码偏大了，长度还有一指的余地，6码应该正好，但是M的宽度刚刚好，建议脚肥的脚背高的最好选W或WW！鞋面上有一条纵向折痕看着不太舒服，其他还好！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "指向准确的鼠标\n\n很喜欢 好用的 简单易用",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "包不错，没瓶子\n\n带的小兜不错能放开手机，方便，图样是带瓶子，实际商品没有，麻烦还要自己再去买",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "看重品牌\n\n买过亚瑟士，美津浓的中学买过，之前鞋底硬耐磨，这双不知道怎样，看看吧。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "野生核桃仁\n\n没有山核桃仁好吃，买的时候没注意。不过总体感觉还可以",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "失望\n\n太差劲了，很失望，老是掉下来，粘不住还要19元",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还可以\n\n裤子很薄 穿上感觉还不错 夏天应该很舒服",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "OK\n\n很满意，从品质到价格，不多说了，五星好评，收藏店铺，点个赞。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "尺码合适，穿着舒服\n\n180cm，81kg穿这个尺码正正好好，面料感觉也不错，很好",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "产品一般\n\n用了一个多月，一点效果也没有。既没有祛痘也没有去痘疤。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很满意\n\n好喜欢喝这款牛奶，太好喝了，亚马逊包装也赞，京东包装实在太差劲，希望牛奶多搞活动！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "小清新的文字风\n\n很喜欢。小岩井的文字读起来非常舒服。从豆瓣一路跟风过来。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "满意，特别好！\n\n特别好，满意！颜色质地都符合描述，非常好！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买前请慎重。\n\n打照片的话，速度慢，画质差，复印的话也有些模糊。而且用wifi连接的话，无法在电脑端安装打印驱动因为驱动根本找不到打印机。用有线网络打印机的话，windows也根本搜不到，添加不了网络打印机，要买的谨慎了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "挺好的\n\n刚刚读过第一遍，有些印象但印象不是很深刻",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还行\n\n刚听感觉音质不太对，煲了没多久，音质就出来了，我自己不好判断是不是假货，亚马逊卖的应该没问题吧。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "诺提亚BH-310\n\n比较耐用，外观容易陈旧！ 不支持音乐播放",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "小感\n\n感觉这书一般般，没有想象的好…也就看看，打发时间而已",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "明明一起买的，因为火爆，不能给我发货，就偷偷取消订单，浪费我这么多时间，太无良了吧\n\n明明一起买的，因为火爆，不能给我发货，就偷偷取消订单，浪费我这么多时间，太无良了吧",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很不满意！\n\n看上去还精致，握在手里也有些重量，但一点都不锋利！看看就可以了，指望不上为你做什么。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "鼻托不对称\n\n鼻托不对称，这点肯定是有问题的，由于把签撕毁了，就没退，自己调了好几天，眼镜盒皮子比较柔软，眼镜包装有些旧",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内容很少，贴纸一般。一共６本，一本含贴纸共20页\n\n还没到货就降成25元了，34买的，内容很少，贴纸一般。一共６本，一本含贴纸共20页，不便宜。以前10元３本买的贴纸书，",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "印刷出现这么多问题，没法看\n\n给个解释和解决方案？？这怎么看？一本书里这么多的印刷问题，还有几本没看，不知道里面是否也一样!大半夜看到这，实在让人生气！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "速度忒慢\n\n我在国外亚马逊直邮过一个，无论做工还是性能，完全不在一个档次，太差了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊实在是太不像话了\n\n亚马逊实在是太不像话了，之前打亚马逊中国官方网站投诉电话过问为何商品不到半个月就降价了有没有保价措施，他们回复明天会告诉你结果，结果明天到了也没有回复，又打电话去问说一定会回复你的，直到今日打电话过去问结果：说没有这个保价措施，觉得好奇怪，亚马逊中国官方就是这样对待消费者的吧？这就是亚马逊官方的态度，实在是让人无语，实在是太不像话了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "烂书\n\nCD音乐很差啊，书编得质量实在谈不上好，凑的。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "给亚马逊差评！\n\n还有这本，拆去塑料包装我就纳闷，书背整条都粘手，这是为毛啊？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "破碎与重复\n\n李泽厚关于教育的论述就是那么几句，一直在同一水平上重复再重复，没有深入下去。一方面李泽厚对于教育的思考还很有限，另一方面，编者水平也有限，对中小学老师作用很有限。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "气人\n\n亚马逊的物流态度超差，还撒谎骗我，说很多货，等我下去了，其实只有几件货，已经不只一次是这样，还说不下来拉走！这样对客户跟某东差远了！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "名符其实的一本书\n\n比较全面，实用，对于中小企业行政管理是一个比较好的范本，可以从中找到所需要的，只要结合本企业作适度修改就可以使用。节省人力资源。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般。\n\n质量很一般。方形外壳感觉很粗糙 ，不值得这个价格。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好书\n\n书的质量不错.字排的很开,看着不累. 文字犀利.有空再认真看",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般\n\n用了 没有评论那么好 而且发过来的东西还是过期产品 好不容易找客服重新发了货 所以买的并不开心 而且亚马孙联系客服实在太麻烦",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物超所值，买200减100的时候买的，书很好\n\n物超所值，买200减100的时候买的，书很好",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好书✔\n\n在关于内观、冥想、正念等主题的书籍中，此书乃一等一的好书。本书在易读性，讲解内容的知识广度、深度，内容干货程度上都做得非常好。尤其是讲解内观的原理，具体做法上非常清晰，这给我留下了很深的印象。总之，这本书既适合内观初学者的教科书，也算是适合已经入门的人加深内观理解的一本书。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书的硬皮都成这样了，还给客户发！\n\n书内容不错，但是书收到就这样了 心痛的感觉只有爱书的人会懂！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不靠谱\n\n本来不想写评价，但是作者的态度实在不敢恭维，也许作者是资深游戏开发者，但是书中代码不全，上下衔接不对，莫名冒出很多类，但是又完全只字不提；如果想解释原理，那么就侧重说原理，但是每个地方浅尝辄止，点到为止，很多图还是网上的；既不提供代码下载，也不在书中粘贴完全代码，通篇不伦不类，态度敷衍，诚心严重不足。国内技术书的通病，要么翻译烂，要么写的烂，都是转字数钱，都穷疯了么！太不负责，从作者到校订的人，到出版社，都是如此，价格还这么贵，真的无业界良心。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "凑合穿吧\n\n估计这鞋是商场的样品吧，右脚已被试的旧了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "假的吧？\n\n下太满意，做工粗糙不太像是徐小平的作品。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量差\n\n这个是什么电商，无法使用。亚马逊怎么了。产品的质量好不好，这个是什么电商，无法使用。要发票，为什么就不能给发票呢。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "迪多乐 超大越野遥控车 充电动方向盘遥控汽车 遥控警车赛车 男孩儿童玩具车 (1:14) ...\n\n送朋友小孩的还没有打开，外观很好看，等打开试了以后再做评价。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "非常满意\n\n宝贝非常好，很值得学习阅读。值得一提的是，亚马逊的客服真的太棒了，必须点赞！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还行，可惜部分照片不清晰\n\n冲着何老师来的，有点遗憾的是部分照片不清晰。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "翻译太烂\n\n如此好的一本书，被翻得如此之烂，已经不是英文和专业水准问题，已经是不负责任了! 本来想偷懒看中文版，算了吧，还是看原著的Plain English。至少不要看这个译本，要被误导的！ 应该给个差",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊只做海外商品了吗，都没什么本土行货商品了啊？\n\n亚马逊只做海外商品了吗，都没什么本土行货商品了啊？",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "购书体验\n\n宝贝质量很好，快递也很快。一次非常愉快的购书体验。下次还会到亚马逊购书！点赞👍",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "6splus手机壳\n\n不太适合s，开口位置偏差大，而且包装比较旧",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "满意\n\n挺管用的啊，室内干燥了许多了，呼吸也舒服了很多，满意",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不想要本子\n\n为啥还弄个本子啊，我只想看，不会画呀！奸商！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "略显复杂\n\n游戏设计的很有意思，对于三岁半的孩子显得复杂了一些，不过确实很有趣，孩子玩得很投入。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "足不出户就有酱油啦。\n\n好大一瓶，还不错，闻起来有点苦味，但是料理的话没有这感觉。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "做工确实不错，大气上档次\n\n如题，做工确实不错，大气上档次。就一个水龙卖到700以上肯定有它的道理。唯一遗憾的是不知安装问题还是产品本身的问题，抽拉水管不灵活，收不能收到完全吻合，拉的时候也总不怎么觉得顺畅，等问问售后再看什么问题吧",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊购买页面涉嫌欺诈\n\n在购买页面，显示kindle电子书0元（只在其后有小字 Kindle Unlimited）和平装书xx元，误导消费者免费购书，但事实扣款，在我根本不了解Kindle Unlimited为何物时，已被扣款。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一个月刚过烧掉了\n\n才一个月打过电话就黑屏了，打开盖闻到一股焦味，办理退货说过了一个月不给退，售后叫我拿到两百公里以外去修，我的天，真的便宜没好货，不会再买诺基亚了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不好用，老是死机\n\n外形好看，但是老是死机！千万别买，我后悔死了，价格还贵？当时听了外甥女的买了这个电脑。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "图片为证\n\n书籍质量奇差，有染色，而且还有不知名胶水粘着，损坏，异味。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买了kindle，发现亚马逊很多免费电子书，看起来！！！\n\n买了kindle，发现亚马逊很多免费电子书，看起来！！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "纸张差，里面有污渍，折痕\n\n感觉这本书好像是盗版的！纸张质量差，里面脏！有折痕！现在正在考虑以后是否还会在亚马逊买书了！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "二手书\n\n书不错，但是运过来缺却没有包装，表示很怀疑，拿二手书敷衍我",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很不错\n\n深入浅出，非常不错，好多道理都讲得浅显易懂，必须给个赞",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "心塞\n\n唉!发错货了，联系卖家既然关机的，扔了灬",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物流烂，内容不错\n\n物流让人无语，到了书的封面好烂了，折了好几个角，不过内容不错，王朔的风格我还是喜欢的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "错误百出\n\n错误的地方很多，投资盈利的金额都是错的，很多错别字。不值得购买。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "满意\n\n加温很快，用起来也很方便，如果再带几张操作图就更好了",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "吸管坏了\n\n买回来孩子很喜欢，总是用水壶喝水。但也就用了3,4个月吧，吸管就吸不出水了。开始以为没安好，仔细检查了之后，我认为是吸管上大概出现裂缝了（肉眼虽看不出）。那么贵的壶，看了评论才买的，没想到结果是这样。不推荐。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "皮带有点硬\n\n外观挺美的，就是皮带有点硬，硬了不好弯曲，担心折出横纹",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "东西很好用\n\n东西很好用，高端大气上档次，物流速度也很快",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "非常脏的一本书\n\n有史以来买过的最脏的书，扉页不知是掉色还是怎么，用纸巾擦N遍都是满满的灰，图书内页也是灰扑扑的，调换过一次依然如此，可见是出版商出版的时候这书就脏得很………………从来没有遇到过这种情况。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "值得拥有\n\n超赞，太享受了。除了有线略有不便，其他完美",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "大梦\n\n颜色和图片看上去相差太多，快递送来的是深蓝色，质量看上去还可以但不知能否经得起长途跋涉……",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这个怎么办，\n\n我买了，没想那么多，直接接了电源，听到一声后，就再也没动静了。也不知道是不是电源坏了，这下怎么办，能联系谁啊？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "强推\n\n比第一部更好，在故事性极强的同时，让人敬佩故事人物",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "蜗牛送货\n\n20号预计到货，今天24号了。先付款就用蜗牛送货？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "糟蹋了好内容\n\n这书的排印也太差了，字体字号行距字距，怎么看怎么不舒服，开本也怪怪地，封面封底用纸触觉很差，像复印本似的。中国青年出版社，看起来太青年，太年轻，太缺少出版经验了。实在是糟蹋了这么好的选题和这么好的内容，不建议购买，虽然书价不贵。再一个就是，出版社的这套选题，有几本看上去价值颇高，有些似乎是凑数。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般般\n\n九阳还是不行，使用不久就坏了，去送修还麻烦",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内容一般，没有什么特别的东西\n\n讲的都是一些表皮的东西，创业初期的一些事情反复的重复，看的无味。不如看《如此不同 如此成功》",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好水好粘喔\n\n这家书店的书棒极了，不看内容，只看封面黄兮兮的水渍大家应该就知道，这是多么可爱多么细心的卖家了。打开包装我迫不及待的阅读其中的内容，闻着有点发霉的味道，心情都好得不要不要的了呢！你们看，这粘连的书页，就是艺术家们相互扶持联系的写照啊！我真的感动到了。翻翻最后一页，依旧是黄色的水渍。这是整整一本全都浸了水的书呢，卖家还贴心的在外面包了一层透明塑料膜，真是爱心满满，怕我打开包裹被湿漉漉吓一跳呢！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "所有的累都是心累\n\n不想多说！三个字”我不喜欢”.........哦，四个字",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量超级差\n\n全车都是很薄的塑料，轮子也是塑料的，全身大部分结构都是这种塑料。因为宝宝才满月，所以才推出去试用，结果反向推车根本无法控制方向，整个塑料车架子摇摇晃晃，车身也很狭窄，宝宝根本不愿意坐。三百快钱我都不想要，还花了一千块买这么个塑料车，郁闷，超市五百块的车都比这个强几倍，，，，坐月子导致已经过了退货期，真想退货：(",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "使用很轻松\n\n赞一个，滤芯刷洗两下就不黄了，老人家清洗滤芯都很轻松，不吃力的样子。包装也很严密，物流还行。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很满意\n\n给女儿买的笔袋，能放很多文具，挺漂亮的，女儿很喜欢",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊太垃圾\n\n最先用信用卡支付的，显示未成功，后来用的网银支付成了，但是信用卡的钱也给扣了。买了4本书花了2次钱。第一次用亚马逊，结果太伤心了。太不靠谱！绝对的骗子！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量差\n\n质量太差 用了两个月，电池后盖的弹簧坏了……配件还买不到……几百块打水漂了……",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买的就是对联大礼包，怎么没有对联？怎么和商品描述的不一样？缺了一大堆东西。请问卖家就\n\n买的就是对联大礼包，怎么没有对联？怎么和商品描述的不一样？缺了一大堆东西。请问卖家就是这样做生意的吗？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "着买错了，要买一年级的注音版。只有将就了。大点在看\n\n着买错了，要买一年级的注音版。只有将就了。大点在看",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "重口味，不喜欢\n\n第一次用漱口水，重口味，刺激很大，漱口以后残留气味很难受，用了一次就不想用了。没有外包装。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不过如此\n\n不清楚你们为什么退款，原因也不做说明，体验极不好。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "目前觉得内容不好，读起来如同嚼蜡，脑中一团乌云。\n\n目前觉得内容不好，读起来如同嚼蜡，脑中一团乌云。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊\n\n我已收到货，包装不错亚马逊值得信赖，很负责任，试完手机在评价",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "真理与正义的楷模\n\n卢梭过的好日子一点也不多，可儿时受的教育他一直身体力行到生命最后一刻，所有这些事情，都是卢梭所认为最珍贵的，也正是让读者感动的。而社会人大多数人所追求的，也正是他最不屑一顾的。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "白玉微瑕\n\n再次表扬亚马逊的物流，速度很快，上午下单晚上收到.东西很不错，安装也很方便，打印的效果也很棒，唯一不满意的就是打印机的机身很容易吸灰，而且机身也是黑色的所以对于我这种有洁癖的人就要经常擦拭！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好盐\n\n研磨瓶很好操作，盐味正，很适合烧烤和做汤，正是一直想要买的。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "question\n\n1 薄，质地不是德国货，稍有异味，2是平口袋，不是扎口的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错不错\n\n书名是《正义的可能》，周濂为我们解释了他所理解的正义，简单说，社会正义在消极的意义上体现在不在制度上羞辱任何人，在积极的意义上体现在保证每一个人有基本的能力去追求他所想要追求的幸福人生。可能？作为一个保守的乐观主义者，他还是对这个时代充满希望的。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "心塞\n\n收完货，折开后一看，只有1瓶。我以为是2瓶，被包装骗了，又不能退！心塞，这破包装和冰盒价值52元，，，，心中一万只神兽奔腾。。。。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物有所值\n\n颜色比图片更绿（我是从 iPhone 6s Plus 上看的图，供参考），质量还好，有一些塑料制品毛边但可以接受（建立在39元秒杀的前提下）",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "描述与实物有差，客服很好\n\n买回来只是一个电池后盖，客服解决很快很简单，退款。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好评\n\n第一次购买数码照片处理技法的书籍，说是附有一张光盘的，在哪里啊？",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "会后悔的\n\n这产品不用说了工艺太差.............................",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "味道大\n\n味道超级大，不值这个价，我之所以买它，就是为了给孩子买安全的用，可是收到后发现味道太大了，还不如买国产的了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不是真的\n\n实事求是的讲，表好像不是真的，跟之前在国内专柜买的不一样，验证了以后，是……呵呵！假的！而且表带还有瑕疵，怪不得不退不换！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "0k啦\n\n不错，式样简单大方，只是颜色比描述的略深",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不是正品\n\n吃过条装的 这个和正品的口感完全不一样 假的没问题",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "糊涂\n\n配件不完整，没有数据线不方便，产品上无logo象是山寨产品，说是1080P,其实是720P，但愿没被欺骗，期待拍照效果如广告所示。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般\n\n书寄过来是烂的 ，而且书皮的颜色 和你们网店的颜色不相符 差评",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书不错，就是没有《国王的演讲》\n\n这种问题都发生过好几次了，怎么了呢！这是！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错不错~~~\n\n超级舒服~~~非常不错~~~有点儿小贵，但是值了~",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "气味重\n\n包包外形及做工还行，但是气味很大，买了几天了仍有很重味道，估计不是环保材料，下次不会再买了。不过对物流点赞，非常快！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "感谢快递师傅，因为家里没人跑了三次，而且是在天气很恶劣的情况下很是感动！一次买了12本书\n\n感谢快递师傅，因为家里没人跑了三次，而且是在天气很恶劣的情况下很是感动！一次买了12本书，还没来及看。但看外观包装都很干净整齐。。。。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "可以当保暖裤\n\n这个价格也算是很便宜 说实在滴 不过作为健身裤紧身裤 千万别贪便宜 没啥用 说这个还可以滴 质量好滴 你们对生活的要求是多低啊 根本就没有压缩感 对没有要求的人 是没有问题滴 手头紧的人不舍得花钱的人 值得买一条 哈哈",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这是写给专业人员看的，我等看得好费力\n\n很好，以前从不去评价，不知道浪费了多少积分，现在知道积分可以换钱，就要好好评价了，后来我就把这段话复制走了，既能赚积分，还省事，走到哪复制到哪，最重要的是，不用认真的评论了，不用想还差多少字，直接发出就可以了，推荐给大家！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不起球，穿着舒服\n\n款式比想象中短一些，按照推荐的尺寸表选的，感觉略小，穿着柔软舒适，不起球，还算满意",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没有价格保护，双11亚马逊又降了100来卖。\n\n没有7天价格保护，双11亚马逊又降了100来卖。11月4号的订单，5号到了，9号开始降价，什么意思？我家的手机基本都在你亚马逊买的，哎。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物流太暴力\n\n没有缓冲，裸箱发货，收到的时候箱子破败不堪，有泡水痕迹。箱子两个支脚都断了，有个螺丝还不知去向，喇叭也严重变形。这么重的设备，千里迢迢，跨国运输怎么能这样草率！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "第一次这么差劲\n\n买了这么多鞋，第一次碰到这种情况，26/11到货，一共穿了4次，鞋侧面竟然开线一大块！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "出了质量问题无法维修即使在保质期\n\n两年不到不能用了，亚马逊不负责联系维修！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还不错，好看\n\n商品描述不够清楚。只有包装尺寸没有实物尺寸，容易被误导。包包还是不错，个人觉得小了点，估计中号吧，但是容量不小。商品本身的包装简陋，没有防尘袋，质量还是不错的。感觉不是日本邮寄过来的",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好\n\n质量很好，便宜 ，味道无刺激， 效果还可以，用着很舒服，与描述的一样，卖家态度不错，发货快，包装仔细严实",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "略大，走路累\n\n大半码，鞋底过于薄了，长时间穿着也不是很舒服。式样OK吧。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "实际产品优于图片\n\n产品防水性好，设计时尚前沿，符合游戏办公人员的要求。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "难看\n\n一点都不好看，感觉就是作者自己在那折腾了，浪费钱",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "厂家要注意包装，注重细节\n\n桌子用着还可以，包装有问题，到货桌角有掉皮一小块儿，小指甲盖大小！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书旧\n\n书看起来旧旧的 而且脏脏的，像是被翻过好几遍，不像新书啊",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "电子书排版不好，字符间距过大\n\n字符间距过大，看起来很累眼睛，阅读体验极差，不建议购买电子书版本。出于对经典的敬意给两星。单从 电子书而言，0星。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "可以卸载哈哈\n\n不错正品外观也不是那么难看，手机软件专门有优化，最重要的所有定制应用都可以完美卸载。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书\n\n如果有时间还是到新华书店支持一下实体书店…虽然网络上的也不错",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "味道很好闻\n\n其中一个耳朵不在了！！！！送人的！！！！不开心！！！！不过味道很好闻，造型也很可爱。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错，可以一用\n\n后面写的是2014年2月的版本，难道改版了？内容还不错，技术方面偏于土建方向。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买了4瓶有三瓶漏的，烦\n\n货是好货，就是每次都漏出二、三十毫升是什么意思！盖子上不能加固吗？实在不行卷2圈透明胶总可以吧",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量有待鉴定\n\n挤出来的霜好像有结成团的，就是看起来好像不是很顺滑，膏体不均匀，和之前用过的不一样，宝宝抹了好几天脸还是粗糙",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书籍连个包装都没有\n\n书籍拿来连个包装都没有，是不是二手退货过的。真是坑爹",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "兔子系列故事:黑兔子•白兔子2\n\n黑兔子与白兔子一直在追，看着这些温暖的带着童话色彩的故事。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "坚实耐用\n\n用了两个月，女生背，除了比心理预期重之外，没有其他毛病。 满足出差上班大部分需求。 就是女生背+电脑确实有点沉。。。 还有侧边兜里钥匙扣的设计很不错，很方便，虽然已经被我扯坏了。。。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错的书\n\n关于诗歌只是停留在喜欢，下学期要开英语诗歌欣赏公选课，必须储备一下口粮，于是购买了这本书，花了一周的时间粗略欣赏完毕。书中比较好的地方是用中文表述，更容易被国人精确理解，另外，有些诗歌后还列举了中国同类的诗歌，尽管有的并不是很相似，但还是很有参考价值，这个特别好。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "比较粗糙\n\n质感一般。蓝色那把换了电池后就坏了。。。。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量两个字估计他家还没学会写\n\n买回来当天家里用了下能用，隔十几天出门再用就挂了，这质量也是醉了！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很喜欢，不错\n\n是正品，老公特别喜欢。宝贝直接到他手里，很高兴的给我发了短信说质量好，款式好。合适",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量太差\n\n鞋子质量太差,已经断底了。请客服联系我，真的是美国产的鞋子吗，请问怎么售后？？？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "在亚马逊买书\n\n我很喜欢这几本书，也推荐给大家。亚马逊的服务很好，物流很快，点赞，非常感谢不知名的客服小哥和客服美女。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "人物单薄\n\n不推荐,手法生涩,古龙小说看多了,反正不想追了,到底评论要多少字啊",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "所有刻骨铭心皆是心中幻像\n\n故事人物都比较完整，比网络快餐言情要强，但比起大多数普通人的生活而言还是波澜多了些，略显刻意，刻意追求铭心刻骨。文字戏谑，丰富，抒情部分也很动情，创作很认真，整个故事像一件华服，偶尔看看还不错～",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物流太不给力 而且春节无休涉嫌虚假宣传\n\n东西送过来了 用的还可以 但是物流太不给力了 当初说的春节无休完全是虚假承诺 东西不知道送到哪里 而且春节那几天还说物流放假 那不就是春节休息么 而且预计送达时间是24号 但是一直到3月1日才送过来 而且中间有一段时间去物流查询不到我的包裹 吓死了 另外今天送过来的时候快递员还很不客气 我不在家 让另一个人去取他等了五分钟就等不及了 还威胁说不来就走了 反正我对这次亚马逊的购买经历十分不满 对亚马逊很失望",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "发票\n\n现在的亚马逊，开个企业发票挺不容易的，无法保存，每次让你输入，输入时N次让你重新开始。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "尺码\n\n面料很舒适，本人182 75kg穿L码大小刚好，穿了一个月，好几个地方起球严重，老婆有一条国内专柜买的同面料的穿了一年也没起球，相对这个价位的，质量不行！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还行\n\n不知道为什么瓶盖是白色的~物流还算快~不过保护措施不是很好，好在没有洒出来",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "值得购买\n\n很好看呀，我的手腕细，这种表盘很适合我，价钱也不贵",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "是E版\n\n是E版，没有很早前收到的U版柔软服帖。且E版有印油味道而之前使用的U版几乎没有。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "纸张印刷不错 但是图片太小 介绍也模糊\n\n1.内容与书目不符合，更贴切是画中的事物: 一些植物、动物、自然、人造事物 在一些画里面的含义，并没有叫我看懂这副画。。。 2.纸张印刷好 3.画特别有名的比较少，所以会觉得例子举得不够典型。比如说裸体，内容是说一些暴露了生殖器一些没有暴露，没有暴露男性生殖器的画作如果举例米开朗基罗的最后的审判，为什么男性生殖器都被遮住了更加吸引人，而原文只是用一些普通的作品说明裸体有罪恶的意思也有存粹的意思。 4.有些提到的作品并没有配图，配图的前后翻，也觉得有些繁琐，有些图片比较小也占了一页，为什么不取高清，再拉大一点，当然这个和成本也有关系。 并没有达到书目说的那个效果！比较失望",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很伤心💔\n\n不满意，时针和分针都没校准，12时刻，都没在一起！伤心，怀疑买了个假的！二手的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "值得买啊~快来~\n\n半糖推荐的，很喜欢，买了之后现在在每天贴，感觉很好，不粘，体验也很好~~还好便宜！要是淘宝可能不敢买，香港一盒还要40+港币。。亚马逊一直很信赖，应该不会有假货。就是配送有点慢呢，还把小哥忽悠了。。。不好意思。。。我回家之后再买一堆~不要没货啊~99不能更便宜~",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊，你这是要搞那样？\n\n提交了推货申请，至今无人联系处理，太无语了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "货物丢失！中国亚马逊不作为！\n\n八号我早上就出门到上海去玩，11号晚上回来，订单显示八号就已经配送成功，我到现在也不知道他们把东西配送给了大门紧缩无人在家的我的家里的谁，而且经过了一周的漫长投诉带今天也没有任何进展！中国亚马逊的服务真他妈是亚马逊服务体系中的一盏明灯！！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "尺寸不符\n\n架子的尺寸标注不实，实际高度不到110厘米，并非标注的120厘米，长和宽也有不同程度的缩水",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "颜色浅浅的\n\n颜色浅浅的，只是一用就脱皮，可能是成分问题？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "笔力不足写史，文字游戏而已\n\n笔力不足写史，文字游戏而已， 抄袭的明朝那些事的概念，没有相应的才华",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "换货前后，两本书书本质量差太远\n\n买了几本书，这本有几页页码乱了，装订有问题。换货，新到的书，书边不整齐，纸张质量下了两个档次。如果不是包装完好，说什么我也不信是正版书。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "做梦都没想到，买二盒，其中一盒少了一只！\n\n做梦都没想到，买二盒，其中一盒少了一只！ 因事同事帮助签收和付款。包装都没打开！我见到后，打开包装盒，发现其中一盒少一只，怀疑是否我少买啦！我从网上每年购买好些物品，重没有出现这种情况，反复查看购买记录，确实少一只！我希望网商仔细查查！！！！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "慎买，买了两个有一个就有问题。客服说的折扣也和实际退款不一致。\n\n买了两个，本想着买个日版的可能要好一点，结果打自己的脸了，这个杯子防尘的地方翘起来了，盖不平。与客服沟通说两种方式解决，就是退了再买还要填一个什么资料或者打折。想着不漏水，图方便的我，选了打折，可是也不能忽悠人哦，说的折扣和最终的退款不一致。这并不是一点点钱的问题，这个信誉我也是服了。可能还是我不适合亚马逊。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很好\n\n发货速度很快，书的质量很好，一看就是正版。要是能免运费就好了。我们是课堂需要，其他同学都有的，比学校统一订购的折后价还贵些。不满意的就是书太贵，其他都很好",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好像不是正品。\n\n封面有折绉，边角也有磨损，不像是正品。因为不想麻烦，将就了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还不错\n\n内容详实 质量不错 题型有些难度分布不均",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "去过越南后的推荐\n\n其实越南产的还没有国产好吃，感觉有个地域效应。旅游时带了几袋，回来发现网上到处都是。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很好的小枕头\n\n一出生就枕这个，脖子那里没有高度，正好适合没有颈椎曲线的新生儿",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "和奶瓶不匹配的\n\n这个奶嘴也太小了，不知道和哪种奶瓶能一起配套使用。和给孩子买的贝亲是无法使用，现在在抽屉里放着呢",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "轻巧,小,但是用了一次就脱线了,质量不太好\n\n轻巧,小,但是用了一次就脱线了,质量不太好",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "垃圾质量\n\n2月份买的，现在新房装修刚好用上，和其他品牌一对比，就显得质量低劣，象最低档的低档垃圾货，任垃圾堆。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "重、大、不适合家用，质量有问题\n\n而且冷热风调节开关闪火花，有塑料烧焦的味道。可能偶尔会碰到质量不好的，大部分都是好的。 以前买过雷瓦的小吹风机，不仅好看而且好用，相信雷瓦品质，希望这个只是偶然。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很有帮助\n\n让我非常清楚的认识到，我对这种科普型读物毫无兴趣！对于倒时差的方法也未曾试用。4星完全出于对作者辛苦码字的感谢！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "床的质量很好\n\n床的质量很好很舒服，眼罩也舒服。只是自动充气枕头不好用，也懒得换一个了，总体5星好评啊！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "失望\n\n1、这本书很难买，当当没有，所以只能到亚马逊来，买了之后我很后悔，书的质量很不好，我用两年的书都没这本书旧，而且我是按书的原价买的，凭什么给我那么旧的书。我等了几乎一星期，就是为了这本？？？ 2、亚马逊99块才包邮，不合理 不建议购买这本书 总之，很失望，以后除非当当和实体店，甚至淘宝上都买不到，我才会考虑亚马逊了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还好\n\n还没看 但是应该是正版 蛮轻的 也蛮小的 差不多比我手掌大一点点的样子",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书本引文版2015年，现在才出 风格摆设有点过时\n\n书本引文版2015年，现在才出 风格摆设有点过时",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "看不下去\n\n如题。具体为什么看不下去忘了，好像是开头没看出来是仙剑，所以没有购买后续作品。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "！\n\n总体来说还可以,配置信息准确，主板支持uefi启动，装上win8开机神速；But,屏幕真心不咋地，色泽不鲜艳，硬盘噪声大。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "亚马逊自动拍下了这个商品，还自动扣除了我钱，无赖，我压根就不想买！\n\n亚马逊自动拍下了这个商品，还自动扣除了我钱，无赖，我压根就不想买！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有严重色差，图片是桃红，发来的西瓜红。严重不透气！！！\n\n有严重色差，图片是桃红，发来的西瓜红。严重不透气！！！早晨试穿，只走了几分钟，胳膊上面全是汗，粘在衣服上。。。。。太不透气了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书是好书，但吐槽下翻译\n\n正如译者自己所言，这本书的译制工作时间仓促，部分参与翻译的人员水平有限，第一次印刷的版本中有不少翻译不符合汉语习惯的地方。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "少了东西，货不对板\n\n新到的书拉链坏了，口子是敞开的，里面还少了东西。没有30篇作文，高频词汇也是2000的 不是3000的 虽然说我不是冲着这个买的，但是你既然说了有就应该有吧！不开心",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不适合做教材\n\n一本书全在抒情，也是醉了。语言很美，但是干货太少，不适合作为教材使用。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "IRIS Notes Executive 2...\n\n收后，没有中文说明书。充不进电，怎么回事。一直未用。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差劲\n\n伤心太平洋，你们真的很差劲，所有的一切。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "更喜欢香蕉\n\n宝宝更喜欢香蕉款，香蕉更好拿得稳，不过我是有了香蕉了才多给他买个章鱼换换心情的",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不满意\n\n投诉 亚马逊 物流快递 ~~~明明标记的 货到付款（POS机） 居然说没有POS，说公司怎么可能给每个人都配，那我直接写货到付款（现金） 就好了",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有很大缺陷\n\n这个蓝牙接收器连接快音质也很不错，但有个致命的问题，就是播放音乐经常突然没声音，蓝牙没有断开，要点下暂停再点播放才恢复声音，换了一个还是有一样的问题",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没有实质性的东西啊\n\n对很新很新的新手可能有用。。。。。。。。。。。。。。。。。。。。。。。。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有点贵啊\n\n有点贵啊，超出我的支付能力，但还是勉强一购",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没有想象的黄油味\n\n冲着黄油味买的，根本吃不出来，一股廉价香精味，失望。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差\n\n没收到货 为什么写已配送成功？等了一个多礼拜",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "实用\n\n非常好用，密合，视野清晰，带子可调，舒服",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "言简意赅\n\n文字不多，言简意赅。对问题分析到位。论点明确易读。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不好\n\n哥伦比亚一向值得信任，这个皮带除外。皮是花的，质量一般般。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "假M4\n\n你见过小米手机是SD卡和手机内存分开的么？ 完全假货。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书收到了心情很不好\n\n书在运输的过程中，就用一塑料袋子装，边角都磕变形了。我很失望。难道就不能用纸盒装吗？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还可以\n\n还行吧，想买卷直的结果买成了玉米卷的，用也可以的",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很好看的系列\n\n非常好看的系列，故事性较强，不知道能不能拍成电视剧。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "这个价位质量也只能这样了。。。\n\n但是打孔是灾难，，打好孔，皮带就可以扔了，浪费了一百元。。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不是正品\n\n可以很负责的说 不是正品 瓶身印刷粗糙 字体竟然有重影！！已退回",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "只是一些新闻稿件的罗列\n\n毫无疑问，Uber是一家伟大的公司，但是本书却不是一本伟大的著作。这本书只不过是一些公开新闻的罗列，毫无新意。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "没有电话通知，直接快递扔到了另一个小区的收件宝？！！\n\n我就想问问为啥把我的包裹直接放到另一个小区的收件宝？？？而且快递员都没有打电话告知？？？直接就当过去了？我要走半个小时才能拿到，现在还没拿到手就显示已经签收？？？这是什么对待消费者的态度？？？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买电子版就可以了\n\n血腥的场面描写得还算到位。但也只是一部三流B级片的水平。真不怎么样啊。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很好！\n\n身高182cm，69kg，s码比较合身， 但是如果还能再小点就更好了， 皮衣适合买小点穿起来才有型。 衣服不错，版型也挺好的，皮质也不错的。 单层的，适合春秋穿。 价格也算比较友好。 还是反季买比较划算。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "面料摸着手感很舒服\n\n质量不错，款式挺好外形好看，穿着挺漂亮，尺码挺标准的，面料可以，值这个价钱，物流挺快",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "给个中评\n\n快递速度很快，书的印刷和质量还不错，就是内容没一点用处。希望有点实际用的知识。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "货到太迟了\n\n货到太迟了吧，昨天问了客服说今天到的，怎么又改明天了？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "非常的可爱 也十分减压 不止适合小孩看 大人看了也非常不错\n\n大人看了也非常不错 我会推荐给一些 心里总是不开心的大人看",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "真不想说啥\n\n东西没啥问题。四川的第三方物流真是艹蛋，亚马逊app显示29日送达，然后30日，结果2018年1月1日下午送达。给亚马逊客服打电话，说催促配送，其实然并卵。还发短信给我，说天气不好延迟，又是货物太多延迟，借口也是找完了。还有31日本人打电话给配送员，说下午就送，结果是第二天下午，我真是瞎了眼。以后不要怪我说亚马逊lj，物流公司可是你们选的。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "满意\n\n书是正品，很好，题是套题，不是针对章节练习的，总体还算满意",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很好\n\n很适合一岁多点的宝宝。纸张很好，扯不坏，除了贵。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "作者的想象力很丰富，内容很有意思\n\n不得不说作者的创作巧妙地结合了历史上的重大事件，从进化史到生物学都有涉及，读来颇有一番新的见解，这本书可以结合《人类简史》看看，了解了解人类的历史。但是遗憾的是最后一部场面铺的太过广阔，导致收尾有些不足，略有些虎头蛇尾，不过总体来说是一本好的科幻小说。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "。。。\n\n以为是新的那种，，但是书面还是有很多痕迹，不知道怎么弄的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "商品配送不符\n\n这是一个最差卖家。发的根本就不是买的产品。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "货不对板，商品简介用的新品图片，卖的老版本的货（我是用手机下的单，商品简介里那里有新\n\n大骗子，我是用手机下的单，进去根本就没有新老包随机发货的提示，要是有我肯定就不买了，外面苏宁易购，京东老包装才260多，这个就288，明显误导消费么，食品类还不支持退货，都怪我太相信亚马逊了，没有开箱验货，要是开箱了，看见是旧版我就不付钱签收了，还让我给邮箱发图片说解决，发了多少次了，都是投递失败，我艹，这个要是能发图片我就把我那发送失败的图片让大家看看，以后还是选别家商城吧，还国际品牌，下次再也不在这买东西了，尤其是用手机客户端的，骗你没商量，同样的东西手机进来跟网页进来简介都不一样",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "垃圾衣服，垃圾服务，垃圾公司\n\n一星都不想给，垃圾货色，基本的责任心都没有，连货都会发错，发错打去公司处理，又一堆问题麻烦",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "Java语言程序设计:进阶篇(原书第8版)\n\n不满意，之前在亚马逊买了本基础篇，感觉书不错，于是又买了进阶篇，对比之下，印刷上差了很多，很多页面印刷太浅，字体泛白，只有少部分页面算好，其他还行",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "超值\n\n用了几天，暂时觉得物超所值，而且不用抢购。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "包装需要加强\n\n包装太过简单，没有泡沫保护，结果坏了一包，快递补了差价",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不值\n\n就是为了凑单才买的，国内的3，4十的地摊货都比这个质量好，加上关税太坑了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不要浪费顾客的时间\n\n同时购买了洪恩幼儿英语，及洪恩学前总动员，但是学前总动员的点读笔不能使用在洪恩幼儿英语上？商品体系复杂及描述不全，误导消费者，浪费时间。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "价格贵，干货很少。\n\n价格贵，干货很少。老照片很多都是重复的。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "当八卦看\n\n再读唐诺的大散文，这真是一位认真的读者啊。恳切的读书人，散文作家。他一辈子都在经营散文与阅读。兢兢业业。也只有这样的人能写出这样的书来吧。明年花时间研究博尔赫斯与卡尔维诺吧，我也到时候看那些人的书了。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "润喉糖吃着效果不好\n\n又贵又慢，物流更新还是错误的，润喉糖不好",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "Costa优红酒西班牙原装进口干红葡萄酒\n\n整箱买的，还没开始喝，快递送上门。没有损坏。酒瓶有标明是进口的。还满意喝了再评。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "喵星人\n\n前三篇文章可读性很高的，后面几篇对有养猫经验的人来说就太无趣了，新手满看看。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "啥啥啥\n\n哎这种，为了学校考试买的应付一下，其实感觉没啥价值。快递倒是不错。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "家里必备的字典\n\n之前家里的98年版的不见了，今天心血来潮买了本新的。怎么说呢，作为广东人，自己有很多字的确也是不会读；而且对于保护粤语，了解粤文化也是有帮助的。很好。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "篮球鞋\n\n鞋子非常好，包裹性特别好，打了几次球，感觉还不错，主要是价格比较实惠",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "非常好用\n\n用起来静悄悄的 习惯之后有一种默契感 这就是我的武器一样",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错，就是速度比较慢\n\n夏天穿挺好的，不是很厚，颜色也还可以，穿比较透的衣服也不会很明显",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "h非常值得一读的书，不愧是匈牙利作家的杰出代表作\n\n特别好的一本书，一是印刷质量好，还有翻译的水平很高，越读越爱不释手。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "售后好\n\n这次运气不太好。寄过来的6个，全碎1个，裂了3个。剩下2个还不错。。今后可能会谨慎购买玻璃制品了。毕竟不是所有的玻璃都像康宁那边耐x。但是亚马逊客服的售后服务很好。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "座椅靠背固定不住，前后晃动\n\n说一下对这个商品的直观感受，外包装箱简陋，用的纸箱很一般，说明书做的很粗糙，这个品牌已经被好孩子集团收购。我买的是非全新品，描述的是有几处磨损，收到货后感觉几乎看不出来，但是在直立的状态下座椅靠背固定不住，会前后晃动，这个绝对是安全隐患，万一发生追尾座椅固定不住前后晃动宝宝是有生命危险的，难不成自己花钱买了一个夺命座椅？？已经要求退货",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "文不对题 书名和书的主要内容有出入\n\n全书一共十五章 前十四章说的都是作者对各类毒品不断尝试 ，并最终成瘾。其间穿插了作者吸食了各种毒品后的感觉，个人的心理经历和对大脑成瘾机制的科普。只有在最后一章和后记才花了一些篇幅说了自己是如何成功解除毒瘾的，而且写的很模糊，说白了作者自己也不是很清楚到底是怎么戒除毒瘾的————“我也并不真的知道答案，我相信未来针对成瘾的神经科学研究会帮助我更好的找到答案” 这句话摘自最后一章，作者亲笔。这本书绝大部分篇幅都在记录作者的人生经历，相对于书名“脑科学家的戒瘾成功之路”来说，这本书更应该叫前毒瘾者的自传。因为这两个标题得侧重点实在不同，我在看到标题后期望看到的是作者是如何和毒瘾做抗争，并一步一步戒掉毒瘾，分享一些戒瘾经验，而不是通篇再说自己怎么怎么吸毒，今天吸了这个，明天吸了那个，我吸了啥感觉，吸完了我多难受。作者的文笔我不好评价，但是单就书名和内容来说，让我在看完之后落差很大，有种被欺骗的感觉。所以总的来说不推荐。但是如果你想了解各类毒品吸起来啥感觉，怎么吸，并有意去了解一个吸毒者的经历的话，这本书还是能看看的。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "书还可以\n\n这本书在各种公众号还是网络上都有推荐，但是从我的感觉，他并不适合新手，只能作为借鉴。。。 里面有些内容比较生涩。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "星际穿越\n\n除了色彩偏暗，不够吸引孩子眼球，其他都挺好，书的质量很不错",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "重量太轻了，\n\n这车是我一直想买又不知道去哪儿买的。买之前看到了这车是高档铝合金的。因为脑子里没概念，不知道高档铝合金到底是啥样子。拿到货时有点吃惊。太轻了，不敢有力，怕压到变形。我觉得不值这个价，亏了，又急着用，不退了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不到300还要啥自行车呀！\n\n脚长25厘米，宽9.5厘米，这双鞋买260-2E非常合脚，跑步穿完全没有问题。第一个10公里就是穿它跑的，堪称完美。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "外包装不行，手表很好\n\n外包装不行，用纸盒包装的，没用胶带封口，东西容易漏出来，里面手表很好，符合我的预期，已经带上了",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不提供发票\n\n亚马逊客服绝对差评，1星都不给！购买时明明选择提供纸质发票，没有收到后第一次致电客服说7个工作日内会补寄，等了14天没收到，第二次致电客服却说是电子发票！然后各种流程甚至要修改密码才能获得，亚马逊你就直接说不提供发票算了，搞那么复杂真让客户鄙视！极差的客户体验！卸载！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "再也不想在亚马逊购物\n\n很生气。亚马逊你能不能再垃圾一点，下单3天才发货，送来的东西包装是破破的，外包装盒还是打开的，什么意思呢？越来越慢不说， 东西越来越差，要不是前台已经帮忙收货，我绝不会收。买了2个东西，只开了1个东西的发票，要求补开发票，却显示已经开过了，拜拜了，亚马逊，是你自己逼一个多年的老客户离开的。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还行\n\n书的质量不错，但是打开来的时候左上角折的很严重",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "送人了，收礼物的人很高兴，东西确实不错，小巧轻便。\n\n送人了，收礼物的人很高兴，东西确实不错，小巧轻便。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错，挺好的\n\n印刷不错，这版不是拼音版，要买的朋友要注意下",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有点过时了\n\n这个书的时间有点长了，二期分析不够透彻，或者说我个人不喜欢这种分析方法",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "美妙\n\n独特的阅读体验，充满想象力的生死交流，时空交错。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "用了一天就掉头了\n\n充电没问题。本来还希望尼龙线会耐用，可第二天头上的塑料就松开掉下来了。是什么情况？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "我要退货\n\n此书要退货的，然而快递一直不来取.快到退货期限了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有惊喜\n\n果然应该选比手腕+3的，因为有琉璃珠的缘故，略紧。但很美。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般\n\n蝴蝶扣打开很费劲，做功有点粗，且皮带扣用了不到两个月就短了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "遥控不好用\n\n遥控不好使啊，有时有，有时没有，特别室外。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "stm安全座椅\n\n刚开始不会装，后来拿去汽修店弄好了。质量不错，是正品。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不知道作者在写什么\n\n枯燥的语言，流水帐的情节，不知道作者要告诉我什么。看了一些后，直接翻到最后看了一下结局。可以退货吗？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "作家出版社的书千万别买.质量太差\n\n我只能说作家出版社的书真心不能买.里面纸张是坏的.无语了.已经不是一次了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很嗨\n\n亚马逊在书籍方面的选择不错的 大部分中外名著都可以找到 孩子大人的书都在这里买",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "值得\n\n手臂的地方有点小，衣服设计可以，质量不错",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "朋友的推荐\n\n文字很美、这是第一本让我一口气读完的书，喜欢",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "直子的粉丝\n\n直子的书我是每一本都买 这本是因为在贴吧里看到链接 进来后才决定在亚马逊购买图书的 大爱直子O(∩_∩)O",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "买与不买\n\n颜料不够用 第一次用来画a1的 一个颜色差不多两张a1的就没有了 颜色满好看 但是必须用好的纸 平民最好不用买",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "垃圾\n\n写着自营实际是厂家直接发货，实在太垃圾了，12号买的，说17号送货，20号还没有送到，而且跟踪信息里根本查询不到，也不知道用的是哪家快递，也不知道怎么联系快递公司。更糟糕的是亚马逊说给我催让今天送货，也没有回信。像这种还是不要买的好",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好\n\n喜欢这种小书，带出门都很方便。看过电影特地买书来看",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "无语到家\n\n刚买的就修法了，遂成一本废纸。。。。。。。。。。。。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "草泥马贝索斯\n\n踏马的每次包装都是破的 我肏你妈亚马逊 劳资一千多的东西你就这样糊弄我。你妈逼的贝索斯",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "自学\n\n书质量吾错，光盘未试，内容还可以。买来自学，应该可以。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "快递极差\n\n没拿到货就签收了，既没有打电话也没有短信通知，这几天家里一直有人也不送货上门，联系后送到快递点，去快递点拿发现只是随意堆在那边。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不行\n\n看了品论就用手试了一下，粘粘的，不起泡，手都不敢用就不用说脸了，一看就是假的，也不想退了，丢了吧！绝不再买",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差评\n\n7月20日下单，20天了，都没发货，整个网站找不到客服电话",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "蓝牙链接容易断\n\n蓝牙链接有个不太好的地方就是 iphone屏幕关闭一会后会断开链接 又要重新连 旅游在外这点会很不方便 其他都还好",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "最新的那几年的只有整理版的合集\n\n根本就没有11到14年的完整试卷 只有一本2010年7月 到2013年12综合在一起的一册试卷",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "酒的质量\n\n感觉一般吧，不知道是不是真酒，还没喝，以后还是实体店买吧",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般一般，写的很多没有看懂\n\n基本上看完会有一个感受就是要珍爱老年人，每个老年人都是一袋故事",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "蒙蔽了我\n\n搜索的是流浪地球 为什么会弹出这么个鸟结果 一走神就买了它 这就不说了 塑料袋一套就给邮寄过来了 连个包装都没有 边角被砸得坑坑洼洼 最烂的一次 纸张就像是盗版的一样 太恶心了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不好\n\n页面所谓的活动都是骗人的，按要求发了邮件都一个多月了，并未收到任何赠品",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "图不对物，感觉被骗了。\n\n收到的不是图上这款！！没有钻！只有光面小狗和铁塔。其实我挺不满的，但想想价格不贵，就不退了。亚马迅页面上没有这个项链的材质和尺寸介绍……这是败笔。包装完全是散装，tmall上似乎也是这样？真是醉了。这一星给物流，速度不错。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "看不懂啊\n\n文字看不懂啊…… 这些文学作品 没有实质内容的，以后我还是不要买了。看不懂。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "值得购买\n\n配色骚气，脚感比亚瑟士那种软绵绵的感觉要硬点。刚刚好。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "小小看法\n\n没有我想的那么好，有些市面畅销书的感觉，翻译我也不是太喜欢。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "总体不错\n\n使用了一个多星期，商品操作的时候，闪屏是比较明显的，不过使用几分钟后就不怎么明显了，对于我这种有点强迫症的人来说，有点小小的瑕疵。不过在白天，不开启亮度灯的时候，阅读体验真的如真实纸质书籍的感觉，十分清晰，看着也不累。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "粉尘很大\n\n粉尘很大，颗粒都碎了，还不如淘宝10块钱的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "假货\n\n此商品品质很差，不是商家描述的那样，一分钱一分货，玻璃制品！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "正品有用\n\n吃了一两天，感觉还可以，挺有用的，还在使用中",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "售后失踪\n\n太烂了，买回来没有怎么用，因为不能吹空调，拿出来用了，然后烧了，客服电话没人接",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错啊,\n\n不错啊,挺好的,1111111111111111",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "包装很到位，点赞\n\n岳麓兄，在文史哲这方面也算是国内的翘首了，可是书籍的纸质真的好差，对不起了，给4星！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "售后服务很差\n\n太差了！售后问题一个月了都没解决！书显得很旧了，书页粘合在一起！慎选！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "质量可靠\n\n质量好，防摔。孩子摔了无数次，依然使用正常。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不要冲着性的描写去\n\n觉得很一般的一本书，要讲的道理也非常矛盾，还不如看国内的迟子建，余华之类",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还行吧\n\n震动声音有些大 不知道怎么回事 看着有些不干净 包装盒子来的时候已经瘪瘪，开裂的了 使用效果还是可以的",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "鞋垫滑\n\n款式漂亮，面料皮子柔软舒适，轻巧，唯一缺点鞋垫有点滑，准备换个垫子，但是原垫子有个提手，不好找",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "售后才是产品的保障\n\n绝对的次货，大概用了两个月开始充电有问题，时不时usb连接完全没有反映，到现在基本是费了，usb端口连接完全没有反映。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "毛巾掉毛，洗过2次仍有怪味\n\n在亚马逊买过那么多次东西，这毛巾真的让我太失望了，洗了2次仍然掉毛，仍有很强烈的味道，还非常厚重。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "快过期了\n\n日期太久了 生产日期是2014年1月的",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很喜欢\n\n一直很喜欢这类小说，而这本《达芬奇密码》无疑又是喜欢之最，买到实体书时特别激动，当然看的过程更是欲罢不能！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不褒不贬\n\n以前从没见过NB的三合一夹克，看到诱惑的价格和对亚马逊优质服务的信任我购买了一件。172cm,65kg,S号比较合适。衣服在越南生产，有少量线头，布料不属于贴身舒服那种。个人感觉不如国内探路者等品牌做得好。总体拥有一定性价比，如果对服装舒适度要求较高，建议不购买。如果只冲着NB这个品牌和低廉的价格，可以考虑入手。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "四套卷的前奏！前奏还是很重要的\n\n和四套卷有重复之处 但是任何模拟卷都比不过真题 真题很重要！！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "2017年4月8日下单10号到手\n\n保温效果特别好，比较喜欢，就是盖子有时候弹不起来，但是总体感觉还不错。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "啃爹啊～～\n\n翻了下，完全不值5元的价格，还不如直接看文字了",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "东西不错，套装包的的那块铁歪了，瑕不掩瑜\n\n东西不错，套装包的的那块铁歪了，其实还不如没有那块铁，容易划花其他物品，瑕不掩瑜，主要是里面的东西，",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "实用性不高\n\n理论过多，我希望书内能够多例举一些实际应用，而不是八股文",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "好看\n\n好看，做工也好，但是家里人说适合油炸使用，不适合煮饺子，容易把饺子皮刮破",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "呵呵呵呵\n\n收到的刀架有味道，而且是坏的，砧板挡板处与底座之间有裂纹，挡板松动，换了一次货，收到的还是有裂纹的！！！！！！！（虽然没有之前那么严重，但还是有！）你们好意思吗？我都不好意思再点换货申请了。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "还没拆\n\n还没拆开用，之前都是用这个牌子222片的那个。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "多么深刻的领悟，原来亚马逊也是会骗人的，售后客服更是牛得不行\n\n首先，多次的亚马逊购物都是基于亚马逊多年累积的诚心，最起码在这次购物直至售后服务这期间还是很满意亚马逊的。问题是这样的，1、亚马逊在2016年6月15日“FUJIFILM 富士 数码相机 X-T10 套机 (XF18-55mm F2.8-4 R LM OIS) (银色)”活动的中标题写有“买赠送富士X-T10原装相机包”，2、点击页面进入亚马逊网页，里面并未有任何一个条款写有“该商品不包含富士X-T10原装相机包”此类相关的任何一句说明；请问作为正常人你们怎么理解？说句老实话，多年的语文学习，我们读到的信息是此商品包含有X-T10相机包，其实就是一个相机底座；但是亚马逊客服避重就轻，说什么你可以选择退货，参加现在6499的活动，我们补贴你20元钱，就是说我自己掏780 块钱买现在原价500块的相机底座，真想问句，亚马逊的客服（张清），你是中毒多深啊，780-500=280，你是想笑我傻的怎么的？客服说我可以打亚马逊的客服电话，姐姐我是领教了，原来亚马逊的客服那么牛X？原来亚马逊的投诉都是浮云呐，只能是呵呵了，哎，这次最想说的依据就是:这事真怪我，怪我那么相信亚马逊，怪我相信亚马逊的标题，怪我做了那么多年的阅读理解都理解不了亚马逊网页的深层次含义，原来亚马逊也是会骗人的......多么深刻的领悟啊！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错\n\n感觉稍微小点，但是赶着穿，不换啦，将就下",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "无比郁闷的一次购物，快递员把书搞丢了，看他不容易，我自己倒搭一半钱。书的影子都没有看\n\n无比郁闷的一次购物，快递员把书搞丢了，看他不容易，我自己倒搭一半钱。书的影子都没有看到，何谈满意？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "雪肌精\n\n用了一周了没有过敏，变白应该还是要坚持用才看得出来吧",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "便携，好用\n\n刚到货赶紧自拍了一张，非常棒，而且便携，好用，蓝牙接上就能用! 喜欢！",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "物流慢，耳机还行\n\n亚马逊每次就是物流需要等好几天，25号下单28号到货，拆开包装对耳机还比较满意，煲机中，过几天再来评论。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "差劲\n\n亚马逊最失败的一次购物，保暖效果和店家描述相反，差劲",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "内控制度参考\n\n刚收到，粗看内容比较详实，但纸张一般。慢慢看。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不错\n\n还没用，看起来蛮好，只是手机那个袋装iphone6有点偏长，我该选小尺寸那个。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "有一点色差\n\n花边的粉色实物没有图上的那么粉，折起来有点厚！不过质量还是不错的！",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "挺好\n\n还不错，尺寸比想象中小点，适合逛街休闲背背，不适合去健身房，因为容量不够大。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "已经找不到了\n\n买的致命玩笑30周年珍藏版包装简陋，破损严重，所以这个也不想给好评。既然是珍藏版当然是用来珍藏的啊，给我好好的包装啊混蛋，就一层塑料袋是几个意思？指望快递员都是两学一做的践行者嘛？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "不能确定真假\n\n不能确定真假，但是老婆说没百盛买的效果好。",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "购后感\n\n每次在亚马逊买书，可以说是愉快的购物体验，包装严实，质量也不错，速度也很好。出了问题二话不说给退换。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "很有感觉的月饼。\n\n感觉有小时候月饼的感觉，切开后蛋黄会渗出油来。不过觉得比以前甜得多。",
+    "label": 1,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  },
+  {
+    "text": "一般\n\n样式不错，作为给学生买的，能接受。 但是，拆开之后时间不对，而且秒针确实不准！ 并且，电池完全不够用，当天都停了，这不应该吧？",
+    "label": 0,
+    "language": "zh",
+    "product_category": "unknown",
+    "split": "train"
+  }
+]

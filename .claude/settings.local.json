@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python scripts/build_index.py --config configs/config.yaml)"
+      "Bash(python scripts/build_index.py --config configs/config.yaml)",
+      "Bash(python data/download_data.py)"
     ]
   }
 }

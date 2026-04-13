@@ -2,41 +2,49 @@
 download_data.py — Download mteb/amazon_reviews_multi from Hugging Face.
 
 Dataset: mteb/amazon_reviews_multi
-  - Pure Parquet format, works with datasets v4.x (no script issues)
+  - JSONL format per language, one file per split (train/test/validation)
   - Same task/domain/schema across 6 languages — ideal for cross-lingual transfer
   - Columns: review_body (text), stars (1-5), language, review_title, product_category
   - Size: ~62 MB per language (373 MB total compressed)
   - Per language: 200k train / 5k val / 5k test rows
 
 Label mapping (applied in preprocess.py):
-  stars 1-2  → label 0 (negative)   [i.e. 0-indexed labels 0,1]
-  stars 3    → DROP (neutral)        [i.e. 0-indexed label 2]
-  stars 4-5  → label 1 (positive)   [i.e. 0-indexed labels 3,4]
+  stars 1-2  -> label 0 (negative)
+  stars 3    -> DROP (neutral)
+  stars 4-5  -> label 1 (positive)
 
 Language tiers:
-  HIGH_RESOURCE (en, de, es, fr): Full train split downloaded → FAISS retrieval index
+  HIGH_RESOURCE (en, de, es, fr): Full train split downloaded -> FAISS retrieval index
   LOW_RESOURCE  (ja, zh):         Full download, but training pool capped at 500 in preprocess.py
 
-Download time estimate (without HF token, unauthenticated):
-  ~62 MB/language x 6 = ~373 MB compressed
-  At ~2-5 MB/s (unauthenticated HF rate): ~75-180 seconds per language
-  Total: ~8-18 minutes for all 6 languages
-  With HF_TOKEN (authenticated):  ~3-5 minutes total
-
-NOTE: If you see "Dataset scripts are no longer supported" error, delete the
-stale cache entry and retry:
-  Windows: rmdir /s /q %USERPROFILE%\.cache\huggingface\hub\datasets--mteb--amazon_reviews_multi
-  Linux:   rm -rf ~/.cache/huggingface/hub/datasets--mteb--amazon_reviews_multi
+NOTE on datasets v4.x:
+  mteb/amazon_reviews_multi contains an old loading script that datasets v4+ refuses
+  to run.  We bypass it by loading the JSONL files directly via the 'json' loader,
+  which avoids the RuntimeError entirely.
 """
 import os
 from datasets import load_dataset, DatasetDict
 
 DATASET_NAME = "mteb/amazon_reviews_multi"
+HF_BASE      = f"hf://datasets/{DATASET_NAME}"
 
 # Language tiers — determines retrieval vs. episode roles (see preprocess.py)
 HIGH_RESOURCE = ["en", "de", "es", "fr"]
-LOW_RESOURCE = ["ja", "zh"]
-LANGUAGES = HIGH_RESOURCE + LOW_RESOURCE
+LOW_RESOURCE  = ["ja", "zh"]
+LANGUAGES     = HIGH_RESOURCE + LOW_RESOURCE
+
+
+def _load_lang_jsonl(lang: str) -> DatasetDict:
+    """
+    Load a language's JSONL splits directly, bypassing the dataset loading
+    script (which datasets v4+ refuses to execute).
+    """
+    data_files = {
+        split: f"{HF_BASE}/{lang}/{split}.jsonl"
+        for split in ("train", "validation", "test")
+    }
+    ds = load_dataset("json", data_files=data_files)
+    return DatasetDict(dict(ds))
 
 
 def download_amazon_reviews(save_dir: str = "data/raw"):
@@ -57,21 +65,13 @@ def download_amazon_reviews(save_dir: str = "data/raw"):
             continue
 
         tier = "HIGH-RESOURCE" if lang in HIGH_RESOURCE else "LOW-RESOURCE"
-        print(f"Downloading {DATASET_NAME} [{lang}] ({tier}) — full dataset, no cap...")
+        print(f"Downloading {DATASET_NAME} [{lang}] ({tier}) via JSONL loader...")
         try:
-            ds = load_dataset(DATASET_NAME, lang)
-            DatasetDict(dict(ds)).save_to_disk(out_path)
-            total = sum(len(ds[s]) for s in ds)
+            ds = _load_lang_jsonl(lang)
+            ds.save_to_disk(out_path)
+            total      = sum(len(ds[s]) for s in ds)
             split_info = {s: len(ds[s]) for s in ds}
             print(f"  [{lang}] Saved {total} records {split_info} -> {out_path}")
-
-        except RuntimeError as e:
-            if "scripts are no longer supported" in str(e):
-                print(f"  [{lang}] Stale cache detected. Delete cache and retry:")
-                print(f"    Windows: rmdir /s /q %USERPROFILE%\\.cache\\huggingface\\hub\\datasets--mteb--amazon_reviews_multi")
-                print(f"    Linux:   rm -rf ~/.cache/huggingface/hub/datasets--mteb--amazon_reviews_multi")
-            else:
-                print(f"  [{lang}] Failed: {e}")
         except Exception as e:
             print(f"  [{lang}] Failed: {e}")
 
