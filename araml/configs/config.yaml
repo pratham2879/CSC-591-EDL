@@ -15,7 +15,7 @@ meta_learning:
   meta_batch_size: 4
 
 retrieval:
-  max_retrieved: 10
+  max_retrieved: 15
   min_retrieved: 1
   index_dim: 768
   similarity: "cosine"

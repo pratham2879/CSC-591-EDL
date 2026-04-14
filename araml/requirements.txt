@@ -7,7 +7,7 @@ safetensors==0.7.0
 huggingface_hub==1.6.0
 
 # Retrieval
-faiss-cpu==1.13.2         # CPU-only; see setup.sh for GPU (faiss-gpu)
+faiss-cpu>=1.7.4          # CPU-only; faiss-gpu not available on Windows
 
 # Data / numerics
 numpy==2.4.3

@@ -41,7 +41,7 @@ LOW_RESOURCE  = ["ja", "zh"]
 LANGUAGES     = HIGH_RESOURCE + LOW_RESOURCE
 
 # Low-resource training pool parameters (FIX 2)
-LOW_RESOURCE_TRAIN_CAP      = 500   # total pool size target
+LOW_RESOURCE_TRAIN_CAP      = 2000  # total pool size target
 LOW_RESOURCE_SEED           = 42
 # Stratified sampling floor: guarantee at least this many examples per
 # (category, label) pair before drawing extras at random.

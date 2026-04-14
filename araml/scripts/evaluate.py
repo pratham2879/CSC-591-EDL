@@ -26,6 +26,7 @@ from models.retrieval_index import CrossLingualRetrievalIndex
 from models.meta_learner   import maml_eval_episode
 from utils.episode_sampler import CategoryStratifiedEpisodeSampler
 from utils.metrics         import aggregate_episode_results
+from sklearn.metrics       import precision_recall_fscore_support
 
 # Languages that may appear as support/query in episodes.
 # Only LOW_RESOURCE languages are valid per CategoryStratifiedEpisodeSampler.
@@ -86,17 +87,46 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
 
     # -- Evaluate over n_episodes --------------------------------------------
     accs = []
+    lang_preds:  dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
+    lang_labels: dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
+
     for _ in tqdm(range(n_episodes), desc="Evaluating"):
-        ep  = sampler.sample_episode()
-        acc = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
+        ep              = sampler.sample_episode()
+        lang            = ep["language"]
+        acc, preds, labels = maml_eval_episode(
+            encoder, arc, meta_learner, index, ep, config, device
+        )
         accs.append(acc)
+        lang_preds[lang].extend(preds)
+        lang_labels[lang].extend(labels)
 
     results = aggregate_episode_results(accs)
-    langs   = list(test_datasets.keys())
-    print(f"\n[{'/'.join(langs)}] {meta_cfg['k_shot']}-shot binary sentiment")
-    print(f"  Accuracy : {results['mean_accuracy']:.4f} ± {results['95ci']:.4f}  (95% CI)")
+
+    all_preds  = lang_preds["ja"]  + lang_preds["zh"]
+    all_labels = lang_labels["ja"] + lang_labels["zh"]
+    prec, rec, f1, _ = precision_recall_fscore_support(
+        all_labels, all_preds, average="macro", zero_division=0
+    )
+
+    langs = list(test_datasets.keys())
+    print(f"\n{'='*55}")
+    print(f"  ARAML Evaluation — {meta_cfg['k_shot']}-shot binary sentiment")
+    print(f"  Languages : {'/'.join(langs)}")
+    print(f"  Episodes  : {n_episodes}")
+    print(f"{'='*55}")
+    print(f"  Overall  | Acc: {results['mean_accuracy']:.4f} ± {results['95ci']:.4f} (95% CI)"
+          f" | P: {prec:.4f} | R: {rec:.4f} | F1: {f1:.4f}")
     print(f"  Std      : {results['std']:.4f}")
-    print(f"  Episodes : {n_episodes}")
+    for lang in EVAL_LANGUAGES:
+        lp, ll = lang_preds[lang], lang_labels[lang]
+        if lp:
+            lprec, lrec, lf1, _ = precision_recall_fscore_support(
+                ll, lp, average="macro", zero_division=0
+            )
+            lacc = sum(p == l for p, l in zip(lp, ll)) / len(lp)
+            print(f"  [{lang}]     | Acc: {lacc:.4f} | P: {lprec:.4f}"
+                  f" | R: {lrec:.4f} | F1: {lf1:.4f} | N={len(lp)}")
+    print(f"{'='*55}")
 
 
 if __name__ == "__main__":

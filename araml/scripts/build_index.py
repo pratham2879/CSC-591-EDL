@@ -43,7 +43,7 @@ def build_index(config_path: str):
             records = json.load(f)
 
         # Only use training split for the index
-        train_records = [r for r in records if r["split"] == "train"]
+        train_records = records["train"]
         texts = [r["text"] for r in train_records]
         labels = [r["label"] for r in train_records]
 

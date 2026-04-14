@@ -29,7 +29,7 @@ Architecture change:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 
 
 # ---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ def inner_loop(
 
     for _ in range(inner_steps):
         logits = F.linear(support_embs, params["weight"], params["bias"])
-        loss   = F.cross_entropy(logits, support_labels)
+        loss   = F.cross_entropy(logits, support_labels, label_smoothing=0.1)
         grads  = torch.autograd.grad(
             loss,
             list(params.values()),
@@ -147,7 +147,7 @@ def _episode_forward(
     #    Encode support+query in a single forward pass to maximise GPU utilisation.
     all_texts = support_texts + query_texts
     n_support = len(support_texts)
-    with autocast(enabled=use_amp):
+    with autocast('cuda', enabled=use_amp):
         all_embs     = encoder.encode_text(all_texts, device)   # (N*K+Q, D)
     support_embs = all_embs[:n_support]                         # (N*K, D)
     query_embs   = all_embs[n_support:]                         # (Q,   D)
@@ -155,7 +155,7 @@ def _episode_forward(
     # 2. Task embedding: mean of support representations
     task_emb = support_embs.mean(0, keepdim=True)               # (1, D)
 
-    with autocast(enabled=use_amp):
+    with autocast('cuda', enabled=use_amp):
         # 3. ARC: generate retrieval query
         arc_query = arc.generate_query(task_emb)                    # (1, D)
         k         = max(1, arc.predict_budget(task_emb))
@@ -184,6 +184,7 @@ def _episode_forward(
     #    stable outside autocast; cast augmented embeddings back to fp32 first.
     support_aug = support_aug.float()
     query_aug   = query_aug.float()
+
     adapted = inner_loop(
         meta_learner.classifier,
         support_aug, support_labels,
@@ -195,9 +196,10 @@ def _episode_forward(
     outer_loss   = F.cross_entropy(query_logits, query_labels)
 
     with torch.no_grad():
-        acc = (query_logits.argmax(-1) == query_labels).float().mean().item()
+        preds = query_logits.argmax(-1)
+        acc = (preds == query_labels).float().mean().item()
 
-    return outer_loss, acc
+    return outer_loss, acc, preds.cpu().tolist(), query_labels.cpu().tolist()
 
 
 # ---------------------------------------------------------------------------
@@ -236,7 +238,7 @@ def diagnose_gradient_flow(
             if p.grad is not None:
                 p.grad.zero_()
 
-    outer_loss, acc = _episode_forward(
+    outer_loss, acc, _, _ = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
     outer_loss.backward()
@@ -309,7 +311,7 @@ def meta_train_step(
     """
     outer_optimizer.zero_grad()
 
-    outer_loss, acc = _episode_forward(
+    outer_loss, acc, preds, labels = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
 
@@ -330,7 +332,7 @@ def meta_train_step(
         grad_norm = torch.nn.utils.clip_grad_norm_(all_trainable, max_norm=max_grad_norm)
         outer_optimizer.step()
 
-    return outer_loss.item(), acc, float(grad_norm)
+    return outer_loss.item(), acc, float(grad_norm), preds, labels
 
 
 # ---------------------------------------------------------------------------
@@ -362,8 +364,8 @@ def maml_eval_episode(
         eval_clf.classifier.weight.data.copy_(meta_learner.classifier.weight.data)
         eval_clf.classifier.bias.data.copy_(meta_learner.classifier.bias.data)
 
-        _, acc = _episode_forward(
+        _, acc, preds, labels = _episode_forward(
             encoder, arc, eval_clf, retrieval_index, episode, config, device
         )
 
-    return acc
+    return acc, preds, labels

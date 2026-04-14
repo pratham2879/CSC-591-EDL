@@ -26,6 +26,7 @@ import argparse
 import numpy as np
 import torch
 from tqdm import tqdm
+from sklearn.metrics import precision_recall_fscore_support
 
 from models.araml         import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
@@ -155,11 +156,14 @@ def train(args: argparse.Namespace) -> None:
     for epoch in range(args.epochs):
         encoder.train(); arc.train(); meta_learner.train()
         epoch_losses, epoch_accs, epoch_gnorms = [], [], []
+        lang_preds:  dict[str, list] = {"ja": [], "zh": []}
+        lang_labels: dict[str, list] = {"ja": [], "zh": []}
 
         for ep_idx in tqdm(range(args.episodes_per_epoch), desc=f"Epoch {epoch+1}",
                            disable=True):
             episode = sampler.sample_episode()
-            loss, acc, grad_norm = meta_train_step(
+            lang    = episode["language"]
+            loss, acc, grad_norm, ep_preds, ep_labels = meta_train_step(
                 encoder, arc, meta_learner, index,
                 episode, config, device, outer_optimizer,
                 max_grad_norm=args.max_grad_norm,
@@ -168,13 +172,33 @@ def train(args: argparse.Namespace) -> None:
             epoch_losses.append(loss)
             epoch_accs.append(acc)
             epoch_gnorms.append(grad_norm)
+            lang_preds[lang].extend(ep_preds)
+            lang_labels[lang].extend(ep_labels)
 
             if (ep_idx + 1) in GRAD_LOG_BATCHES:
                 print(f"  [batch {ep_idx+1:3d}] grad_norm={grad_norm:.4f}  loss={loss:.4f}  acc={acc:.3f}")
 
         mean_loss  = np.mean(epoch_losses)
         mean_acc   = np.mean(epoch_accs)
-        print(f"Epoch {epoch+1} | Loss: {mean_loss:.4f} | Acc: {mean_acc:.4f}")
+        mean_gnorm = np.mean(epoch_gnorms)
+
+        all_preds  = lang_preds["ja"]  + lang_preds["zh"]
+        all_labels = lang_labels["ja"] + lang_labels["zh"]
+        prec, rec, f1, _ = precision_recall_fscore_support(
+            all_labels, all_preds, average="macro", zero_division=0
+        )
+
+        print(f"\nEpoch {epoch+1:3d} | Loss: {mean_loss:.4f} | GradNorm: {mean_gnorm:.4f}")
+        print(f"  Overall  | Acc: {mean_acc:.4f} | P: {prec:.4f} | R: {rec:.4f} | F1: {f1:.4f} | N={len(all_preds)}")
+        for lang in ("ja", "zh"):
+            lp, ll = lang_preds[lang], lang_labels[lang]
+            if lp:
+                lprec, lrec, lf1, _ = precision_recall_fscore_support(
+                    ll, lp, average="macro", zero_division=0
+                )
+                lacc = sum(p == l for p, l in zip(lp, ll)) / len(lp)
+                print(f"  [{lang}]     | Acc: {lacc:.4f} | P: {lprec:.4f} | R: {lrec:.4f} | F1: {lf1:.4f} | N={len(lp)}")
+        print()
 
         if mean_acc > best_acc:
             best_acc = mean_acc

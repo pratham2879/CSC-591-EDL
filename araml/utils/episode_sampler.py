@@ -204,10 +204,6 @@ class CategoryStratifiedEpisodeSampler:
                     support_dist.get(0, 0),
                     support_dist.get(1, 0),
                 )
-                print(
-                    f"[Episode {self._episode_count}] lang={lang}  "
-                    f"category='{cat}'  support_class_dist={support_dist}"
-                )
 
             return {
                 "support_texts":  support_texts,
