@@ -17,6 +17,7 @@ import sys
 import json
 import yaml
 import torch
+import numpy as np
 import argparse
 from tqdm import tqdm
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -26,7 +27,10 @@ from models.retrieval_index import CrossLingualRetrievalIndex
 from models.meta_learner   import maml_eval_episode
 from utils.episode_sampler import CategoryStratifiedEpisodeSampler
 from utils.metrics         import aggregate_episode_results
-from sklearn.metrics       import precision_recall_fscore_support
+from sklearn.metrics       import (precision_recall_fscore_support,
+                                   confusion_matrix,
+                                   matthews_corrcoef,
+                                   classification_report)
 
 # Languages that may appear as support/query in episodes.
 # Only LOW_RESOURCE languages are valid per CategoryStratifiedEpisodeSampler.
@@ -107,26 +111,76 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
     prec, rec, f1, _ = precision_recall_fscore_support(
         all_labels, all_preds, average="macro", zero_division=0
     )
+    mcc = matthews_corrcoef(all_labels, all_preds)
+
+    # Episode-accuracy distribution
+    ep_accs = np.array(accs)
+    pct_above_80 = (ep_accs >= 0.80).mean() * 100
+    pct_above_90 = (ep_accs >= 0.90).mean() * 100
 
     langs = list(test_datasets.keys())
-    print(f"\n{'='*55}")
+    W = 62
+    print(f"\n{'='*W}")
     print(f"  ARAML Evaluation — {meta_cfg['k_shot']}-shot binary sentiment")
     print(f"  Languages : {'/'.join(langs)}")
     print(f"  Episodes  : {n_episodes}")
-    print(f"{'='*55}")
-    print(f"  Overall  | Acc: {results['mean_accuracy']:.4f} ± {results['95ci']:.4f} (95% CI)"
-          f" | P: {prec:.4f} | R: {rec:.4f} | F1: {f1:.4f}")
-    print(f"  Std      : {results['std']:.4f}")
+    print(f"{'='*W}")
+
+    # ---- Overall metrics ---------------------------------------------------
+    print(f"\n  OVERALL METRICS")
+    print(f"  {'Accuracy':<18}: {results['mean_accuracy']:.4f} ± {results['95ci']:.4f}  (95% CI)")
+    print(f"  {'Std Dev':<18}: {results['std']:.4f}")
+    print(f"  {'Macro Precision':<18}: {prec:.4f}")
+    print(f"  {'Macro Recall':<18}: {rec:.4f}")
+    print(f"  {'Macro F1':<18}: {f1:.4f}")
+    print(f"  {'MCC':<18}: {mcc:.4f}  (0=random, 1=perfect)")
+
+    # ---- Episode accuracy distribution ------------------------------------
+    print(f"\n  EPISODE ACCURACY DISTRIBUTION")
+    print(f"  {'Min':<18}: {ep_accs.min():.4f}")
+    print(f"  {'Median':<18}: {np.median(ep_accs):.4f}")
+    print(f"  {'Max':<18}: {ep_accs.max():.4f}")
+    print(f"  {'≥ 80% accuracy':<18}: {pct_above_80:.1f}% of episodes")
+    print(f"  {'≥ 90% accuracy':<18}: {pct_above_90:.1f}% of episodes")
+
+    # ---- Per-class breakdown (neg / pos) -----------------------------------
+    print(f"\n  PER-CLASS BREAKDOWN  (negative=0, positive=1)")
+    _, _, per_cls_f1, per_cls_sup = precision_recall_fscore_support(
+        all_labels, all_preds, average=None, labels=[0, 1], zero_division=0
+    )
+    cls_prec, cls_rec, _, _ = precision_recall_fscore_support(
+        all_labels, all_preds, average=None, labels=[0, 1], zero_division=0
+    )
+    for cls_idx, cls_name in [(0, "negative"), (1, "positive")]:
+        print(f"  {cls_name:<18}: P={cls_prec[cls_idx]:.4f}  R={cls_rec[cls_idx]:.4f}"
+              f"  F1={per_cls_f1[cls_idx]:.4f}  support={per_cls_sup[cls_idx]}")
+
+    # ---- Confusion matrix --------------------------------------------------
+    print(f"\n  CONFUSION MATRIX  (rows=actual, cols=predicted)")
+    cm = confusion_matrix(all_labels, all_preds, labels=[0, 1])
+    print(f"                pred_neg  pred_pos")
+    print(f"  actual_neg :  {cm[0,0]:>7}   {cm[0,1]:>7}")
+    print(f"  actual_pos :  {cm[1,0]:>7}   {cm[1,1]:>7}")
+    tn, fp, fn, tp = cm.ravel()
+    print(f"\n  True Negatives : {tn}   False Positives : {fp}")
+    print(f"  False Negatives: {fn}   True Positives  : {tp}")
+
+    # ---- Per-language breakdown --------------------------------------------
+    print(f"\n  PER-LANGUAGE BREAKDOWN")
     for lang in EVAL_LANGUAGES:
         lp, ll = lang_preds[lang], lang_labels[lang]
         if lp:
             lprec, lrec, lf1, _ = precision_recall_fscore_support(
                 ll, lp, average="macro", zero_division=0
             )
-            lacc = sum(p == l for p, l in zip(lp, ll)) / len(lp)
-            print(f"  [{lang}]     | Acc: {lacc:.4f} | P: {lprec:.4f}"
-                  f" | R: {lrec:.4f} | F1: {lf1:.4f} | N={len(lp)}")
-    print(f"{'='*55}")
+            lmcc  = matthews_corrcoef(ll, lp)
+            lacc  = sum(p == l for p, l in zip(lp, ll)) / len(lp)
+            lcm   = confusion_matrix(ll, lp, labels=[0, 1])
+            print(f"\n  [{lang.upper()}]  N={len(lp)} predictions  ({len(lp) // meta_cfg['query_size']} episodes)")
+            print(f"    Acc={lacc:.4f}  P={lprec:.4f}  R={lrec:.4f}  F1={lf1:.4f}  MCC={lmcc:.4f}")
+            print(f"    Confusion:  TN={lcm[0,0]}  FP={lcm[0,1]}  FN={lcm[1,0]}  TP={lcm[1,1]}")
+
+    print(f"\n{'='*W}")
 
 
 if __name__ == "__main__":

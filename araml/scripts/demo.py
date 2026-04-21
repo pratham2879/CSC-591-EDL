@@ -21,6 +21,8 @@ import torch
 import torch.nn.functional as F
 import yaml
 import numpy as np
+from sklearn.metrics import (confusion_matrix, precision_recall_fscore_support,
+                              matthews_corrcoef)
 
 from models.araml import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
@@ -213,9 +215,11 @@ def run_demo():
     print(f"  Support accuracy after adapt  : {support_acc:.0%}")
 
     # ------------------------------------------------------------------
-    # Step 5 — predict each test sentence
+    # Step 5 — predict each test sentence + collect metrics
     # ------------------------------------------------------------------
     section("TEST SENTENCE PREDICTIONS")
+
+    all_preds, all_labels_eval = [], []
 
     for i, (text, gt_label) in enumerate(TEST):
         print(f"\n  -- Test {i+1} ----------------------------------------------------")
@@ -231,13 +235,49 @@ def run_demo():
         probs        = F.softmax(query_logits, dim=-1).squeeze(0)     # (2,)
         pred_idx     = query_logits.argmax(-1).item()
         confidence   = probs[pred_idx].item()
+        margin       = abs(probs[1].item() - probs[0].item())  # decision margin
 
         correct = ""
         if gt_label is not None:
             correct = "  CORRECT" if pred_idx == gt_label else "  WRONG"
+            all_preds.append(pred_idx)
+            all_labels_eval.append(gt_label)
 
         print(f"  Pred  : {LABEL_STR[pred_idx]}  (confidence={confidence:.2%}){correct}")
         print(f"  Probs : negative={probs[0].item():.4f}  positive={probs[1].item():.4f}")
+        print(f"  Margin (|pos-neg|) : {margin:.4f}  "
+              f"({'high certainty' if margin > 0.5 else 'low certainty — model uncertain'})")
+
+    # ------------------------------------------------------------------
+    # Step 6 — demo metrics summary (only for examples with ground truth)
+    # ------------------------------------------------------------------
+    if all_labels_eval:
+        section("DEMO METRICS SUMMARY  (labeled test examples only)")
+
+        demo_acc = sum(p == l for p, l in zip(all_preds, all_labels_eval)) / len(all_labels_eval)
+        print(f"  Accuracy : {demo_acc:.0%}  ({sum(p==l for p,l in zip(all_preds,all_labels_eval))}"
+              f"/{len(all_labels_eval)} correct)")
+
+        if len(set(all_labels_eval)) > 1:
+            prec, rec, f1, _ = precision_recall_fscore_support(
+                all_labels_eval, all_preds, average="macro", zero_division=0
+            )
+            mcc = matthews_corrcoef(all_labels_eval, all_preds)
+            cm  = confusion_matrix(all_labels_eval, all_preds, labels=[0, 1])
+            print(f"  Precision: {prec:.4f}")
+            print(f"  Recall   : {rec:.4f}")
+            print(f"  F1       : {f1:.4f}")
+            print(f"  MCC      : {mcc:.4f}  (0=random, 1=perfect)")
+            print(f"\n  Confusion matrix (rows=actual, cols=predicted):")
+            print(f"               pred_neg  pred_pos")
+            print(f"  actual_neg :  {cm[0,0]:>7}   {cm[0,1]:>7}")
+            print(f"  actual_pos :  {cm[1,0]:>7}   {cm[1,1]:>7}")
+        else:
+            print(f"  (Need both classes in ground-truth labels for P/R/F1/MCC)")
+
+        print(f"\n  NOTE: This demo uses only {len(all_labels_eval)} labeled examples.")
+        print(f"  For full evaluation over 600 episodes run:")
+        print(f"    python scripts/evaluate.py --checkpoint results/best_model.pt --n_episodes 600")
 
     print()
 

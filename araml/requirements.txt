@@ -25,3 +25,6 @@ fsspec==2026.2.0
 
 # Kept for compatibility (not actively used after meta_learner rewrite)
 higher==0.2.1
+
+# UI demo (optional — only needed for scripts/app.py)
+gradio>=4.0.0
