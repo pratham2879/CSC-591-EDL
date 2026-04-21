@@ -238,9 +238,13 @@ print("\n[7] maml_eval_episode")
 if sampler is not None and has_index:
     encoder.eval(); arc.eval()
     ep  = sampler.sample_episode()
-    acc = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
+    metrics = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
+    acc = metrics["accuracy"]
+    kappa = metrics["kappa"]
     check("Eval accuracy in [0,1]", 0.0 <= acc <= 1.0,
           f"got {acc}")
+    check("Cohen's Kappa in [-1,1]", -1.0 <= kappa <= 1.0,
+          f"got {kappa}")
 else:
     print("  Skipped — requires pool files and retrieval index.")
 

@@ -187,8 +187,10 @@ def _episode_forward(
 
     with torch.no_grad():
         acc = (query_logits.argmax(-1) == query_labels).float().mean().item()
+        predictions = query_logits.argmax(-1).cpu().numpy()
+        targets = query_labels.cpu().numpy()
 
-    return outer_loss, acc
+    return outer_loss, acc, predictions, targets
 
 
 # ---------------------------------------------------------------------------
@@ -227,7 +229,7 @@ def diagnose_gradient_flow(
             if p.grad is not None:
                 p.grad.zero_()
 
-    outer_loss, acc = _episode_forward(
+    outer_loss, acc, _, _ = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
     outer_loss.backward()
@@ -297,7 +299,7 @@ def meta_train_step(
     """
     outer_optimizer.zero_grad()
 
-    outer_loss, acc = _episode_forward(
+    outer_loss, acc, _, _ = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
 
@@ -328,12 +330,17 @@ def maml_eval_episode(
     episode: dict,
     config: dict,
     device: torch.device,
-) -> float:
+) -> dict:
     """
     Evaluate one episode: adapt on support, predict on query.
     Uses a fresh classifier copy so eval never modifies training weights.
     Needs enable_grad() for the inner loop even during encoder.eval().
+    
+    Returns:
+        dict with 'accuracy' and 'kappa' keys
     """
+    from sklearn.metrics import cohen_kappa_score
+    
     encoder.eval()
     arc.eval()
 
@@ -345,8 +352,10 @@ def maml_eval_episode(
         eval_clf.classifier.weight.data.copy_(meta_learner.classifier.weight.data)
         eval_clf.classifier.bias.data.copy_(meta_learner.classifier.bias.data)
 
-        _, acc = _episode_forward(
+        _, acc, predictions, targets = _episode_forward(
             encoder, arc, eval_clf, retrieval_index, episode, config, device
         )
+        
+        kappa = cohen_kappa_score(targets, predictions)
 
-    return acc
+    return {"accuracy": acc, "kappa": kappa}

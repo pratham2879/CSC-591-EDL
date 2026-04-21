@@ -25,7 +25,7 @@ from models.araml          import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
 from models.meta_learner   import maml_eval_episode
 from utils.episode_sampler import CategoryStratifiedEpisodeSampler
-from utils.metrics         import aggregate_episode_results
+from utils.metrics         import aggregate_episode_results, evaluate_few_shot
 
 # Languages that may appear as support/query in episodes.
 # Only LOW_RESOURCE languages are valid per CategoryStratifiedEpisodeSampler.
@@ -86,16 +86,20 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
 
     # -- Evaluate over n_episodes --------------------------------------------
     accs = []
+    kappas = []
     for _ in tqdm(range(n_episodes), desc="Evaluating"):
         ep  = sampler.sample_episode()
-        acc = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
-        accs.append(acc)
+        metrics = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
+        accs.append(metrics["accuracy"])
+        kappas.append(metrics["kappa"])
 
-    results = aggregate_episode_results(accs)
+    results = aggregate_episode_results(accs, kappas)
     langs   = list(test_datasets.keys())
     print(f"\n[{'/'.join(langs)}] {meta_cfg['k_shot']}-shot binary sentiment")
     print(f"  Accuracy : {results['mean_accuracy']:.4f} ± {results['95ci']:.4f}  (95% CI)")
-    print(f"  Std      : {results['std']:.4f}")
+    print(f"  Kappa    : {results['mean_kappa']:.4f} ± {results['kappa_95ci']:.4f}  (95% CI, Cohen's)")
+    print(f"  Std Acc  : {results['std']:.4f}")
+    print(f"  Std Kappa: {results['kappa_std']:.4f}")
     print(f"  Episodes : {n_episodes}")
 
 
