@@ -1,0 +1,615 @@
+{
+  "summary": {
+    "mean_latency_ms": 458.9672374725342,
+    "std_latency_ms": 89.13072466641403,
+    "p95_latency_ms": 637.3319625854492,
+    "mean_memory_mb": 1479.21,
+    "std_memory_mb": 220.58730436999033,
+    "mean_accuracy": 0.5300000068545342,
+    "std_accuracy": 0.05905722286625377,
+    "mean_kappa": 0.06000000000000002,
+    "std_kappa": 0.11811443776339652
+  },
+  "per_episode": [
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.6439230442047119,
+      "peak_memory_mb": 1353.171875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.46524786949157715,
+      "peak_memory_mb": 1576.765625
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4157540798187256,
+      "peak_memory_mb": 1587.234375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.43213605880737305,
+      "peak_memory_mb": 1596.0625
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.414078950881958,
+      "peak_memory_mb": 1601.125
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4682791233062744,
+      "peak_memory_mb": 1605.3125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.48024988174438477,
+      "peak_memory_mb": 1612.171875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.2996358871459961,
+      "peak_memory_mb": 1609.140625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.48725390434265137,
+      "peak_memory_mb": 1619.75
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.43635106086730957,
+      "peak_memory_mb": 1620.359375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.48152709007263184,
+      "peak_memory_mb": 1626.640625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.44513368606567383,
+      "peak_memory_mb": 1625.640625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4772331714630127,
+      "peak_memory_mb": 1632.125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.47425103187561035,
+      "peak_memory_mb": 1632.0625
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4197099208831787,
+      "peak_memory_mb": 1631.09375
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.3377227783203125,
+      "peak_memory_mb": 1629.828125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.39973998069763184,
+      "peak_memory_mb": 1640.796875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4990372657775879,
+      "peak_memory_mb": 1646.609375
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.46430087089538574,
+      "peak_memory_mb": 1644.984375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.45291876792907715,
+      "peak_memory_mb": 1640.21875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.3826718330383301,
+      "peak_memory_mb": 1650.171875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.35998106002807617,
+      "peak_memory_mb": 1641.734375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4068019390106201,
+      "peak_memory_mb": 1643.984375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.44762682914733887,
+      "peak_memory_mb": 1645.890625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4094560146331787,
+      "peak_memory_mb": 1657.171875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4876430034637451,
+      "peak_memory_mb": 1656.515625
+    },
+    {
+      "accuracy": 0.4285714328289032,
+      "kappa": -0.1428571428571428,
+      "total_time": 0.41616106033325195,
+      "peak_memory_mb": 1654.515625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4086012840270996,
+      "peak_memory_mb": 1652.984375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.35738492012023926,
+      "peak_memory_mb": 1878.90625
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.5020568370819092,
+      "peak_memory_mb": 1913.71875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.42573118209838867,
+      "peak_memory_mb": 1819.4375
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.3358278274536133,
+      "peak_memory_mb": 1834.953125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.46541500091552734,
+      "peak_memory_mb": 1862.359375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.3438858985900879,
+      "peak_memory_mb": 1972.265625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.42533183097839355,
+      "peak_memory_mb": 1847.34375
+    },
+    {
+      "accuracy": 0.4285714328289032,
+      "kappa": -0.1428571428571428,
+      "total_time": 0.3927578926086426,
+      "peak_memory_mb": 1866.453125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.2925398349761963,
+      "peak_memory_mb": 1730.96875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.43116211891174316,
+      "peak_memory_mb": 1735.59375
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.43346118927001953,
+      "peak_memory_mb": 1750.546875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.523176908493042,
+      "peak_memory_mb": 1835.59375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.41893506050109863,
+      "peak_memory_mb": 1840.296875
+    },
+    {
+      "accuracy": 0.7142857313156128,
+      "kappa": 0.4285714285714286,
+      "total_time": 0.37453627586364746,
+      "peak_memory_mb": 1836.984375
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.5345010757446289,
+      "peak_memory_mb": 1795.171875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.5044808387756348,
+      "peak_memory_mb": 1349.953125
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.5919733047485352,
+      "peak_memory_mb": 1257.5625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.7321598529815674,
+      "peak_memory_mb": 1244.34375
+    },
+    {
+      "accuracy": 0.4285714328289032,
+      "kappa": -0.1428571428571428,
+      "total_time": 0.5372529029846191,
+      "peak_memory_mb": 1258.109375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.5824441909790039,
+      "peak_memory_mb": 1274.5
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.8114440441131592,
+      "peak_memory_mb": 1211.984375
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.5518600940704346,
+      "peak_memory_mb": 1056.1875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.5350551605224609,
+      "peak_memory_mb": 1108.53125
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.42204713821411133,
+      "peak_memory_mb": 1113.09375
+    },
+    {
+      "accuracy": 0.4285714328289032,
+      "kappa": -0.1428571428571428,
+      "total_time": 0.5141828060150146,
+      "peak_memory_mb": 1145.609375
+    },
+    {
+      "accuracy": 0.3571428656578064,
+      "kappa": -0.2857142857142858,
+      "total_time": 0.42368483543395996,
+      "peak_memory_mb": 1143.046875
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.3823370933532715,
+      "peak_memory_mb": 1144.546875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.47734498977661133,
+      "peak_memory_mb": 1163.328125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4631521701812744,
+      "peak_memory_mb": 1144.34375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.696080207824707,
+      "peak_memory_mb": 1126.03125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.40938901901245117,
+      "peak_memory_mb": 1140.640625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.34365367889404297,
+      "peak_memory_mb": 1386.34375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.49477291107177734,
+      "peak_memory_mb": 1344.703125
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.5455162525177002,
+      "peak_memory_mb": 1348.796875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4999270439147949,
+      "peak_memory_mb": 1349.25
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4799652099609375,
+      "peak_memory_mb": 1353.78125
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.660344123840332,
+      "peak_memory_mb": 1286.953125
+    },
+    {
+      "accuracy": 0.7142857313156128,
+      "kappa": 0.4285714285714286,
+      "total_time": 0.4435598850250244,
+      "peak_memory_mb": 1576.828125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.439985990524292,
+      "peak_memory_mb": 1246.453125
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.3439919948577881,
+      "peak_memory_mb": 1255.078125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.515794038772583,
+      "peak_memory_mb": 1355.015625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.5872650146484375,
+      "peak_memory_mb": 1266.875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4620630741119385,
+      "peak_memory_mb": 1472.828125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.6369850635528564,
+      "peak_memory_mb": 1149.5
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.41417908668518066,
+      "peak_memory_mb": 1279.40625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.5298879146575928,
+      "peak_memory_mb": 1364.5
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.31198573112487793,
+      "peak_memory_mb": 1364.5625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.36366724967956543,
+      "peak_memory_mb": 1234.984375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.40432190895080566,
+      "peak_memory_mb": 1325.109375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.36595916748046875,
+      "peak_memory_mb": 1392.890625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.37363696098327637,
+      "peak_memory_mb": 1369.90625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.3708500862121582,
+      "peak_memory_mb": 1385.34375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4792797565460205,
+      "peak_memory_mb": 1386.875
+    },
+    {
+      "accuracy": 0.4285714328289032,
+      "kappa": -0.1428571428571428,
+      "total_time": 0.4041709899902344,
+      "peak_memory_mb": 1635.234375
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.41371893882751465,
+      "peak_memory_mb": 1325.328125
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.41020798683166504,
+      "peak_memory_mb": 1327.4375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.5775628089904785,
+      "peak_memory_mb": 1408.484375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4669818878173828,
+      "peak_memory_mb": 1405.421875
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4978151321411133,
+      "peak_memory_mb": 1404.9375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.5266628265380859,
+      "peak_memory_mb": 1359.4375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4923880100250244,
+      "peak_memory_mb": 1390.90625
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4728519916534424,
+      "peak_memory_mb": 1391.0
+    },
+    {
+      "accuracy": 0.6428571343421936,
+      "kappa": 0.2857142857142857,
+      "total_time": 0.3402729034423828,
+      "peak_memory_mb": 1392.03125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4334530830383301,
+      "peak_memory_mb": 1391.046875
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.48325395584106445,
+      "peak_memory_mb": 1400.8125
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.4755408763885498,
+      "peak_memory_mb": 1400.984375
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.43247413635253906,
+      "peak_memory_mb": 1405.15625
+    },
+    {
+      "accuracy": 0.5714285969734192,
+      "kappa": 0.1428571428571429,
+      "total_time": 0.3247110843658447,
+      "peak_memory_mb": 1402.0625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.43788790702819824,
+      "peak_memory_mb": 1407.859375
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4785749912261963,
+      "peak_memory_mb": 1414.203125
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4738430976867676,
+      "peak_memory_mb": 1412.90625
+    },
+    {
+      "accuracy": 0.5,
+      "kappa": 0.0,
+      "total_time": 0.4817390441894531,
+      "peak_memory_mb": 1413.296875
+    }
+  ]
+}
