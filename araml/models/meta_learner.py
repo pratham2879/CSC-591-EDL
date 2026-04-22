@@ -196,10 +196,11 @@ def _episode_forward(
     outer_loss   = F.cross_entropy(query_logits, query_labels)
 
     with torch.no_grad():
-        preds = query_logits.argmax(-1)
-        acc = (preds == query_labels).float().mean().item()
+        acc = (query_logits.argmax(-1) == query_labels).float().mean().item()
+        predictions = query_logits.argmax(-1).cpu().numpy()
+        targets = query_labels.cpu().numpy()
 
-    return outer_loss, acc, preds.cpu().tolist(), query_labels.cpu().tolist()
+    return outer_loss, acc, predictions, targets
 
 
 # ---------------------------------------------------------------------------
@@ -311,7 +312,7 @@ def meta_train_step(
     """
     outer_optimizer.zero_grad()
 
-    outer_loss, acc, preds, labels = _episode_forward(
+    outer_loss, acc, predictions, targets = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
 
@@ -332,7 +333,7 @@ def meta_train_step(
         grad_norm = torch.nn.utils.clip_grad_norm_(all_trainable, max_norm=max_grad_norm)
         outer_optimizer.step()
 
-    return outer_loss.item(), acc, float(grad_norm), preds, labels
+    return outer_loss.item(), acc, float(grad_norm), predictions, targets
 
 
 # ---------------------------------------------------------------------------
@@ -347,12 +348,17 @@ def maml_eval_episode(
     episode: dict,
     config: dict,
     device: torch.device,
-) -> float:
+) -> dict:
     """
     Evaluate one episode: adapt on support, predict on query.
     Uses a fresh classifier copy so eval never modifies training weights.
     Needs enable_grad() for the inner loop even during encoder.eval().
+    
+    Returns:
+        dict with 'accuracy' and 'kappa' keys
     """
+    from sklearn.metrics import cohen_kappa_score
+    
     encoder.eval()
     arc.eval()
 
@@ -364,8 +370,10 @@ def maml_eval_episode(
         eval_clf.classifier.weight.data.copy_(meta_learner.classifier.weight.data)
         eval_clf.classifier.bias.data.copy_(meta_learner.classifier.bias.data)
 
-        _, acc, preds, labels = _episode_forward(
+        _, acc, predictions, targets = _episode_forward(
             encoder, arc, eval_clf, retrieval_index, episode, config, device
         )
 
-    return acc, preds, labels
+        kappa = cohen_kappa_score(targets, predictions)
+
+    return {"accuracy": acc, "kappa": kappa, "predictions": predictions, "targets": targets}

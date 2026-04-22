@@ -29,8 +29,7 @@ from utils.episode_sampler import CategoryStratifiedEpisodeSampler
 from utils.metrics         import aggregate_episode_results
 from sklearn.metrics       import (precision_recall_fscore_support,
                                    confusion_matrix,
-                                   matthews_corrcoef,
-                                   classification_report)
+                                   matthews_corrcoef)
 
 # Languages that may appear as support/query in episodes.
 # Only LOW_RESOURCE languages are valid per CategoryStratifiedEpisodeSampler.
@@ -90,21 +89,21 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
     )
 
     # -- Evaluate over n_episodes --------------------------------------------
-    accs = []
+    accs   = []
+    kappas = []
     lang_preds:  dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
     lang_labels: dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
 
     for _ in tqdm(range(n_episodes), desc="Evaluating"):
-        ep              = sampler.sample_episode()
-        lang            = ep["language"]
-        acc, preds, labels = maml_eval_episode(
-            encoder, arc, meta_learner, index, ep, config, device
-        )
-        accs.append(acc)
-        lang_preds[lang].extend(preds)
-        lang_labels[lang].extend(labels)
+        ep      = sampler.sample_episode()
+        lang    = ep["language"]
+        metrics = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
+        accs.append(metrics["accuracy"])
+        kappas.append(metrics["kappa"])
+        lang_preds[lang].extend(metrics["predictions"])
+        lang_labels[lang].extend(metrics["targets"])
 
-    results = aggregate_episode_results(accs)
+    results = aggregate_episode_results(accs, kappas)
 
     all_preds  = lang_preds["ja"]  + lang_preds["zh"]
     all_labels = lang_labels["ja"] + lang_labels["zh"]
@@ -113,7 +112,6 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
     )
     mcc = matthews_corrcoef(all_labels, all_preds)
 
-    # Episode-accuracy distribution
     ep_accs = np.array(accs)
     pct_above_80 = (ep_accs >= 0.80).mean() * 100
     pct_above_90 = (ep_accs >= 0.90).mean() * 100
@@ -121,15 +119,17 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
     langs = list(test_datasets.keys())
     W = 62
     print(f"\n{'='*W}")
-    print(f"  ARAML Evaluation — {meta_cfg['k_shot']}-shot binary sentiment")
+    print(f"  ARAML Evaluation -- {meta_cfg['k_shot']}-shot binary sentiment")
     print(f"  Languages : {'/'.join(langs)}")
     print(f"  Episodes  : {n_episodes}")
     print(f"{'='*W}")
 
     # ---- Overall metrics ---------------------------------------------------
     print(f"\n  OVERALL METRICS")
-    print(f"  {'Accuracy':<18}: {results['mean_accuracy']:.4f} ± {results['95ci']:.4f}  (95% CI)")
+    print(f"  {'Accuracy':<18}: {results['mean_accuracy']:.4f} +/- {results['95ci']:.4f}  (95% CI)")
     print(f"  {'Std Dev':<18}: {results['std']:.4f}")
+    if results.get("mean_kappa") is not None:
+        print(f"  {'Kappa':<18}: {results['mean_kappa']:.4f} +/- {results['kappa_95ci']:.4f}  (Cohen's)")
     print(f"  {'Macro Precision':<18}: {prec:.4f}")
     print(f"  {'Macro Recall':<18}: {rec:.4f}")
     print(f"  {'Macro F1':<18}: {f1:.4f}")
@@ -140,8 +140,8 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
     print(f"  {'Min':<18}: {ep_accs.min():.4f}")
     print(f"  {'Median':<18}: {np.median(ep_accs):.4f}")
     print(f"  {'Max':<18}: {ep_accs.max():.4f}")
-    print(f"  {'≥ 80% accuracy':<18}: {pct_above_80:.1f}% of episodes")
-    print(f"  {'≥ 90% accuracy':<18}: {pct_above_90:.1f}% of episodes")
+    print(f"  {'>= 80% accuracy':<18}: {pct_above_80:.1f}% of episodes")
+    print(f"  {'>= 90% accuracy':<18}: {pct_above_90:.1f}% of episodes")
 
     # ---- Per-class breakdown (neg / pos) -----------------------------------
     print(f"\n  PER-CLASS BREAKDOWN  (negative=0, positive=1)")
