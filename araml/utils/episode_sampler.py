@@ -1,26 +1,23 @@
 """
-episode_sampler.py — Category-stratified binary episode sampler for meta-learning.
+episode_sampler.py — Category-stratified episode sampler for meta-learning (REGRESSION).
 
 FIX 3 — Category-stratified episode construction:
   Sampling order per episode:
     1. Sample a language  (ja or zh, uniformly at random)
     2. Sample a category  (uniformly at random from categories that have enough
-                           examples for BOTH classes)
-    3. Sample support and query sets ONLY from that (language, category) pool,
-       ensuring exact class balance: n_shot examples per class for support,
-       n_query // n_class examples per class for query.
-
-  If a category has fewer than (n_shot * n_class + n_query) examples in the
-  low-resource pool, it is excluded during index construction (not retried
-  at sample time, which would waste GPU time).
+                           examples)
+    3. Sample support and query sets ONLY from that (language, category) pool.
+    
+  For regression, we don't need to balance by class, but we still need enough
+  examples per category to form valid episodes.
 
 FIX 2 enforcement:
   Only LOW_RESOURCE languages (ja, zh) appear in the episode support/query sets.
   High-resource languages are NEVER passed to this sampler.
 
 Logging:
-  Every 100 episodes: logs sampled language, category, and support class
-  distribution to stdout so bad sampling is caught early.
+  Every 100 episodes: logs sampled language, category, and support/query sizes
+  to stdout so bad sampling is caught early.
 """
 import random
 import logging
@@ -34,19 +31,19 @@ LOW_RESOURCE = ("ja", "zh")
 
 class CategoryStratifiedEpisodeSampler:
     """
-    Binary few-shot episode sampler with category stratification.
+    Few-shot episode sampler with category stratification (REGRESSION).
 
     Parameters
     ----------
     datasets : dict[str, list[dict]]
         {lang: records} where each record must contain:
           "text"             : str
-          "label"            : int  (0 or 1, after label-2 drop)
+          "label"            : float  (normalized to [0, 1])
           "product_category" : str
         Only LOW_RESOURCE languages (ja, zh) should be passed here.
-    n_shot   : int   Support examples per class (default 5 → 5-shot).
-    n_query  : int   Total query examples per episode (split equally across classes).
-    n_class  : int   Fixed at 2 for binary sentiment; kept as a parameter for clarity.
+    n_shot   : int   Support examples (default 5).
+    n_query  : int   Total query examples per episode.
+    n_class  : int   Historical parameter (not used for regression, kept for compatibility).
     seed     : int   RNG seed for reproducibility.
     log_every: int   Log episode stats every N episodes.
     """
@@ -60,7 +57,7 @@ class CategoryStratifiedEpisodeSampler:
         seed:      int = 42,
         log_every: int = 100,
     ):
-        assert n_class == 2, "This sampler is hard-coded for binary classification (n_class=2)."
+        # Note: n_class is kept for API compatibility but not used in regression
         for lang in datasets:
             assert lang in LOW_RESOURCE, (
                 f"Language '{lang}' is not a low-resource language. "
@@ -69,42 +66,37 @@ class CategoryStratifiedEpisodeSampler:
 
         self.n_shot    = n_shot
         self.n_query   = n_query
-        self.n_class   = n_class
+        self.n_class   = n_class  # Kept for API compatibility
         self.log_every = log_every
         self.rng       = random.Random(seed)
         self._episode_count = 0
 
-        # Per class in a balanced episode
-        self._n_support_per_class = n_shot
-        self._n_query_per_class   = max(1, n_query // n_class)
-        self._min_per_class       = self._n_support_per_class + self._n_query_per_class
+        # Minimum examples needed per category to form valid episodes
+        self._min_per_category = n_shot + n_query
 
-        # Build index: {lang: {category: {label: [records]}}}
-        # Only keep categories where BOTH labels have >= _min_per_class examples.
-        self._index: dict[str, dict[str, dict[int, list]]] = {}
+        # Build index: {lang: {category: [records]}}
+        # For regression, we don't separate by class; we just track all records per category.
+        self._index: dict[str, dict[str, list]] = {}
         self._valid_lang_cats: dict[str, list[str]] = {}
 
         for lang, records in datasets.items():
-            cat_cls: dict[str, dict[int, list]] = defaultdict(lambda: defaultdict(list))
+            cat_records: dict[str, list] = defaultdict(list)
             for r in records:
-                cat_cls[r["product_category"]][r["label"]].append(r)
+                cat_records[r["product_category"]].append(r)
 
             valid_cats = []
-            for cat, cls_map in cat_cls.items():
-                # Both labels must be present with enough examples
-                if len(cls_map) < n_class:
-                    continue
-                if all(len(cls_map[lbl]) >= self._min_per_class for lbl in (0, 1)):
+            for cat, examples in cat_records.items():
+                if len(examples) >= self._min_per_category:
                     valid_cats.append(cat)
 
-            self._index[lang]           = {c: dict(cm) for c, cm in cat_cls.items()}
+            self._index[lang]           = dict(cat_records)
             self._valid_lang_cats[lang] = valid_cats
 
-            total_cats = len(cat_cls)
+            total_cats = len(cat_records)
             print(
                 f"[EpisodeSampler] {lang}: {len(valid_cats)}/{total_cats} categories valid "
-                f"for {n_shot}-shot binary episodes "
-                f"(need >={self._min_per_class} examples per class per category)"
+                f"for {n_shot}-shot regression episodes "
+                f"(need >={self._min_per_category} examples per category)"
             )
 
         self._languages = [lg for lg in datasets if self._valid_lang_cats.get(lg)]
@@ -120,18 +112,17 @@ class CategoryStratifiedEpisodeSampler:
 
     def sample_episode(self) -> dict:
         """
-        Sample one binary few-shot episode, category-stratified.
+        Sample one regression few-shot episode, category-stratified.
 
         Returns
         -------
         dict with keys:
-          support_texts   : list[str]   length = n_shot * n_class
-          support_labels  : list[int]   0 or 1, class-balanced
-          query_texts     : list[str]   length = n_query_per_class * n_class
-          query_labels    : list[int]   0 or 1, class-balanced
+          support_texts   : list[str]   length = n_shot
+          support_labels  : list[float] normalized to [0, 1]
+          query_texts     : list[str]   length = n_query
+          query_labels    : list[float] normalized to [0, 1]
           language        : str         ja or zh
           category        : str         sampled product category
-          n_class         : int         always 2
         """
         max_retries = 200
         for attempt in range(max_retries):
@@ -143,43 +134,26 @@ class CategoryStratifiedEpisodeSampler:
 
             # 2. Sample category
             cat = self.rng.choice(valid_cats)
-            cls_map = self._index[lang].get(cat, {})
+            examples = self._index[lang].get(cat, [])
 
-            # Double-check class availability (pool may shrink in future extensions)
-            if not all(
-                len(cls_map.get(lbl, [])) >= self._min_per_class
-                for lbl in (0, 1)
-            ):
+            # Double-check availability (pool may shrink in future extensions)
+            if len(examples) < self._min_per_category:
                 continue
 
-            # 3. Sample support + query per class, no overlap
-            support_texts, support_labels = [], []
-            query_texts,   query_labels   = [], []
-
-            ok = True
-            for lbl in (0, 1):
-                examples = cls_map[lbl]
-                needed   = self._n_support_per_class + self._n_query_per_class
-                if len(examples) < needed:
-                    ok = False
-                    break
-                sampled  = self.rng.sample(examples, needed)
-                for item in sampled[:self._n_support_per_class]:
-                    support_texts.append(item["text"])
-                    support_labels.append(lbl)
-                for item in sampled[self._n_support_per_class:]:
-                    query_texts.append(item["text"])
-                    query_labels.append(lbl)
-
-            if not ok:
-                continue
+            # 3. Sample support + query without replacement
+            needed = self.n_shot + self.n_query
+            sampled = self.rng.sample(examples, needed)
+            
+            support_texts  = [sampled[i]["text"] for i in range(self.n_shot)]
+            support_labels = [sampled[i]["label"] for i in range(self.n_shot)]
+            
+            query_texts    = [sampled[i]["text"] for i in range(self.n_shot, needed)]
+            query_labels   = [sampled[i]["label"] for i in range(self.n_shot, needed)]
 
             self._episode_count += 1
 
-            # 4. Shuffle BOTH support and query sets independently so labels are
-            #    never in sorted order [0,0,...,1,1,...].
-            #    The MAML inner loop trains on support; the outer loop trains on query.
-            #    A positional shortcut is equally learnable from either — both must be shuffled.
+            # 4. Shuffle BOTH support and query sets independently so the model
+            #    doesn't learn positional shortcuts.
             combined_support = list(zip(support_texts, support_labels))
             self.rng.shuffle(combined_support)
             support_texts, support_labels = zip(*combined_support)
@@ -194,15 +168,12 @@ class CategoryStratifiedEpisodeSampler:
 
             # 5. Log every `log_every` episodes
             if self._episode_count % self.log_every == 0:
-                support_dist = dict(Counter(support_labels))
+                support_mean = sum(support_labels) / len(support_labels)
+                query_mean = sum(query_labels) / len(query_labels)
                 logger.info(
                     "[Episode %d] lang=%s  category='%s'  "
-                    "support_class_dist=%s  "
-                    "(neg=%d, pos=%d)",
-                    self._episode_count, lang, cat,
-                    support_dist,
-                    support_dist.get(0, 0),
-                    support_dist.get(1, 0),
+                    "support_mean_label=%.3f  query_mean_label=%.3f",
+                    self._episode_count, lang, cat, support_mean, query_mean
                 )
 
             return {
@@ -212,13 +183,11 @@ class CategoryStratifiedEpisodeSampler:
                 "query_labels":   query_labels,
                 "language":       lang,
                 "category":       cat,
-                "n_class":        self.n_class,
             }
 
         raise RuntimeError(
-            f"Could not sample a valid episode after {max_retries} attempts. "
-            f"Verify that the low-resource pools have enough per-category, "
-            f"per-class examples (need >= {self._min_per_class} each)."
+            f"Failed to sample valid episode after {max_retries} attempts. "
+            "Check pool structure."
         )
 
     def __iter__(self) -> Iterator[dict]:

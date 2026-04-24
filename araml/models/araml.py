@@ -1,5 +1,5 @@
 """
-araml.py — Full ARAML model integrating all components
+araml.py — Full ARAML model integrating all components (REGRESSION)
 """
 import torch
 import torch.nn as nn
@@ -26,7 +26,7 @@ class ARAML(nn.Module):
         )
         self.meta_learner = MetaLearner(
             input_dim=model_cfg["hidden_dim"],
-            num_classes=model_cfg["num_classes"]
+            output_dim=model_cfg["output_dim"]
         )
 
     def get_components(self):

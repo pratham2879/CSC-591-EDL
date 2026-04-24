@@ -1,11 +1,13 @@
 """
-evaluate.py — Evaluate ARAML on low-resource target languages (ja, zh).
+evaluate.py — Evaluate ARAML on low-resource target languages (ja, zh) (REGRESSION).
 
 Evaluation follows the same few-shot protocol as training:
   - Episodes sampled from the TEST split of low-resource languages.
-  - Support set: adapt the classifier in k inner-loop steps.
-  - Query set: measure accuracy with adapted classifier.
-  - Report mean accuracy ± 95% CI over n_episodes episodes.
+  - Support set: adapt the regressor in k inner-loop steps.
+  - Query set: measure MAE and RMSE with adapted regressor.
+  - Report mean MAE ± 95% CI over n_episodes episodes.
+
+Task: Few-shot REGRESSION (sentiment prediction in [0, 1] range)
 
 Run from inside araml/:
     PYTHONPATH=. python scripts/evaluate.py \
@@ -26,10 +28,6 @@ from models.araml          import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
 from models.meta_learner   import maml_eval_episode
 from utils.episode_sampler import CategoryStratifiedEpisodeSampler
-from utils.metrics         import aggregate_episode_results
-from sklearn.metrics       import (precision_recall_fscore_support,
-                                   confusion_matrix,
-                                   matthews_corrcoef)
 
 # Languages that may appear as support/query in episodes.
 # Only LOW_RESOURCE languages are valid per CategoryStratifiedEpisodeSampler.
@@ -88,97 +86,95 @@ def evaluate(config_path: str, checkpoint: str, n_episodes: int = 600,
         seed=42,
     )
 
-    # -- Evaluate over n_episodes --------------------------------------------
-    accs   = []
-    kappas = []
+    # -- Evaluate over n_episodes (REGRESSION) ----------------------------------
+    maes   = []
+    rmses  = []
     lang_preds:  dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
-    lang_labels: dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
+    lang_targets: dict[str, list] = {lg: [] for lg in EVAL_LANGUAGES}
 
     for _ in tqdm(range(n_episodes), desc="Evaluating"):
         ep      = sampler.sample_episode()
         lang    = ep["language"]
         metrics = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
-        accs.append(metrics["accuracy"])
-        kappas.append(metrics["kappa"])
+        maes.append(metrics["mae"])
+        rmses.append(metrics["rmse"])
         lang_preds[lang].extend(metrics["predictions"])
-        lang_labels[lang].extend(metrics["targets"])
+        lang_targets[lang].extend(metrics["targets"])
 
-    results = aggregate_episode_results(accs, kappas)
+    all_preds   = lang_preds["ja"]   + lang_preds["zh"]
+    all_targets = lang_targets["ja"] + lang_targets["zh"]
+    
+    # Compute overall regression metrics
+    all_preds_arr = np.array(all_preds)
+    all_targets_arr = np.array(all_targets)
+    overall_mae = np.mean(np.abs(all_preds_arr - all_targets_arr))
+    overall_rmse = np.sqrt(np.mean((all_preds_arr - all_targets_arr)**2))
+    
+    # Compute correlationcoefficient
+    correlation = np.corrcoef(all_preds_arr, all_targets_arr)[0, 1]
 
-    all_preds  = lang_preds["ja"]  + lang_preds["zh"]
-    all_labels = lang_labels["ja"] + lang_labels["zh"]
-    prec, rec, f1, _ = precision_recall_fscore_support(
-        all_labels, all_preds, average="macro", zero_division=0
-    )
-    mcc = matthews_corrcoef(all_labels, all_preds)
-
-    ep_accs = np.array(accs)
-    pct_above_80 = (ep_accs >= 0.80).mean() * 100
-    pct_above_90 = (ep_accs >= 0.90).mean() * 100
+    mae_arr = np.array(maes)
+    rmse_arr = np.array(rmses)
+    
+    # Compute 95% CI for MAE and RMSE
+    mae_mean = mae_arr.mean()
+    mae_std = mae_arr.std()
+    mae_ci = 1.96 * mae_std / np.sqrt(len(mae_arr))
+    
+    rmse_mean = rmse_arr.mean()
+    rmse_std = rmse_arr.std()
+    rmse_ci = 1.96 * rmse_std / np.sqrt(len(rmse_arr))
 
     langs = list(test_datasets.keys())
     W = 62
     print(f"\n{'='*W}")
-    print(f"  ARAML Evaluation -- {meta_cfg['k_shot']}-shot binary sentiment")
+    print(f"  ARAML Evaluation (REGRESSION) -- {meta_cfg['k_shot']}-shot sentiment")
     print(f"  Languages : {'/'.join(langs)}")
     print(f"  Episodes  : {n_episodes}")
     print(f"{'='*W}")
 
-    # ---- Overall metrics ---------------------------------------------------
-    print(f"\n  OVERALL METRICS")
-    print(f"  {'Accuracy':<18}: {results['mean_accuracy']:.4f} +/- {results['95ci']:.4f}  (95% CI)")
-    print(f"  {'Std Dev':<18}: {results['std']:.4f}")
-    if results.get("mean_kappa") is not None:
-        print(f"  {'Kappa':<18}: {results['mean_kappa']:.4f} +/- {results['kappa_95ci']:.4f}  (Cohen's)")
-    print(f"  {'Macro Precision':<18}: {prec:.4f}")
-    print(f"  {'Macro Recall':<18}: {rec:.4f}")
-    print(f"  {'Macro F1':<18}: {f1:.4f}")
-    print(f"  {'MCC':<18}: {mcc:.4f}  (0=random, 1=perfect)")
+    # ---- Overall metrics (REGRESSION) ------------------------------------------
+    print(f"\n  OVERALL METRICS (across all episodes)")
+    print(f"  {'MAE (Mean Absolute Error)':<30}: {mae_mean:.6f} +/- {mae_ci:.6f}  (95% CI)")
+    print(f"  {'RMSE (Root Mean Squared Error)':<30}: {rmse_mean:.6f} +/- {rmse_ci:.6f}  (95% CI)")
+    print(f"  {'Overall MAE (on all predictions)':<30}: {overall_mae:.6f}")
+    print(f"  {'Overall RMSE (on all predictions)':<30}: {overall_rmse:.6f}")
+    print(f"  {'Pearson Correlation':<30}: {correlation:.6f}  (1=perfect, 0=none)")
+    print(f"  {'Mean Std Dev (MAE across eps)':<30}: {mae_std:.6f}")
+    print(f"  {'Mean Std Dev (RMSE across eps)':<30}: {rmse_std:.6f}")
 
-    # ---- Episode accuracy distribution ------------------------------------
-    print(f"\n  EPISODE ACCURACY DISTRIBUTION")
-    print(f"  {'Min':<18}: {ep_accs.min():.4f}")
-    print(f"  {'Median':<18}: {np.median(ep_accs):.4f}")
-    print(f"  {'Max':<18}: {ep_accs.max():.4f}")
-    print(f"  {'>= 80% accuracy':<18}: {pct_above_80:.1f}% of episodes")
-    print(f"  {'>= 90% accuracy':<18}: {pct_above_90:.1f}% of episodes")
+    # ---- Episode MAE distribution -----------------------------------------
+    print(f"\n  EPISODE MAE DISTRIBUTION")
+    print(f"  {'Min':<30}: {mae_arr.min():.6f}")
+    print(f"  {'Median':<30}: {np.median(mae_arr):.6f}")
+    print(f"  {'Max':<30}: {mae_arr.max():.6f}")
+    
+    # Percentiles for MAE
+    percentiles = [10, 25, 50, 75, 90]
+    for p in percentiles:
+        val = np.percentile(mae_arr, p)
+        print(f"  {f'{p}th percentile':<30}: {val:.6f}")
 
-    # ---- Per-class breakdown (neg / pos) -----------------------------------
-    print(f"\n  PER-CLASS BREAKDOWN  (negative=0, positive=1)")
-    _, _, per_cls_f1, per_cls_sup = precision_recall_fscore_support(
-        all_labels, all_preds, average=None, labels=[0, 1], zero_division=0
-    )
-    cls_prec, cls_rec, _, _ = precision_recall_fscore_support(
-        all_labels, all_preds, average=None, labels=[0, 1], zero_division=0
-    )
-    for cls_idx, cls_name in [(0, "negative"), (1, "positive")]:
-        print(f"  {cls_name:<18}: P={cls_prec[cls_idx]:.4f}  R={cls_rec[cls_idx]:.4f}"
-              f"  F1={per_cls_f1[cls_idx]:.4f}  support={per_cls_sup[cls_idx]}")
+    # ---- Episode RMSE distribution -----------------------------------------
+    print(f"\n  EPISODE RMSE DISTRIBUTION")
+    print(f"  {'Min':<30}: {rmse_arr.min():.6f}")
+    print(f"  {'Median':<30}: {np.median(rmse_arr):.6f}")
+    print(f"  {'Max':<30}: {rmse_arr.max():.6f}")
 
-    # ---- Confusion matrix --------------------------------------------------
-    print(f"\n  CONFUSION MATRIX  (rows=actual, cols=predicted)")
-    cm = confusion_matrix(all_labels, all_preds, labels=[0, 1])
-    print(f"                pred_neg  pred_pos")
-    print(f"  actual_neg :  {cm[0,0]:>7}   {cm[0,1]:>7}")
-    print(f"  actual_pos :  {cm[1,0]:>7}   {cm[1,1]:>7}")
-    tn, fp, fn, tp = cm.ravel()
-    print(f"\n  True Negatives : {tn}   False Positives : {fp}")
-    print(f"  False Negatives: {fn}   True Positives  : {tp}")
-
-    # ---- Per-language breakdown --------------------------------------------
+    # ---- Per-language breakdown (REGRESSION) ----------------------------------
     print(f"\n  PER-LANGUAGE BREAKDOWN")
     for lang in EVAL_LANGUAGES:
-        lp, ll = lang_preds[lang], lang_labels[lang]
+        lp, lt = lang_preds[lang], lang_targets[lang]
         if lp:
-            lprec, lrec, lf1, _ = precision_recall_fscore_support(
-                ll, lp, average="macro", zero_division=0
-            )
-            lmcc  = matthews_corrcoef(ll, lp)
-            lacc  = sum(p == l for p, l in zip(lp, ll)) / len(lp)
-            lcm   = confusion_matrix(ll, lp, labels=[0, 1])
+            lp_arr = np.array(lp)
+            lt_arr = np.array(lt)
+            lmae = np.mean(np.abs(lp_arr - lt_arr))
+            lrmse = np.sqrt(np.mean((lp_arr - lt_arr)**2))
+            lcorr = np.corrcoef(lp_arr, lt_arr)[0, 1]
             print(f"\n  [{lang.upper()}]  N={len(lp)} predictions  ({len(lp) // meta_cfg['query_size']} episodes)")
-            print(f"    Acc={lacc:.4f}  P={lprec:.4f}  R={lrec:.4f}  F1={lf1:.4f}  MCC={lmcc:.4f}")
-            print(f"    Confusion:  TN={lcm[0,0]}  FP={lcm[0,1]}  FN={lcm[1,0]}  TP={lcm[1,1]}")
+            print(f"    MAE={lmae:.6f}  RMSE={lrmse:.6f}  Correlation={lcorr:.6f}")
+            print(f"    Pred range: [{lp_arr.min():.3f}, {lp_arr.max():.3f}]")
+            print(f"    True range: [{lt_arr.min():.3f}, {lt_arr.max():.3f}]")
 
     print(f"\n{'='*W}")
 

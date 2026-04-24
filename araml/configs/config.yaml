@@ -1,12 +1,12 @@
-# ARAML Configuration
+# ARAML Configuration (REGRESSION)
 
 model:
   encoder: "xlm-roberta-base"
   hidden_dim: 768
-  num_classes: 2                    # Binary sentiment (negative / positive)
+  output_dim: 1                     # Single output neuron for regression (predicts continuous sentiment)
 
 meta_learning:
-  n_way: 2
+  n_way: 2                          # Historical parameter (not used in regression)
   k_shot: 5
   query_size: 15
   inner_lr: 0.001                   # FIX 3: lowered to prevent inner-loop overshoot

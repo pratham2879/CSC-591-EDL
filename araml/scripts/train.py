@@ -1,5 +1,5 @@
 """
-train.py — ARAML meta-training script (canonical entry point).
+train.py — ARAML meta-training script (REGRESSION) (canonical entry point).
 
 Run from inside araml/ with:
     PYTHONPATH=. python scripts/train.py [--epochs N]
@@ -9,6 +9,11 @@ Fixes applied (see models/meta_learner.py for implementation details):
   FIX 2  Unfreeze XLM-R layers 9-11 + pooler   (this file)
   FIX 3  outer_lr = 0.0003, AdamW, grad clip    (this file + meta_learner.py)
   FIX 5  diagnose_gradient_flow() before epoch 1 (this file)
+
+Task: Few-shot REGRESSION (sentiment prediction in [0, 1] range)
+  - Labels normalized from star ratings (1-5) to [0, 1]
+  - Loss: Smooth L1 (Huber)
+  - Metrics: MAE (mean absolute error), RMSE (root mean squared error)
 
 Episode sampling:
   Only LOW_RESOURCE languages (ja, zh) appear in support/query sets.
@@ -26,7 +31,6 @@ import argparse
 import numpy as np
 import torch
 from tqdm import tqdm
-from sklearn.metrics import precision_recall_fscore_support
 
 from models.araml         import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
@@ -148,62 +152,62 @@ def train(args: argparse.Namespace) -> None:
     print(f"Optimiser: AdamW  lr={args.outer_lr}  weight_decay=1e-4")
 
     # -- Training loop -------------------------------------------------------
-    best_acc = 0.0
+    best_mae = float('inf')
     os.makedirs(args.save_dir, exist_ok=True)
 
     GRAD_LOG_BATCHES = {25, 100}
 
     for epoch in range(args.epochs):
         encoder.train(); arc.train(); meta_learner.train()
-        epoch_losses, epoch_accs, epoch_gnorms = [], [], []
+        epoch_losses, epoch_maes, epoch_rmses, epoch_gnorms = [], [], [], []
         lang_preds:  dict[str, list] = {"ja": [], "zh": []}
-        lang_labels: dict[str, list] = {"ja": [], "zh": []}
+        lang_targets: dict[str, list] = {"ja": [], "zh": []}
 
         for ep_idx in tqdm(range(args.episodes_per_epoch), desc=f"Epoch {epoch+1}",
                            disable=True):
             episode = sampler.sample_episode()
             lang    = episode["language"]
-            loss, acc, grad_norm, ep_preds, ep_labels = meta_train_step(
+            loss, mae, rmse, grad_norm, ep_preds, ep_targets = meta_train_step(
                 encoder, arc, meta_learner, index,
                 episode, config, device, outer_optimizer,
                 max_grad_norm=args.max_grad_norm,
                 scaler=scaler,
             )
             epoch_losses.append(loss)
-            epoch_accs.append(acc)
+            epoch_maes.append(mae)
+            epoch_rmses.append(rmse)
             epoch_gnorms.append(grad_norm)
             lang_preds[lang].extend(ep_preds)
-            lang_labels[lang].extend(ep_labels)
+            lang_targets[lang].extend(ep_targets)
 
             if (ep_idx + 1) in GRAD_LOG_BATCHES:
-                print(f"  [batch {ep_idx+1:3d}] grad_norm={grad_norm:.4f}  loss={loss:.4f}  acc={acc:.3f}")
+                print(f"  [batch {ep_idx+1:3d}] grad_norm={grad_norm:.4f}  loss={loss:.4f}  mae={mae:.6f}  rmse={rmse:.6f}")
 
         mean_loss  = np.mean(epoch_losses)
-        mean_acc   = np.mean(epoch_accs)
+        mean_mae   = np.mean(epoch_maes)
+        mean_rmse  = np.mean(epoch_rmses)
         mean_gnorm = np.mean(epoch_gnorms)
 
-        all_preds  = lang_preds["ja"]  + lang_preds["zh"]
-        all_labels = lang_labels["ja"] + lang_labels["zh"]
-        prec, rec, f1, _ = precision_recall_fscore_support(
-            all_labels, all_preds, average="macro", zero_division=0
-        )
+        all_preds   = lang_preds["ja"]   + lang_preds["zh"]
+        all_targets = lang_targets["ja"] + lang_targets["zh"]
+        overall_mae = np.mean(np.abs(np.array(all_preds) - np.array(all_targets)))
+        overall_rmse = np.sqrt(np.mean((np.array(all_preds) - np.array(all_targets))**2))
 
-        print(f"\nEpoch {epoch+1:3d} | Loss: {mean_loss:.4f} | GradNorm: {mean_gnorm:.4f}")
-        print(f"  Overall  | Acc: {mean_acc:.4f} | P: {prec:.4f} | R: {rec:.4f} | F1: {f1:.4f} | N={len(all_preds)}")
+        print(f"\nEpoch {epoch+1:3d} | Loss: {mean_loss:.6f} | GradNorm: {mean_gnorm:.4f}")
+        print(f"  Overall  | MAE: {mean_mae:.6f} | RMSE: {mean_rmse:.6f} | Verified: MAE={overall_mae:.6f}, RMSE={overall_rmse:.6f}")
         for lang in ("ja", "zh"):
-            lp, ll = lang_preds[lang], lang_labels[lang]
+            lp, lt = lang_preds[lang], lang_targets[lang]
             if lp:
-                lprec, lrec, lf1, _ = precision_recall_fscore_support(
-                    ll, lp, average="macro", zero_division=0
-                )
-                lacc = sum(p == l for p, l in zip(lp, ll)) / len(lp)
-                print(f"  [{lang}]     | Acc: {lacc:.4f} | P: {lprec:.4f} | R: {lrec:.4f} | F1: {lf1:.4f} | N={len(lp)}")
+                lmae = np.mean(np.abs(np.array(lp) - np.array(lt)))
+                lrmse = np.sqrt(np.mean((np.array(lp) - np.array(lt))**2))
+                print(f"  [{lang}]     | MAE: {lmae:.6f} | RMSE: {lrmse:.6f} | N={len(lp)}")
         print()
 
-        if mean_acc > best_acc:
-            best_acc = mean_acc
+        if mean_mae < best_mae:
+            best_mae = mean_mae
             ckpt_path = os.path.join(args.save_dir, "best_model.pt")
             torch.save(model.state_dict(), ckpt_path)
+            print(f"  → Saved best model (MAE={best_mae:.6f})")
 
 
 # ---------------------------------------------------------------------------

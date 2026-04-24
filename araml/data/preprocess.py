@@ -1,30 +1,29 @@
 """
-preprocess.py — Prepare multilingual sentiment data for episode sampling.
+preprocess.py — Prepare multilingual sentiment data for episode sampling (REGRESSION).
 
-FIX 1 — Label remapping (binary with neutral drop):
+FIX 1 — Label normalization (regression):
   The mteb/amazon_reviews_multi dataset stores ratings as `stars` (1-5).
-  We convert to 0-indexed labels (0-4) then apply:
-    labels {0,1}  (stars 1-2) → 0  (negative)
-    label  {2}    (star  3)   → DROP (neutral)
-    labels {3,4}  (stars 4-5) → 1  (positive)
+  We convert to normalized regression targets in range [0, 1]:
+    y = (stars - 1) / 4
+  This preserves the full range of star ratings and does NOT drop neutral (3-star) samples.
+  Labels are stored as float32 tensors.
 
 FIX 2 — Language tier separation:
   HIGH_RESOURCE (en, de, es, fr):
     - Full processed train split → FAISS retrieval index candidates
     - Never used as query/test language in meta-learning episodes
   LOW_RESOURCE (ja, zh):
-    - Training pool hard-capped at 500 examples (seed=42, saved to disk)
+    - Training pool hard-capped at 2000 examples (seed=42, saved to disk)
     - All meta-learning episodes constructed from ja/zh support/query sets
     - Validation and test use full splits (no cap)
 
 Output files:
   data/processed/amazon_{lang}.json      — full processed data per language,
                                            keyed by split {train, validation, test}
-  data/lowresource_pool_ja.json          — 500-example ja training pool
-  data/lowresource_pool_zh.json          — 500-example zh training pool
+  data/lowresource_pool_ja.json          — 2000-example ja training pool
+  data/lowresource_pool_zh.json          — 2000-example zh training pool
 
-Classifier output head: 2 classes (binary). Any downstream model must use
-  n_classes=2 (not the original 5-class star rating head).
+Regression output head: 1 output neuron predicting continuous sentiment ∈ [0, 1].
 """
 import os
 import json
@@ -43,12 +42,11 @@ LANGUAGES     = HIGH_RESOURCE + LOW_RESOURCE
 # Low-resource training pool parameters (FIX 2)
 LOW_RESOURCE_TRAIN_CAP      = 2000  # total pool size target
 LOW_RESOURCE_SEED           = 42
-# Stratified sampling floor: guarantee at least this many examples per
-# (category, label) pair before drawing extras at random.
-# This prevents real Amazon data class-imbalance (1-star >> 4-star) from
-# leaving categories with too few positives to form 5-shot binary episodes.
-MIN_PER_CAT_PER_CLASS       = 20    # configurable
-MIN_VIABLE_PER_CLASS        = 5     # warn if a (cat, class) has fewer than this
+# Stratified sampling floor: guarantee at least this many examples per category.
+# For regression, we still want good representation across all star ratings
+# in each category, but no longer need the class-balance constraint.
+MIN_PER_CAT                 = 30    # configurable
+MIN_VIABLE_EXAMPLES         = 5     # warn if a category has fewer than this
 
 # Output paths
 LOWRESOURCE_POOL_DIR = "data"  # saves to data/lowresource_pool_{lang}.json
@@ -74,19 +72,20 @@ def get_raw_label_0indexed(item: dict) -> int | None:
     return None
 
 
-def remap_to_binary(label_0_4: int) -> int | None:
+def normalize_to_regression(label_0_4: int) -> float:
     """
-    Map 0-indexed label (0-4) to binary sentiment or None (drop).
-
-      {0,1} → 0  (negative)
-      {2}   → None  (neutral — DROP)
-      {3,4} → 1  (positive)
+    Convert 0-indexed label (0-4) to normalized regression target ∈ [0, 1].
+    
+    Formula: y = (stars - 1) / 4  where stars = label_0_4 + 1
+      label 0 (1-star) → (0) / 4 = 0.00   (negative)
+      label 1 (2-star) → (1) / 4 = 0.25   (negative)
+      label 2 (3-star) → (2) / 4 = 0.50   (neutral — kept, not dropped)
+      label 3 (4-star) → (3) / 4 = 0.75   (positive)
+      label 4 (5-star) → (4) / 4 = 1.00   (positive)
+    
+    Returns float in [0, 1].
     """
-    if label_0_4 in (0, 1):
-        return 0
-    if label_0_4 in (3, 4):
-        return 1
-    return None   # label 2 = 3-star neutral → drop
+    return label_0_4 / 4.0
 
 
 def get_text(item: dict) -> str | None:
@@ -167,44 +166,40 @@ def preprocess_amazon(
         print_summary(lang, raw_splits, stage="BEFORE label-2 drop")
 
         # ----------------------------------------------------------------
-        # STEP 2: Apply label remapping + drop neutral (label 2)
+        # STEP 2: Apply label normalization (regression, keep all ratings)
         # ----------------------------------------------------------------
         processed_splits: dict[str, list] = {}
-        total_kept    = 0
-        total_dropped = 0
+        total_processed = 0
 
         for split_name, records in raw_splits.items():
-            kept    = []
-            dropped = 0
+            processed = []
             for r in records:
-                new_label = remap_to_binary(r["raw_label"])
-                if new_label is None:
-                    dropped += 1
-                    continue
-                kept.append({
+                normalized_label = normalize_to_regression(r["raw_label"])
+                processed.append({
                     "text":             r["text"],
-                    "label":            new_label,
+                    "label":            normalized_label,  # float in [0, 1]
                     "language":         lang,
                     "product_category": r["product_category"],
                     "split":            split_name,
+                    "raw_stars":        r["raw_label"] + 1,  # 1-5 for reference
                 })
-            processed_splits[split_name] = kept
-            total_kept    += len(kept)
-            total_dropped += dropped
-            pos = sum(1 for x in kept if x["label"] == 1)
-            neg = sum(1 for x in kept if x["label"] == 0)
-            print(f"[{lang}] {split_name:12s}: kept={len(kept):6d}  "
-                  f"(neg={neg}, pos={pos})  dropped_neutral={dropped}")
+            processed_splits[split_name] = processed
+            total_processed += len(processed)
+            
+            # Print label distribution (continuous)
+            min_label = min(x["label"] for x in processed) if processed else 0
+            max_label = max(x["label"] for x in processed) if processed else 0
+            mean_label = sum(x["label"] for x in processed) / len(processed) if processed else 0
+            print(f"[{lang}] {split_name:12s}: n={len(processed):6d}  "
+                  f"label_range=[{min_label:.2f}, {max_label:.2f}]  mean={mean_label:.2f}")
 
-        print(f"[{lang}] TOTAL: kept={total_kept}, dropped_neutral={total_dropped}")
+        print(f"[{lang}] TOTAL: processed={total_processed} (all examples kept for regression)")
 
-        # Print AFTER-drop summary (re-use same structure, label → raw_label for printer)
-        after_view = {
-            sn: [{"raw_label": r["label"], "product_category": r["product_category"]}
-                 for r in recs]
-            for sn, recs in processed_splits.items()
-        }
-        print_summary(lang, after_view, stage="AFTER label-2 drop (binary labels)")
+        # Print normalized label summary
+        all_processed = [r for recs in processed_splits.values() for r in recs]
+        if all_processed:
+            star_dist = Counter(r["raw_stars"] for r in all_processed)
+            print(f"[{lang}] Star distribution (1-5): {dict(sorted(star_dist.items()))}")
 
         # ----------------------------------------------------------------
         # STEP 3: Save full processed dataset (all splits, all examples)
@@ -245,51 +240,47 @@ def preprocess_amazon(
 
 def _build_stratified_pool(lang: str, train_records: list) -> list:
     """
-    Build a low-resource training pool that guarantees MIN_PER_CAT_PER_CLASS
-    examples per (category, label) pair, then fills remaining slots randomly.
+    Build a low-resource training pool that guarantees MIN_PER_CAT examples
+    per category, then fills remaining slots randomly.
 
-    Motivation: real Amazon Reviews data is heavily skewed toward 1-star and
-    5-star ratings. After dropping 3-star neutrals, a pure random sample of
-    500 examples can leave many categories with <5 positive examples, making
-    it impossible to form balanced 5-shot binary episodes from those categories.
+    Motivation: For regression tasks, we want good representation of each
+    product category in the training pool. Random sampling alone might leave
+    some categories with very few examples, making episode formation impossible.
 
     Algorithm:
       Phase 1 — Stratified floor:
-        For each (category, label) pair, sample up to MIN_PER_CAT_PER_CLASS
-        examples. This is the guaranteed floor regardless of natural imbalance.
+        For each category, sample up to MIN_PER_CAT examples.
+        This is the guaranteed floor regardless of natural distribution.
       Phase 2 — Random fill:
         If phase-1 total < LOW_RESOURCE_TRAIN_CAP, fill remaining slots by
         sampling uniformly from examples NOT already selected in phase 1.
       Phase 3 — Warn:
-        Log any (category, label) pair that had fewer than MIN_VIABLE_PER_CLASS
-        examples available even before the floor cap — those categories will be
+        Log any category that had fewer than MIN_VIABLE_EXAMPLES examples
+        available even before the floor cap — those categories will be
         silently excluded by the episode sampler.
     """
     rng = random.Random(LOW_RESOURCE_SEED)
 
-    # Index: cat -> label -> [records]
-    cat_cls: dict[str, dict[int, list]] = defaultdict(lambda: defaultdict(list))
+    # Index: cat -> [records]
+    cat_records: dict[str, list] = defaultdict(list)
     for r in train_records:
-        cat_cls[r["product_category"]][r["label"]].append(r)
+        cat_records[r["product_category"]].append(r)
 
     selected_ids: set[int] = set()   # track by id() to avoid duplication
     pool: list = []
 
     # Phase 1: stratified floor
-    for cat, cls_map in cat_cls.items():
-        for lbl in (0, 1):
-            available = cls_map.get(lbl, [])
-            if len(available) < MIN_VIABLE_PER_CLASS:
-                print(f"  WARNING [{lang}] cat='{cat}' label={lbl}: only "
-                      f"{len(available)} examples available "
-                      f"(< MIN_VIABLE_PER_CLASS={MIN_VIABLE_PER_CLASS}) -- "
-                      f"this category may be excluded from episodes")
-            take = min(len(available), MIN_PER_CAT_PER_CLASS)
-            sampled = rng.sample(available, take) if take > 0 else []
-            for r in sampled:
-                if id(r) not in selected_ids:
-                    selected_ids.add(id(r))
-                    pool.append(r)
+    for cat, records in cat_records.items():
+        if len(records) < MIN_VIABLE_EXAMPLES:
+            print(f"  WARNING [{lang}] cat='{cat}': only {len(records)} examples "
+                  f"available (< MIN_VIABLE_EXAMPLES={MIN_VIABLE_EXAMPLES}) -- "
+                  f"this category may be excluded from episodes")
+        take = min(len(records), MIN_PER_CAT)
+        sampled = rng.sample(records, take) if take > 0 else []
+        for r in sampled:
+            if id(r) not in selected_ids:
+                selected_ids.add(id(r))
+                pool.append(r)
 
     # Phase 2: random fill to reach LOW_RESOURCE_TRAIN_CAP
     remaining_cap = LOW_RESOURCE_TRAIN_CAP - len(pool)
@@ -298,6 +289,11 @@ def _build_stratified_pool(lang: str, train_records: list) -> list:
         fill = rng.sample(leftover, min(remaining_cap, len(leftover)))
         pool.extend(fill)
         for r in fill:
+            selected_ids.add(id(r))
+
+    rng.shuffle(pool)   # randomise order so phase-1 examples aren't first
+
+    return pool
             selected_ids.add(id(r))
 
     rng.shuffle(pool)   # randomise order so phase-1 examples aren't first
@@ -311,27 +307,27 @@ def _build_stratified_pool(lang: str, train_records: list) -> list:
 
 def _report_category_viability(lang: str, pool: list, n_shot: int = 5) -> None:
     """
-    After pool construction, report which categories have enough examples
-    of both classes to form n_shot-binary episodes.  Prints a compact table.
+    After pool construction, report per-category example counts.
+    For regression, we just want to ensure sufficient examples per category
+    to form n_shot episodes (no longer need class balance).
     """
-    cat_cls: dict[str, Counter] = defaultdict(Counter)
+    cat_dist: dict[str, int] = defaultdict(int)
     for r in pool:
-        cat_cls[r["product_category"]][r["label"]] += 1
+        cat_dist[r["product_category"]] += 1
 
     viable = 0
-    print(f"\n  [{lang}] Per-category class distribution (need >={n_shot} per class for episodes):")
-    for cat in sorted(cat_cls):
-        dist   = cat_cls[cat]
-        neg, pos = dist[0], dist[1]
-        status = "OK  " if neg >= n_shot and pos >= n_shot else "SKIP"
+    print(f"\n  [{lang}] Per-category example counts (need >={n_shot} for episodes):")
+    for cat in sorted(cat_dist):
+        count = cat_dist[cat]
+        status = "OK  " if count >= n_shot else "SKIP"
         if status == "OK  ":
             viable += 1
-        print(f"    {status}  {cat}: neg={neg} pos={pos}")
-    print(f"  [{lang}] Viable categories: {viable}/{len(cat_cls)}")
+        print(f"    {status}  {cat}: {count} examples")
+    print(f"  [{lang}] Viable categories: {viable}/{len(cat_dist)}")
 
     if viable < 5:
         print(f"  WARNING [{lang}] only {viable} viable categories -- "
-              f"consider increasing MIN_PER_CAT_PER_CLASS or LOW_RESOURCE_TRAIN_CAP")
+              f"consider increasing MIN_PER_CAT or LOW_RESOURCE_TRAIN_CAP")
 
 
 def _assert_no_faiss_leakage(out_dir: str) -> None:
@@ -447,4 +443,4 @@ def assert_faiss_index_integrity(
 if __name__ == "__main__":
     preprocess_amazon()
     print("\nPreprocessing complete.")
-    print("Classifier output head must use n_classes=2 (binary sentiment).")
+    print("Output head must use output_dim=1 (regression with normalized labels in [0, 1]).")

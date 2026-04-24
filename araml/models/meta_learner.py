@@ -1,16 +1,23 @@
 """
-meta_learner.py — MAML-based Meta-Learner
+meta_learner.py — MAML-based Meta-Learner (REGRESSION)
 
 Root cause of loss = ln(2) = 0.6931 (random-chance binary):
+  [HISTORICAL NOTE — no longer applies to regression]
   The `higher`-based inner loop did NOT set track_higher_grads / create_graph,
   so adapted_params were disconnected from the original weights.
-  outer_loss.backward() produced zero gradients in ARC and the encoder.
 
 Fixes applied here:
   FIX 1  inner_loop uses torch.autograd.grad(create_graph=True)
          — this is THE critical change; everything else is secondary.
   FIX 3  meta_train_step clips gradients before optimizer.step()
          (second-order grads spike; clipping at 1.0 stabilises training).
+
+Changes for regression task:
+  - MetaLearner head changed from Linear(768, 2) to Linear(768, 1)
+  - Inner loop now uses F.smooth_l1_loss instead of F.cross_entropy
+  - Labels are float tensors (normalized to [0, 1]) not long tensors
+  - Metrics changed to MAE (mean absolute error) and RMSE instead of accuracy
+  - Output predictions are continuous values in [0, 1] range
 
 Fixes applied in the training script (scripts/train.py):
   FIX 2  Encoder layers 9-11 + pooler unfrozen (so support/query embeddings
@@ -38,23 +45,24 @@ from torch.amp import autocast
 
 class MetaLearner(nn.Module):
     """
-    Binary sentiment classifier for MAML few-shot adaptation.
+    Regression head for MAML few-shot adaptation (sentiment prediction).
 
     Single Linear layer so that the functional inner loop can operate
     on {'weight', 'bias'} directly via F.linear without a custom
     functional_sequential_forward implementation.
 
     input_dim  : encoder hidden dim (768 for XLM-R base).
-    num_classes: 2  (negative / positive, after label remapping in preprocess.py).
+    output_dim : 1 (continuous sentiment prediction in [0, 1]).
     """
-    def __init__(self, input_dim: int = 768, num_classes: int = 2):
+    def __init__(self, input_dim: int = 768, output_dim: int = 1):
         super().__init__()
-        self.classifier = nn.Linear(input_dim, num_classes)
-        nn.init.xavier_uniform_(self.classifier.weight, gain=0.1)
-        nn.init.zeros_(self.classifier.bias)
+        self.regressor = nn.Linear(input_dim, output_dim)
+        nn.init.xavier_uniform_(self.regressor.weight, gain=0.1)
+        nn.init.zeros_(self.regressor.bias)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.classifier(x)
+        # Output shape: (batch_size, 1)
+        return self.regressor(x)
 
 
 # ---------------------------------------------------------------------------
@@ -62,14 +70,14 @@ class MetaLearner(nn.Module):
 # ---------------------------------------------------------------------------
 
 def inner_loop(
-    classifier: nn.Linear,
+    regressor: nn.Linear,
     support_embs: torch.Tensor,
     support_labels: torch.Tensor,
     inner_lr: float,
     inner_steps: int,
 ) -> dict:
     """
-    Differentiable MAML inner loop.
+    Differentiable MAML inner loop for regression.
 
     create_graph=True keeps every gradient computation in the forward
     graph so that outer_loss.backward() can differentiate through the
@@ -78,26 +86,28 @@ def inner_loop(
     gradients are identically zero.
 
     Args:
-        classifier    : nn.Linear providing the initial fast weights.
-                        Pass meta_learner.classifier (not MetaLearner itself)
+        regressor     : nn.Linear providing the initial fast weights.
+                        Pass meta_learner.regressor (not MetaLearner itself)
                         so named_parameters() yields 'weight' and 'bias'.
         support_embs  : (n_support, D) float tensor — may carry grad if
                         encoder layers 9-11 are unfrozen (FIX 2).
-        support_labels: (n_support,) long tensor.
+        support_labels: (n_support,) float tensor in [0, 1] range.
         inner_lr      : inner-loop step size (config: meta_learning.inner_lr).
         inner_steps   : number of gradient steps (config: meta_learning.inner_steps).
 
     Returns:
-        adapted_params: {'weight': tensor (n_cls, D), 'bias': tensor (n_cls,)}
+        adapted_params: {'weight': tensor (1, D), 'bias': tensor (1,)}
                         These tensors carry the full computation graph back
                         through every inner-loop gradient step.
     """
-    params = {k: v.clone() for k, v in classifier.named_parameters()}
+    params = {k: v.clone() for k, v in regressor.named_parameters()}
 
     for _ in range(inner_steps):
-        logits = F.linear(support_embs, params["weight"], params["bias"])
-        loss   = F.cross_entropy(logits, support_labels, label_smoothing=0.1)
-        grads  = torch.autograd.grad(
+        preds = F.linear(support_embs, params["weight"], params["bias"])  # (n_support, 1)
+        preds_squeezed = preds.squeeze(-1)  # (n_support,)
+        # Use Huber loss (smooth_l1_loss) for robust regression
+        loss = F.smooth_l1_loss(preds_squeezed, support_labels)
+        grads = torch.autograd.grad(
             loss,
             list(params.values()),
             create_graph=True,   # THE CRITICAL LINE — retains graph for second-order grads
@@ -127,7 +137,7 @@ def _episode_forward(
     """
     One episode: encode → retrieve → augment → inner loop → outer loss.
 
-    Returns (outer_loss tensor, accuracy float).
+    Returns (outer_loss tensor, mae float, predictions, targets).
     The returned loss still has its computation graph attached;
     caller decides when to call .backward().
     """
@@ -135,12 +145,13 @@ def _episode_forward(
     use_amp  = device.type == "cuda"
 
     support_texts  = episode["support_texts"]
+    # REGRESSION: labels are floats in [0, 1] range
     support_labels = torch.tensor(
-        episode["support_labels"], dtype=torch.long, device=device
+        episode["support_labels"], dtype=torch.float32, device=device
     )
     query_texts  = episode["query_texts"]
     query_labels = torch.tensor(
-        episode["query_labels"], dtype=torch.long, device=device
+        episode["query_labels"], dtype=torch.float32, device=device
     )
 
     # 1. Encode — differentiable once encoder layers 9-11 are unfrozen (FIX 2).
@@ -186,21 +197,25 @@ def _episode_forward(
     query_aug   = query_aug.float()
 
     adapted = inner_loop(
-        meta_learner.classifier,
+        meta_learner.regressor,
         support_aug, support_labels,
         meta_cfg["inner_lr"], meta_cfg["inner_steps"],
     )
 
-    # 7. Outer loss on query set with adapted weights
-    query_logits = F.linear(query_aug, adapted["weight"], adapted["bias"])  # (Q, n_cls)
-    outer_loss   = F.cross_entropy(query_logits, query_labels)
+    # 7. Outer loss on query set with adapted weights (REGRESSION)
+    query_preds = F.linear(query_aug, adapted["weight"], adapted["bias"])  # (Q, 1)
+    query_preds = query_preds.squeeze(-1)  # (Q,)
+    # Use Huber loss (smooth_l1_loss) for robust regression
+    outer_loss  = F.smooth_l1_loss(query_preds, query_labels)
 
     with torch.no_grad():
-        acc = (query_logits.argmax(-1) == query_labels).float().mean().item()
-        predictions = query_logits.argmax(-1).cpu().numpy()
+        # Compute MAE and RMSE metrics
+        mae = torch.mean(torch.abs(query_preds - query_labels)).item()
+        rmse = torch.sqrt(torch.mean((query_preds - query_labels) ** 2)).item()
+        predictions = query_preds.cpu().numpy()
         targets = query_labels.cpu().numpy()
 
-    return outer_loss, acc, predictions, targets
+    return outer_loss, mae, rmse, predictions, targets
 
 
 # ---------------------------------------------------------------------------
@@ -239,7 +254,7 @@ def diagnose_gradient_flow(
             if p.grad is not None:
                 p.grad.zero_()
 
-    outer_loss, acc, _, _ = _episode_forward(
+    outer_loss, mae, rmse, _, _ = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
     outer_loss.backward()
@@ -252,8 +267,9 @@ def diagnose_gradient_flow(
     print("\n" + "=" * 64)
     print("  GRADIENT DIAGNOSTIC — run before epoch 1")
     print("=" * 64)
-    print(f"  outer_loss : {outer_loss.item():.4f}  (ln2 = 0.6931)")
-    print(f"  acc        : {acc:.3f}")
+    print(f"  outer_loss : {outer_loss.item():.6f}")
+    print(f"  mae        : {mae:.6f}  (lower is better)")
+    print(f"  rmse       : {rmse:.6f}  (lower is better)")
     print()
     print(f"  ARC params with nonzero grad ({len(arc_grads)} / "
           f"{sum(1 for _ in arc.named_parameters())} total):")
@@ -299,20 +315,21 @@ def meta_train_step(
     scaler=None,
 ) -> tuple:
     """
-    One MAML meta-training step: forward → backward → clip → step.
+    One MAML meta-training step: forward → backward → clip → step (REGRESSION).
 
     Pass a torch.cuda.amp.GradScaler as `scaler` to enable mixed-precision
     training (RTX 4000 / any CUDA device with FP16 support).
 
     Returns
     -------
-    loss      : float  — scalar outer cross-entropy loss
-    acc       : float  — query-set accuracy with adapted classifier
+    loss      : float  — scalar outer regression loss (smooth_l1)
+    mae       : float  — mean absolute error on query set
+    rmse      : float  — root mean squared error on query set
     grad_norm : float  — total gradient norm BEFORE clipping
     """
     outer_optimizer.zero_grad()
 
-    outer_loss, acc, predictions, targets = _episode_forward(
+    outer_loss, mae, rmse, predictions, targets = _episode_forward(
         encoder, arc, meta_learner, retrieval_index, episode, config, device
     )
 
@@ -333,7 +350,7 @@ def meta_train_step(
         grad_norm = torch.nn.utils.clip_grad_norm_(all_trainable, max_norm=max_grad_norm)
         outer_optimizer.step()
 
-    return outer_loss.item(), acc, float(grad_norm), predictions, targets
+    return outer_loss.item(), mae, rmse, float(grad_norm), predictions, targets
 
 
 # ---------------------------------------------------------------------------
@@ -350,30 +367,26 @@ def maml_eval_episode(
     device: torch.device,
 ) -> dict:
     """
-    Evaluate one episode: adapt on support, predict on query.
-    Uses a fresh classifier copy so eval never modifies training weights.
+    Evaluate one episode: adapt on support, predict on query (REGRESSION).
+    Uses a fresh regressor copy so eval never modifies training weights.
     Needs enable_grad() for the inner loop even during encoder.eval().
     
     Returns:
-        dict with 'accuracy' and 'kappa' keys
+        dict with 'mae', 'rmse', 'predictions', 'targets' keys
     """
-    from sklearn.metrics import cohen_kappa_score
-    
     encoder.eval()
     arc.eval()
 
     with torch.enable_grad():
-        eval_clf = MetaLearner(
-            input_dim=meta_learner.classifier.in_features,
-            num_classes=meta_learner.classifier.out_features,
+        eval_meta = MetaLearner(
+            input_dim=meta_learner.regressor.in_features,
+            output_dim=meta_learner.regressor.out_features,
         ).to(device)
-        eval_clf.classifier.weight.data.copy_(meta_learner.classifier.weight.data)
-        eval_clf.classifier.bias.data.copy_(meta_learner.classifier.bias.data)
+        eval_meta.regressor.weight.data.copy_(meta_learner.regressor.weight.data)
+        eval_meta.regressor.bias.data.copy_(meta_learner.regressor.bias.data)
 
-        _, acc, predictions, targets = _episode_forward(
-            encoder, arc, eval_clf, retrieval_index, episode, config, device
+        _, mae, rmse, predictions, targets = _episode_forward(
+            encoder, arc, eval_meta, retrieval_index, episode, config, device
         )
 
-        kappa = cohen_kappa_score(targets, predictions)
-
-    return {"accuracy": acc, "kappa": kappa, "predictions": predictions, "targets": targets}
+    return {"mae": mae, "rmse": rmse, "predictions": predictions, "targets": targets}
