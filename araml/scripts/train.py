@@ -36,6 +36,7 @@ from models.araml         import ARAML
 from models.retrieval_index import CrossLingualRetrievalIndex
 from models.meta_learner  import meta_train_step, maml_eval_episode, diagnose_gradient_flow
 from utils.episode_sampler import CategoryStratifiedEpisodeSampler
+from scripts.evaluate import load_processed_split, evaluate_components
 
 
 # ---------------------------------------------------------------------------
@@ -145,6 +146,16 @@ def train(args: argparse.Namespace) -> None:
         seed=args.seed,
     )
 
+    val_datasets = load_processed_split(
+        split_name="validation",
+        processed_dir=args.processed_dir,
+        verbose=True,
+    )
+    if val_datasets:
+        print(f"Validation enabled: {args.val_episodes} episodes per epoch")
+    else:
+        print("Validation disabled: no low-resource validation data found.")
+
     # -- Optimiser: FIX 3 outer_lr = 0.0003, AdamW --------------------------
     outer_optimizer = torch.optim.AdamW(
         trainable_params, lr=args.outer_lr, weight_decay=1e-4
@@ -152,7 +163,7 @@ def train(args: argparse.Namespace) -> None:
     print(f"Optimiser: AdamW  lr={args.outer_lr}  weight_decay=1e-4")
 
     # -- Training loop -------------------------------------------------------
-    best_mae = float('inf')
+    best_val_mae = float('inf')
     os.makedirs(args.save_dir, exist_ok=True)
 
     GRAD_LOG_BATCHES = {25, 100}
@@ -203,11 +214,28 @@ def train(args: argparse.Namespace) -> None:
                 print(f"  [{lang}]     | MAE: {lmae:.6f} | RMSE: {lrmse:.6f} | N={len(lp)}")
         print()
 
-        if mean_mae < best_mae:
-            best_mae = mean_mae
+        selection_mae = mean_mae
+        selection_label = "train"
+
+        if val_datasets:
+            val_results = evaluate_components(
+                encoder, arc, meta_learner, index, config, device,
+                val_datasets, n_episodes=args.val_episodes, seed=args.seed,
+                show_progress=False,
+            )
+            selection_mae = val_results["mae_mean"]
+            selection_label = "validation"
+            print(
+                f"  Validation | MAE: {val_results['mae_mean']:.6f} +/- {val_results['mae_ci']:.6f} "
+                f"| RMSE: {val_results['rmse_mean']:.6f} +/- {val_results['rmse_ci']:.6f} "
+                f"| Corr: {val_results['correlation']:.6f}"
+            )
+
+        if selection_mae < best_val_mae:
+            best_val_mae = selection_mae
             ckpt_path = os.path.join(args.save_dir, "best_model.pt")
             torch.save(model.state_dict(), ckpt_path)
-            print(f"  → Saved best model (MAE={best_mae:.6f})")
+            print(f"  → Saved best model ({selection_label}_MAE={best_val_mae:.6f})")
 
 
 # ---------------------------------------------------------------------------
@@ -223,8 +251,10 @@ if __name__ == "__main__":
                         help="Base path for CrossLingualRetrievalIndex files "
                              "(.faiss + _meta.npy)")
     parser.add_argument("--save_dir",          default="results/")
+    parser.add_argument("--processed_dir",     default="data/processed")
     parser.add_argument("--epochs",            type=int,   default=20)
     parser.add_argument("--episodes_per_epoch",type=int,   default=1000)
+    parser.add_argument("--val_episodes",      type=int,   default=100)
     parser.add_argument("--outer_lr",          type=float, default=0.0003)
     parser.add_argument("--max_grad_norm",     type=float, default=1.0)
     parser.add_argument("--seed",              type=int,   default=42)

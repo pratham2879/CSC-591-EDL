@@ -1,0 +1,136 @@
+Device: cpu
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 11884.93it/s]
+[1mXLMRobertaModel LOAD REPORT[0m from: /Users/mahekiphone/.cache/huggingface/hub/models--xlm-roberta-base/snapshots/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089
+Key                       | Status     |  | 
+--------------------------+------------+--+-
+lm_head.layer_norm.bias   | UNEXPECTED |  | 
+lm_head.bias              | UNEXPECTED |  | 
+lm_head.layer_norm.weight | UNEXPECTED |  | 
+lm_head.dense.weight      | UNEXPECTED |  | 
+lm_head.dense.bias        | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+Encoder: layers [9, 10, 11] + pooler unfrozen | frozen=149 params  trainable=50 param tensors
+Total trainable parameters: 22,840,067
+Loaded retrieval index with 40000 entries.
+[EpisodeSampler] Loaded 2000 ja examples from data/lowresource_pool_ja.json
+[EpisodeSampler] Loaded 2000 zh examples from data/lowresource_pool_zh.json
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  [ja] 2000 validation records
+  [zh] 2000 validation records
+Validation enabled: 50 episodes per epoch
+Optimiser: AdamW  lr=0.0003  weight_decay=1e-4
+  [batch  25] grad_norm=0.1400  loss=0.0083  mae=0.128475  rmse=0.128930
+  [batch 100] grad_norm=0.1287  loss=0.0089  mae=0.127617  rmse=0.133469
+
+Epoch   1 | Loss: 0.007761 | GradNorm: 0.0685
+  Overall  | MAE: 0.119968 | RMSE: 0.124002 | Verified: MAE=0.119968, RMSE=0.124585
+  [ja]     | MAE: 0.120168 | RMSE: 0.124647 | N=3570
+  [zh]     | MAE: 0.119786 | RMSE: 0.124529 | N=3930
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124721 +/- 0.000940 | RMSE: 0.125525 +/- 0.000933 | Corr: 0.048625
+  → Saved best model (validation_MAE=0.124721)
+  [batch  25] grad_norm=0.1106  loss=0.0088  mae=0.129218  rmse=0.132491
+  [batch 100] grad_norm=0.0437  loss=0.0076  mae=0.122876  rmse=0.123560
+
+Epoch   2 | Loss: 0.007869 | GradNorm: 0.0679
+  Overall  | MAE: 0.122360 | RMSE: 0.125167 | Verified: MAE=0.122360, RMSE=0.125449
+  [ja]     | MAE: 0.122549 | RMSE: 0.125807 | N=4155
+  [zh]     | MAE: 0.122125 | RMSE: 0.125003 | N=3345
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124707 +/- 0.000859 | RMSE: 0.125386 +/- 0.000854 | Corr: 0.059228
+  → Saved best model (validation_MAE=0.124707)
+  [batch  25] grad_norm=0.0116  loss=0.0077  mae=0.123892  rmse=0.124052
+  [batch 100] grad_norm=0.0695  loss=0.0076  mae=0.122752  rmse=0.123005
+
+Epoch   3 | Loss: 0.007841 | GradNorm: 0.0598
+  Overall  | MAE: 0.124339 | RMSE: 0.125164 | Verified: MAE=0.124339, RMSE=0.125232
+  [ja]     | MAE: 0.124647 | RMSE: 0.125633 | N=3465
+  [zh]     | MAE: 0.124074 | RMSE: 0.124886 | N=4035
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124959 +/- 0.000385 | RMSE: 0.125072 +/- 0.000378 | Corr: 0.035801
+  [batch  25] grad_norm=0.0186  loss=0.0079  mae=0.125886  rmse=0.125977
+  [batch 100] grad_norm=0.0508  loss=0.0078  mae=0.124827  rmse=0.124897
+
+Epoch   4 | Loss: 0.007868 | GradNorm: 0.0580
+  Overall  | MAE: 0.125001 | RMSE: 0.125416 | Verified: MAE=0.125001, RMSE=0.125444
+  [ja]     | MAE: 0.124925 | RMSE: 0.125367 | N=3690
+  [zh]     | MAE: 0.125075 | RMSE: 0.125519 | N=3810
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124979 +/- 0.000501 | RMSE: 0.125174 +/- 0.000493 | Corr: 0.035770
+  [batch  25] grad_norm=0.0156  loss=0.0078  mae=0.124495  rmse=0.124528
+  [batch 100] grad_norm=0.0904  loss=0.0079  mae=0.125865  rmse=0.125934
+
+Epoch   5 | Loss: 0.007855 | GradNorm: 0.0561
+  Overall  | MAE: 0.125039 | RMSE: 0.125317 | Verified: MAE=0.125039, RMSE=0.125336
+  [ja]     | MAE: 0.125231 | RMSE: 0.125557 | N=3765
+  [zh]     | MAE: 0.124846 | RMSE: 0.125113 | N=3735
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124799 +/- 0.000663 | RMSE: 0.125212 +/- 0.000661 | Corr: 0.035813
+  [batch  25] grad_norm=0.0120  loss=0.0077  mae=0.123704  rmse=0.123909
+  [batch 100] grad_norm=0.0921  loss=0.0075  mae=0.122196  rmse=0.122280
+
+Epoch   6 | Loss: 0.007836 | GradNorm: 0.0591
+  Overall  | MAE: 0.124829 | RMSE: 0.125162 | Verified: MAE=0.124829, RMSE=0.125185
+  [ja]     | MAE: 0.125003 | RMSE: 0.125343 | N=3465
+  [zh]     | MAE: 0.124679 | RMSE: 0.125049 | N=4035
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124854 +/- 0.000341 | RMSE: 0.124973 +/- 0.000342 | Corr: 0.035790
+  [batch  25] grad_norm=0.1552  loss=0.0087  mae=0.131519  rmse=0.132138
+  [batch 100] grad_norm=0.0090  loss=0.0078  mae=0.124621  rmse=0.124824
+
+Epoch   7 | Loss: 0.007848 | GradNorm: 0.0576
+  Overall  | MAE: 0.125040 | RMSE: 0.125267 | Verified: MAE=0.125040, RMSE=0.125286
+  [ja]     | MAE: 0.125098 | RMSE: 0.125345 | N=3630
+  [zh]     | MAE: 0.124986 | RMSE: 0.125231 | N=3870
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124848 +/- 0.000378 | RMSE: 0.124992 +/- 0.000379 | Corr: 0.035756
+  [batch  25] grad_norm=0.0218  loss=0.0077  mae=0.124133  rmse=0.124300
+  [batch 100] grad_norm=0.0556  loss=0.0078  mae=0.124758  rmse=0.124765
+
+Epoch   8 | Loss: 0.007837 | GradNorm: 0.0578
+  Overall  | MAE: 0.125045 | RMSE: 0.125189 | Verified: MAE=0.125045, RMSE=0.125199
+  [ja]     | MAE: 0.124959 | RMSE: 0.125106 | N=3570
+  [zh]     | MAE: 0.125123 | RMSE: 0.125283 | N=3930
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124768 +/- 0.000856 | RMSE: 0.125439 +/- 0.000851 | Corr: 0.035793
+  [batch  25] grad_norm=0.1029  loss=0.0074  mae=0.121361  rmse=0.121612
+  [batch 100] grad_norm=0.1586  loss=0.0088  mae=0.131511  rmse=0.132304
+
+Epoch   9 | Loss: 0.007839 | GradNorm: 0.0594
+  Overall  | MAE: 0.124938 | RMSE: 0.125191 | Verified: MAE=0.124938, RMSE=0.125212
+  [ja]     | MAE: 0.124905 | RMSE: 0.125162 | N=3825
+  [zh]     | MAE: 0.124972 | RMSE: 0.125264 | N=3675
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124880 +/- 0.000214 | RMSE: 0.124931 +/- 0.000215 | Corr: 0.035728
+  [batch  25] grad_norm=0.0300  loss=0.0078  mae=0.125038  rmse=0.125084
+  [batch 100] grad_norm=0.1048  loss=0.0074  mae=0.121328  rmse=0.121501
+
+Epoch  10 | Loss: 0.007839 | GradNorm: 0.0556
+  Overall  | MAE: 0.124978 | RMSE: 0.125196 | Verified: MAE=0.124978, RMSE=0.125211
+  [ja]     | MAE: 0.124992 | RMSE: 0.125244 | N=3765
+  [zh]     | MAE: 0.124964 | RMSE: 0.125178 | N=3735
+
+[EpisodeSampler] ja: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+[EpisodeSampler] zh: 1/1 categories valid for 5-shot regression episodes (need >=20 examples per category)
+  Validation | MAE: 0.124983 +/- 0.000525 | RMSE: 0.125197 +/- 0.000517 | Corr: 0.035743
