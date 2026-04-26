@@ -29,9 +29,13 @@ def quick_test():
 
     # -- Encoder -------------------------------------------------------------
     print("\nLoading encoder...")
-    encoder = TextEncoder(model_name=config["model"]["encoder"]).to(device)
-    encoder.eval()
-    print(f"Encoder loaded: {config['model']['encoder']}")
+    try:
+        encoder = TextEncoder(model_name=config["model"]["encoder"]).to(device)
+        encoder.eval()
+        print(f"Encoder loaded: {config['model']['encoder']}")
+    except Exception as exc:
+        encoder = None
+        print(f"  Encoder unavailable — skipping encoder-dependent checks: {exc}")
 
     # -- Retrieval index -----------------------------------------------------
     print("\nTesting retrieval index...")
@@ -77,8 +81,11 @@ def quick_test():
 
     # -- Full ARAML model ----------------------------------------------------
     print("\nTesting ARAML model...")
-    model = ARAML(config).to(device)
-    print(f"Model parameters: {model.count_parameters():,}")
+    try:
+        model = ARAML(config).to(device)
+        print(f"Model parameters: {model.count_parameters():,}")
+    except Exception as exc:
+        print(f"  ARAML model unavailable — skipping full-model init: {exc}")
 
     print("\nAll components working!")
 

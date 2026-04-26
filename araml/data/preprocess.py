@@ -106,7 +106,8 @@ def print_summary(lang: str, splits: dict[str, list], stage: str) -> None:
     Print per-split label and category distributions.
 
     `splits` is {split_name: [{"raw_label": int, "product_category": str, ...}]}.
-    Called before and after label-2 drop so we can verify the remapping.
+    Called on the extracted raw records so we can verify the source label mix
+    before normalization to regression targets.
     """
     print(f"\n{'='*64}")
     print(f"  [{lang}] Dataset summary — {stage}")
@@ -162,8 +163,8 @@ def preprocess_amazon(
                 })
             raw_splits[split_name] = records
 
-        # Print BEFORE-drop summary
-        print_summary(lang, raw_splits, stage="BEFORE label-2 drop")
+        # Print raw summary before normalization
+        print_summary(lang, raw_splits, stage="BEFORE normalization")
 
         # ----------------------------------------------------------------
         # STEP 2: Apply label normalization (regression, keep all ratings)
@@ -220,11 +221,16 @@ def preprocess_amazon(
             with open(pool_path, "w", encoding="utf-8") as f:
                 json.dump(pool, f, ensure_ascii=False, indent=2)
 
-            pool_pos  = sum(1 for r in pool if r["label"] == 1)
-            pool_neg  = sum(1 for r in pool if r["label"] == 0)
+            pool_min = min((r["label"] for r in pool), default=0.0)
+            pool_max = max((r["label"] for r in pool), default=0.0)
+            pool_mean = (
+                sum(r["label"] for r in pool) / len(pool)
+                if pool else 0.0
+            )
             pool_cats = len(set(r["product_category"] for r in pool))
             print(f"[{lang}] Low-resource training pool: n={len(pool)}  "
-                  f"(neg={pool_neg}, pos={pool_pos})  categories={pool_cats}  "
+                  f"(label_range=[{pool_min:.2f}, {pool_max:.2f}], mean={pool_mean:.2f})  "
+                  f"categories={pool_cats}  "
                   f"seed={LOW_RESOURCE_SEED} -> {pool_path}")
             _report_category_viability(lang, pool)
 
@@ -292,15 +298,6 @@ def _build_stratified_pool(lang: str, train_records: list) -> list:
             selected_ids.add(id(r))
 
     rng.shuffle(pool)   # randomise order so phase-1 examples aren't first
-
-    return pool
-            selected_ids.add(id(r))
-
-    rng.shuffle(pool)   # randomise order so phase-1 examples aren't first
-
-    print(f"  [{lang}] Stratified pool: phase1={len(pool) - (LOW_RESOURCE_TRAIN_CAP - remaining_cap if remaining_cap > 0 else 0)} "
-          f"phase2_fill={max(0, remaining_cap - max(0, remaining_cap - len([r for r in train_records if id(r) not in selected_ids])))} "
-          f"total={len(pool)}")
 
     return pool
 

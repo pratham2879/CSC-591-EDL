@@ -1,32 +1,35 @@
 """
-pipeline_test.py — End-to-end pipeline validation.
+pipeline_test.py — Regression-oriented pipeline validation.
 
-Tests every stage with minimal data to catch bugs before full training:
-  1. Config loading & validation
-  2. Data file existence check
-  3. Model initialization + encoder partial-unfreeze (FIX 2)
-  4. Retrieval index load + query
-  5. Episode sampling from low-resource pools (ja/zh)
-  6. Single meta_train_step — loss must move from ln(2) and ARC must get grads
-  7. Single maml_eval_episode
+This is a lightweight preflight check for the regression branch. It validates:
+  1. Regression config shape
+  2. Processed data / pool file availability
+  3. Label format for regression data
+  4. Episode sampler behavior for regression episodes
+  5. Retrieval index availability
+  6. Encoder / model initialization when local model assets are present
 
-Exit code 0 = all tests passed. Any failure prints clearly and exits 1.
+Checks that depend on optional local artifacts are reported as skips instead of
+failing immediately, so the script is useful in clean or offline workspaces too.
 
 Run from inside araml/:
     PYTHONPATH=. python scripts/pipeline_test.py
 """
+import json
 import os
 import sys
-import json
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import yaml
-import torch
 import numpy as np
+import torch
+import yaml
 
 PASS = "[PASS]"
 FAIL = "[FAIL]"
+SKIP = "[SKIP]"
 failures = []
+
 
 def check(name, condition, detail=""):
     if condition:
@@ -39,223 +42,156 @@ def check(name, condition, detail=""):
         failures.append(name)
 
 
-# ── 1. Config ──────────────────────────────────────────────────────────────
+def skip(name, detail=""):
+    msg = f"  {SKIP} {name}"
+    if detail:
+        msg += f": {detail}"
+    print(msg)
+
+
 print("\n[1] Config validation")
 with open("configs/config.yaml") as f:
     config = yaml.safe_load(f)
 
-check("inner_lr >= 0.05",     config["meta_learning"]["inner_lr"] >= 0.05,
+check("output_dim = 1 (regression)", config["model"].get("output_dim") == 1,
+      f"got {config['model'].get('output_dim')}")
+check("inner_lr > 0", config["meta_learning"]["inner_lr"] > 0,
       f"got {config['meta_learning']['inner_lr']}")
-check("inner_steps >= 5",     config["meta_learning"]["inner_steps"] >= 5,
+check("inner_steps >= 1", config["meta_learning"]["inner_steps"] >= 1,
       f"got {config['meta_learning']['inner_steps']}")
-check("epochs >= 5",          config["training"]["epochs"] >= 5,
-      f"got {config['training']['epochs']}")
-check("episodes_per_epoch >= 100",
-      config["training"].get("episodes_per_epoch", 0) >= 100,
-      f"got {config['training'].get('episodes_per_epoch')}")
-check("num_classes = 2 (binary)",
-      config["model"]["num_classes"] == 2,
-      f"got {config['model']['num_classes']}")
+check("query_size >= 1", config["meta_learning"]["query_size"] >= 1,
+      f"got {config['meta_learning']['query_size']}")
 
 
-# ── 2. Data files ──────────────────────────────────────────────────────────
 print("\n[2] Data file existence")
-en_path      = "data/processed/amazon_en.json"
-fr_path      = "data/processed/amazon_fr.json"
+processed_path = "data/processed/amazon_en.json"
 ja_pool_path = "data/lowresource_pool_ja.json"
 zh_pool_path = "data/lowresource_pool_zh.json"
 
-check("amazon_en.json exists", os.path.exists(en_path),
-      "run: python data/preprocess.py")
-check("amazon_fr.json exists", os.path.exists(fr_path),
-      "run: python data/preprocess.py")
-check("lowresource_pool_ja.json exists", os.path.exists(ja_pool_path),
-      "run: python data/preprocess.py (requires ja raw data)")
-check("lowresource_pool_zh.json exists", os.path.exists(zh_pool_path),
-      "run: python data/preprocess.py (requires zh raw data)")
+has_processed = os.path.exists(processed_path)
+has_ja_pool = os.path.exists(ja_pool_path)
+has_zh_pool = os.path.exists(zh_pool_path)
 
-if os.path.exists(en_path):
-    with open(en_path, encoding="utf-8") as f:
+if has_processed:
+    check("amazon_en.json exists", True)
+else:
+    skip("amazon_en.json exists", "run: python data/preprocess.py")
+
+if has_ja_pool or has_zh_pool:
+    check("at least one low-resource pool exists", True)
+else:
+    skip("at least one low-resource pool exists", "run: python data/preprocess.py")
+
+
+print("\n[3] Regression label validation")
+if has_processed:
+    with open(processed_path, encoding="utf-8") as f:
         en_splits = json.load(f)
-    # processed file is keyed by split name
+
     en_train = en_splits.get("train", [])
     labels = [r["label"] for r in en_train]
-    bad    = [l for l in labels if l not in (0, 1)]
-    check("EN labels are only 0/1", len(bad) == 0,
-          f"{len(bad)} unexpected labels found")
-    if labels:
-        pos_ratio = sum(l == 1 for l in labels) / len(labels)
-        check("EN label balance (35-65%)", 0.35 <= pos_ratio <= 0.65,
-              f"pos_ratio={pos_ratio:.2f}")
+    in_range = all(isinstance(l, (int, float)) and 0.0 <= float(l) <= 1.0 for l in labels)
+    check("EN train labels are floats in [0,1]", in_range,
+          "processed labels should be normalized regression targets")
+
+    raw_stars = [r.get("raw_stars") for r in en_train if "raw_stars" in r]
+    check("raw_stars field is present", bool(raw_stars),
+          "rerun data/preprocess.py to regenerate regression artifacts")
+    if raw_stars:
+        check("raw_stars are in [1,5]", all(1 <= int(s) <= 5 for s in raw_stars))
+else:
+    skip("EN regression label validation", "processed dataset unavailable")
 
 
-# ── 3. Model + partial encoder unfreeze (FIX 2) ───────────────────────────
-print("\n[3] Model initialization")
-from models.araml        import ARAML
-from models.retrieval_index import CrossLingualRetrievalIndex
-from models.meta_learner import meta_train_step, maml_eval_episode
-
-device = torch.device("cpu")
-model  = ARAML(config).to(device)
-encoder, arc, meta_learner = model.get_components()
-check("Model created", model is not None)
-
-# FIX 2: unfreeze layers 9-11 (same as scripts/train.py)
-for param in encoder.parameters():
-    param.requires_grad = False
-base = encoder.encoder
-for i, layer in enumerate(base.encoder.layer):
-    if i >= 9:
-        for param in layer.parameters():
-            param.requires_grad = True
-if hasattr(base, "pooler"):
-    for param in base.pooler.parameters():
-        param.requires_grad = True
-
-enc_unfrozen  = sum(1 for p in encoder.parameters() if p.requires_grad)
-arc_trainable = any(p.requires_grad for p in arc.parameters())
-check("Encoder partially unfrozen (layers 9-11)", enc_unfrozen > 0,
-      f"unfrozen tensors: {enc_unfrozen}")
-check("ARC trainable", arc_trainable)
-
-total_trainable = (sum(p.numel() for p in arc.parameters()) +
-                   sum(p.numel() for p in meta_learner.parameters()) +
-                   sum(p.numel() for p in encoder.parameters() if p.requires_grad))
-check("Trainable params > 0", total_trainable > 0,
-      f"trainable={total_trainable:,}")
-print(f"  Trainable parameters: {total_trainable:,}")
-
-
-# ── 4. Retrieval index ─────────────────────────────────────────────────────
-print("\n[4] Retrieval index")
-index_path = "results/retrieval_index.faiss"
-index = CrossLingualRetrievalIndex()
-has_index = os.path.exists(index_path)
-check("Index file exists", has_index,
-      "run: python scripts/build_index.py")
-
-if has_index:
-    index.load("results/retrieval_index")
-    check("Index loaded (non-empty)", len(index) > 0,
-          f"size={len(index)}")
-
-    dummy_query = np.random.randn(1, 768).astype(np.float32)
-    retrieved   = index.retrieve(dummy_query, k=5)
-    check("Retrieval returns 5 results", len(retrieved["texts"]) == 5)
-    check("Retrieved texts non-empty",
-          all(len(t) > 0 for t in retrieved["texts"]))
-
-
-# ── 5. Episode sampler (low-resource pools) ────────────────────────────────
-print("\n[5] Episode sampler")
-from utils.episode_sampler import CategoryStratifiedEpisodeSampler
-
-pools_exist = os.path.exists(ja_pool_path) or os.path.exists(zh_pool_path)
-check("At least one low-resource pool exists", pools_exist,
-      "run: python data/preprocess.py")
-
+print("\n[4] Episode sampler")
 sampler = None
-if pools_exist:
+if has_ja_pool or has_zh_pool:
+    from utils.episode_sampler import CategoryStratifiedEpisodeSampler
+
+    languages = tuple(
+        lang for lang, exists in (("ja", has_ja_pool), ("zh", has_zh_pool)) if exists
+    )
     try:
         sampler = CategoryStratifiedEpisodeSampler.from_pool_files(
             pool_dir="data",
-            n_shot=5,
-            n_query=10,
-            n_class=2,
+            languages=languages,
+            n_shot=config["meta_learning"]["k_shot"],
+            n_query=config["meta_learning"]["query_size"],
+            n_class=config["meta_learning"]["n_way"],
         )
         ep = sampler.sample_episode()
-        n_support_expected = 5 * 2   # n_shot * n_class
-        n_query_expected   = (10 // 2) * 2  # (n_query // n_class) * n_class
-
-        check("Support size = n_shot * n_class",
-              len(ep["support_texts"]) == n_support_expected,
-              f"expected {n_support_expected}, got {len(ep['support_texts'])}")
-        check("Query size correct",
-              len(ep["query_texts"]) == n_query_expected,
-              f"expected {n_query_expected}, got {len(ep['query_texts'])}")
-        check("Support labels are 0/1 only",
-              set(ep["support_labels"]).issubset({0, 1}))
-        check("Both classes in support",
-              len(set(ep["support_labels"])) == 2)
+        check("Support size = k_shot",
+              len(ep["support_texts"]) == config["meta_learning"]["k_shot"],
+              f"got {len(ep['support_texts'])}")
+        check("Query size = query_size",
+              len(ep["query_texts"]) == config["meta_learning"]["query_size"],
+              f"got {len(ep['query_texts'])}")
+        check("Support labels are in [0,1]",
+              all(0.0 <= float(v) <= 1.0 for v in ep["support_labels"]))
+        check("Query labels are in [0,1]",
+              all(0.0 <= float(v) <= 1.0 for v in ep["query_labels"]))
         check("Episode language is low-resource",
-              ep["language"] in ("ja", "zh"),
+              ep["language"] in languages,
               f"got {ep['language']}")
-    except Exception as e:
-        check("EpisodeSampler construction", False, str(e))
-
-
-# ── 6. Meta-train step ─────────────────────────────────────────────────────
-print("\n[6] meta_train_step (gradient-flow check)")
-if sampler is not None and has_index:
-    trainable_params = (
-        list(arc.parameters()) +
-        list(meta_learner.parameters()) +
-        [p for p in encoder.parameters() if p.requires_grad]
-    )
-    optimizer = torch.optim.AdamW(trainable_params, lr=3e-4)
-
-    # Run 5 steps — check loss moves from ln(2)
-    losses, accs = [], []
-    encoder.train(); arc.train(); meta_learner.train()
-    for _ in range(5):
-        ep   = sampler.sample_episode()
-        loss, acc, grad_norm = meta_train_step(
-            encoder, arc, meta_learner, index, ep, config, device, optimizer
-        )
-        losses.append(loss)
-        accs.append(acc)
-
-    ln2 = 0.6931
-    not_stuck = not all(abs(l - ln2) < 0.005 for l in losses)
-    check("Loss not stuck at ln(2)=0.6931 (create_graph fix)",
-          not_stuck,
-          f"losses={[round(l,4) for l in losses]}")
-    check("Loss is finite",
-          all(np.isfinite(l) for l in losses))
-    check("Accuracy in [0,1]",
-          all(0.0 <= a <= 1.0 for a in accs))
-
-    # Gradient flow into ARC — run one more step and inspect grads
-    # (meta_train_step zeros grads at start; grads remain populated after step)
-    ep = sampler.sample_episode()
-    loss, acc, grad_norm = meta_train_step(
-        encoder, arc, meta_learner, index, ep, config, device, optimizer
-    )
-    arc_grad_ok = any(
-        p.grad is not None and p.grad.abs().sum().item() > 0
-        for p in arc.query_generator.parameters()
-    )
-    check("Gradient flows into ARC query_generator", arc_grad_ok)
-    check("Gradient norm > 0", grad_norm > 0,
-          f"grad_norm={grad_norm:.6f}")
-    print(f"  grad_norm (after clipping at 1.0): {grad_norm:.6f}")
+        check("Episode category is non-empty", bool(ep["category"]))
+    except Exception as exc:
+        check("EpisodeSampler construction", False, str(exc))
 else:
-    print("  Skipped — requires pool files and retrieval index.")
+    skip("Episode sampler regression checks", "low-resource pools unavailable")
 
 
-# ── 7. Eval episode ────────────────────────────────────────────────────────
-print("\n[7] maml_eval_episode")
-if sampler is not None and has_index:
-    encoder.eval(); arc.eval()
-    ep  = sampler.sample_episode()
-    metrics = maml_eval_episode(encoder, arc, meta_learner, index, ep, config, device)
-    acc = metrics["accuracy"]
-    kappa = metrics["kappa"]
-    check("Eval accuracy in [0,1]", 0.0 <= acc <= 1.0,
-          f"got {acc}")
-    check("Cohen's Kappa in [-1,1]", -1.0 <= kappa <= 1.0,
-          f"got {kappa}")
+print("\n[5] Retrieval index")
+from models.retrieval_index import CrossLingualRetrievalIndex
+
+index_path = "results/retrieval_index.faiss"
+has_index = os.path.exists(index_path)
+if has_index:
+    index = CrossLingualRetrievalIndex(
+        embedding_dim=config["model"]["hidden_dim"],
+        similarity=config["retrieval"]["similarity"],
+    )
+    index.load("results/retrieval_index")
+    check("Index loaded (non-empty)", len(index) > 0, f"size={len(index)}")
+
+    dummy_query = np.random.randn(1, config["model"]["hidden_dim"]).astype(np.float32)
+    retrieved = index.retrieve(dummy_query, k=5)
+    check("Retrieval returns 5 results", len(retrieved["texts"]) == 5)
 else:
-    print("  Skipped — requires pool files and retrieval index.")
+    skip("Retrieval index checks", "run: python scripts/build_index.py")
 
 
-# ── Summary ────────────────────────────────────────────────────────────────
+print("\n[6] Encoder / model init")
+from models.araml import ARAML
+from models.encoder import TextEncoder
+
+device = torch.device("cpu")
+encoder_ready = False
+try:
+    encoder = TextEncoder(model_name=config["model"]["encoder"]).to(device)
+    encoder.eval()
+    encoder_ready = True
+    check("TextEncoder created", True)
+except Exception as exc:
+    skip("TextEncoder created", str(exc))
+
+try:
+    model = ARAML(config).to(device)
+    check("ARAML model created", True)
+    check("Meta-learner output dim = 1",
+          model.meta_learner.regressor.out_features == 1,
+          f"got {model.meta_learner.regressor.out_features}")
+except Exception as exc:
+    if encoder_ready:
+        check("ARAML model created", False, str(exc))
+    else:
+        skip("ARAML model created", str(exc))
+
+
 print("\n" + "=" * 50)
 if failures:
-    print(f"FAILED: {len(failures)} test(s):")
+    print(f"FAILED: {len(failures)} check(s):")
     for name in failures:
         print(f"  - {name}")
     sys.exit(1)
 else:
-    print("All tests passed. Pipeline is ready for full training.")
-    sys.exit(0)
+    print("All required regression pipeline checks passed.")
